@@ -4,12 +4,19 @@ import App from './App.tsx'
 import './index.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import VrfFechamento from './pages/vrfFechamento/vrfFechamento.tsx'
+import Home from './pages/home/home.tsx'
 
 const router = createBrowserRouter([{
   path: '/',
   element: <App />,
-  children: [{
-    path: '/vrffechamento', 
+  children: [
+    {
+      path: '/home',
+      element: <Home/>
+    },
+
+    {
+    path: '/vrffechamento',
     element: <VrfFechamento />
   }]
 }])
