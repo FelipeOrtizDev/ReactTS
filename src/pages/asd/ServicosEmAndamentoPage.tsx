@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
+import { BsPencil } from "react-icons/bs";
 import "./ServicosEmAndamentoPage.css";
 import {
   getSolicitacoesBase,
   SolicitacaoBase,
 } from "../../services/api/solicitacaoBase";
-import { Buttons } from "../vrfFechamento/styles";
 import { UserField, UserItem, UserList } from "../usuarios/styles";
 import EditModal from "../../utils/modals/modaSA";
+import { Buttons } from "../../utils/commonStyles";
 
 const ServicosEmAndamentoPage: React.FC = () => {
   const [solicitacoes, setSolicitacoes] = useState<SolicitacaoBase[]>([]);
@@ -72,7 +73,7 @@ const ServicosEmAndamentoPage: React.FC = () => {
             <UserField>{solicitacao.SB_TipoServico}</UserField>
             <UserField>
               <Buttons onClick={() => handleEditClick(solicitacao)}>
-                Editar
+                Editar<BsPencil />
               </Buttons>
             </UserField>
           </UserItem>

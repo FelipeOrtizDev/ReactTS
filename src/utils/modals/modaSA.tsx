@@ -4,8 +4,9 @@ import {
   SolicitacaoBase,
   updateSolicitacaoBase,
 } from "../../services/api/solicitacaoBase";
-import { Form, ModalContainer, ModalContent, Title } from "./modalUser";
-import { Buttons } from "../../pages/usuarios/styles";
+import { ModalContainer, ModalContent, Title } from "./modalUserStyles";
+import { Buttons, Inputn } from "../../utils/commonStyles";
+import { Formn } from "./modalUserStyles";
 
 interface EditModalProps {
   solicitacao: SolicitacaoBase;
@@ -40,8 +41,8 @@ const EditModal: React.FC<EditModalProps> = ({
     <ModalContainer>
       <ModalContent>
         <Title>Editar Solicitação</Title>
-        <Form onSubmit={handleSubmit(onSubmit)}>
-          <input
+        <Formn onSubmit={handleSubmit(onSubmit)}>
+          <Inputn
             type="text"
             {...register("SB_DataSolicitacao", {
               required: "Logradouro é obrigatório",
@@ -52,7 +53,7 @@ const EditModal: React.FC<EditModalProps> = ({
             <span>{errors.SB_DataSolicitacao.message}</span>
           )}
 
-          <input
+          <Inputn
             {...register("SB_Observacoes", {
               required: "Observações são obrigatórias",
             })}
@@ -66,7 +67,7 @@ const EditModal: React.FC<EditModalProps> = ({
             Cancelar
           </Buttons>
           <Buttons type="submit">Salvar</Buttons>
-        </Form>
+        </Formn>
       </ModalContent>
     </ModalContainer>
   );

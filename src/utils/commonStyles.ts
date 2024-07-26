@@ -66,3 +66,26 @@ export const Buttons = styled.button`
     stroke-width: 1;
   }
 `;
+
+export const ButtonsLink = styled.a`
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 7rem;
+  padding: 1%;
+  padding-bottom: 9px !important;
+  border: none;
+  outline: none;
+  color: #fff;
+  border-radius: 5px;
+  background-color: #00a3e2;
+  cursor: pointer;
+  margin-right: 1%;
+  font-size: 1.3rem;
+  font-weight: 600;
+  text-decoration: none;
+
+  svg {
+    stroke-width: 1;
+  }
+`;

@@ -18,7 +18,7 @@ import {
 } from "../../services/api/solicitacaoBase";
 import { BsSend, BsArrowBarRight, BsEraser } from "react-icons/bs";
 import { Link } from "react-router-dom";
-import { Buttons, ButtonsBox, Inputn, Optionn, Selectn } from "../../utils/commonStyles";
+import { Buttons, ButtonsBox, ButtonsLink, Inputn, Optionn, Selectn } from "../../utils/commonStyles";
 
 const VrfFechamento: React.FC = () => {
   const { register, handleSubmit, reset } = useForm();
@@ -224,10 +224,10 @@ const VrfFechamento: React.FC = () => {
             </Field>
           </SectionBox>
           <ButtonsBox>
-            <Buttons as={Link} to={"/"}>
+            <ButtonsLink as={Link} to={"/"}>
               Voltar
               <BsArrowBarRight />
-            </Buttons>
+            </ButtonsLink>
             <Buttons type="reset" onClick={handleReset}>
               Limpar
               <BsEraser />
