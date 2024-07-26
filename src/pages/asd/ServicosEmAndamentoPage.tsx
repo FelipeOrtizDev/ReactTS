@@ -5,10 +5,9 @@ import {
   getSolicitacoesBase,
   SolicitacaoBase,
 } from "../../services/api/solicitacaoBase";
-import { UserField, UserItem, UserList } from "../usuarios/styles";
 import EditModal from "../../utils/modals/modaSA";
 import { Buttons } from "../../utils/commonStyles";
-import { ListContainer, Sac, TitleContainer, HeadListTable } from "./styles";
+import { ListContainer, Sac, TitleContainer, HeadListTable, BodyTable, LineTable, CellTable } from "./styles";
 
 const ServicosEmAndamentoPage: React.FC = () => {
   const [solicitacoes, setSolicitacoes] = useState<SolicitacaoBase[]>([]);
@@ -52,33 +51,35 @@ const ServicosEmAndamentoPage: React.FC = () => {
       </TitleContainer>
       <ListContainer>
         <HeadListTable>
-          <th>Data</th>
-          <th>Hora</th>
-          <th>Polo</th>
-          <th>Município</th>
-          <th>Endereço</th>
-          <th>Status</th>
-          <th>Andamento</th>
+          <tr>
+            <th>Data</th>
+            <th>Hora</th>
+            <th>Polo</th>
+            <th>Município</th>
+            <th>Endereço</th>
+            <th>Status</th>
+            <th>Andamento</th>
+          </tr>
         </HeadListTable>
-        <UserList>
+        <BodyTable>
           {solicitacoes.map((solicitacao) => (
-            <UserItem key={solicitacao.id_SolicitacaoBase}>
-              <UserField>{solicitacao.SB_DataSolicitacao}</UserField>
-              <UserField>{solicitacao.SB_HoraSolicitacao}</UserField>
-              <UserField>{solicitacao.SB_NumeroOS}</UserField>
-              <UserField>{solicitacao.SB_Microzona}</UserField>
-              <UserField>{solicitacao.SB_Observacoes}</UserField>
-              <UserField>{solicitacao.SB_Solicitante}</UserField>
-              <UserField>{solicitacao.SB_TipoServico}</UserField>
-              <UserField>
+            <LineTable key={solicitacao.id_SolicitacaoBase}>
+              <CellTable>{solicitacao.SB_DataSolicitacao}</CellTable>
+              <CellTable>{solicitacao.SB_HoraSolicitacao}</CellTable>
+              <CellTable>{solicitacao.SB_NumeroOS}</CellTable>
+              <CellTable>{solicitacao.SB_Microzona}</CellTable>
+              <CellTable>{solicitacao.SB_Observacoes}</CellTable>
+              <CellTable>{solicitacao.SB_Solicitante}</CellTable>
+              <CellTable>{solicitacao.SB_TipoServico}</CellTable>
+              <CellTable>
                 <Buttons onClick={() => handleEditClick(solicitacao)}>
                   Editar
                   <BsPencil />
                 </Buttons>
-              </UserField>
-            </UserItem>
+              </CellTable>
+            </LineTable>
           ))}
-        </UserList>
+        </BodyTable>
       </ListContainer>
       {isModalOpen && selectedSolicitacao && (
         <EditModal

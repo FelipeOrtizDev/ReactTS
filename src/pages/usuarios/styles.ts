@@ -74,7 +74,6 @@ export const Title = styled.div`
 `;
 
 export const Field = styled.div`
-  //   padding: 0.35em 0.625em 0.75em;
   border: 2px;
   display: flex;
   flex-direction: row;
