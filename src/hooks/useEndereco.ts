@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
 import {
   getEnderecos,
@@ -16,7 +17,7 @@ export const useEndereco = () => {
       try {
         const data = await getEnderecos();
         setEnderecos(data);
-      } catch (error) {
+      } catch (error: any) {
         setError(error);
       }
     };
@@ -28,7 +29,7 @@ export const useEndereco = () => {
     try {
       const newEndereco = await createEnderecos(endereco);
       setEnderecos([...enderecos, newEndereco]);
-    } catch (error) {
+    } catch (error: any) {
       setError(error);
     }
   };
@@ -39,7 +40,7 @@ export const useEndereco = () => {
       setEnderecos(
         enderecos.map((e) => (e.id_Endereco === id ? upatedEndereco : e))
       );
-    } catch (error) {
+    } catch (error: any) {
       setError(error);
     }
   };
@@ -48,7 +49,7 @@ export const useEndereco = () => {
     try {
       await deleteEnderecos(id);
       setEnderecos(enderecos.filter((e) => e.id_Endereco !== id));
-    } catch (error) {
+    } catch (error: any) {
       setError(error);
     }
   };
