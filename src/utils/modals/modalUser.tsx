@@ -44,6 +44,7 @@ const UserModal: React.FC<UserModalProps> = ({ show, onClose, usuario }) => {
       }
 
       onClose();
+      window.location.reload();
     } catch (error) {
       console.error("Erro ao adicionar usuário:", error);
     }
