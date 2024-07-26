@@ -1,16 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Box,
-  Buttons,
-  ButtonsBox,
   Field,
   InfoBox,
-  Inputn,
   Labeln,
-  Optionn,
   SectionBox,
   SectionTitle,
-  Selectn,
   TextArean,
   Title,
 } from "./styles";
@@ -22,6 +17,7 @@ import {
   SolicitacaoBase,
 } from "../../services/api/solicitacaoBase";
 import { BsSend, BsArrowBarRight, BsEraser } from "react-icons/bs";
+import { Buttons, ButtonsBox, Inputn, Optionn, Selectn } from "../../utils/commonStyles";
 
 const VrfFechamento: React.FC = () => {
   const { register, handleSubmit } = useForm();
@@ -210,7 +206,7 @@ const VrfFechamento: React.FC = () => {
           </SectionBox>
           <ButtonsBox>
             <Buttons>
-              Sair
+              Voltar
               <BsArrowBarRight />
             </Buttons>
             <Buttons type="reset">
