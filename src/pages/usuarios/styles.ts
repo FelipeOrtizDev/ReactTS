@@ -63,6 +63,7 @@ export const Buttons = styled.button`
   cursor: pointer;
   margin-right: 10px;
   margin-top: 7px;
+  text-decoration: none;
 `;
 
 export const Title = styled.div`

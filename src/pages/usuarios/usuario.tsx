@@ -14,6 +14,7 @@ import {
   UserList,
 } from "./styles";
 import UserModal from "../../utils/modals/modalUser";
+import { Link } from "react-router-dom";
 
 const Usuario: React.FC = () => {
   const { usuarios, error, removeUser } = useUsuarios();
@@ -38,7 +39,9 @@ const Usuario: React.FC = () => {
       <Box>
         <Container>
           <Block>
-            <Buttons>Voltar</Buttons>
+            <Buttons as={Link} to={"/"}>
+              Voltar
+            </Buttons>
             <Buttons className="botao_2" onClick={() => setShowModal(true)}>
               adicionar novo usuario
             </Buttons>
@@ -47,20 +50,18 @@ const Usuario: React.FC = () => {
           </Block>
           <Field>
             <InfoUser>id</InfoUser>
-
             <InfoUser>Nome</InfoUser>
-
             <InfoUser>Email</InfoUser>
-
             <InfoUser>Perfil</InfoUser>
-
             <InfoUser>Status</InfoUser>
-
             <InfoUser>Ações</InfoUser>
           </Field>
           <Container>
-            <UserModal show={showModal} onClose={() => setShowModal(false)} />
-
+            <UserModal
+              show={showModal}
+              onClose={() => setShowModal(false)}
+              usuario={undefined}
+            />
             <UserList>
               {usuarios.map((usuario) => (
                 <UserItem key={usuario.id_Usuario}>
