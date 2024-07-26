@@ -44,7 +44,7 @@ const Header: React.FC = () => {
             </ul>
           </li>
           <li className="nav-item">
-            <a href="#services">Serviços em Andamento</a>
+            <Link to="/servicosemandamento">Serviços em Andamento</Link>
           </li>
         </ul>
       </div>
