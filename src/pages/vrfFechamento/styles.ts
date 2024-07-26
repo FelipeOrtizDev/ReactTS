@@ -148,7 +148,6 @@ export const Buttons = styled.button`
   display: inline-flex;
   align-items: center;
   justify-content: space-evenly;
-  height: 3rem;
   width: 8rem;
   padding: 1%;
   border: none;
@@ -160,6 +159,7 @@ export const Buttons = styled.button`
   margin-right: 1%;
   font-size: 1.3rem;
   font-weight: 600;
+  text-decoration: none;
 
   svg {
     stroke-width: 1;

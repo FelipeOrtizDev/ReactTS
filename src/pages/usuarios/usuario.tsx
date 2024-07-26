@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from "react";
 import { useUsuarios } from "../../hooks/useUsuarios";
+import { Usuario } from "../../services/api/usuarioService";
 import {
   Box,
   Block,
@@ -16,13 +17,14 @@ import {
 import UserModal from "../../utils/modals/modalUser";
 import { Link } from "react-router-dom";
 
-const Usuario: React.FC = () => {
+const ListaUsuario: React.FC = () => {
   const { usuarios, error, removeUser } = useUsuarios();
   const [showModal, setShowModal] = useState(false);
+  const [selectedUsuario, setSelectedUsuario] = useState<Usuario | null>(null);
 
-  const handleEdit = (usuario: any) => {
-    console.log("Edit user:", usuario);
-    // Logic for editing a user can go here, like opening a modal with user info
+  const handleEdit = (usuario: Usuario) => {
+    setSelectedUsuario(usuario);
+    setShowModal(true);
   };
 
   const handleDelete = async (id: number) => {
@@ -34,6 +36,11 @@ const Usuario: React.FC = () => {
     }
   };
 
+  const handleAddNewUser = () => {
+    setSelectedUsuario(null);
+    setShowModal(true);
+  };
+
   return (
     <>
       <Box>
@@ -42,7 +49,7 @@ const Usuario: React.FC = () => {
             <Buttons as={Link} to={"/"}>
               Voltar
             </Buttons>
-            <Buttons className="botao_2" onClick={() => setShowModal(true)}>
+            <Buttons className="botao_2" onClick={handleAddNewUser}>
               adicionar novo usuario
             </Buttons>
             {error && <p style={{ color: "red" }}>{error}</p>}
@@ -60,7 +67,7 @@ const Usuario: React.FC = () => {
             <UserModal
               show={showModal}
               onClose={() => setShowModal(false)}
-              usuario={undefined}
+              usuario={selectedUsuario!}
             />
             <UserList>
               {usuarios.map((usuario) => (
@@ -73,7 +80,7 @@ const Usuario: React.FC = () => {
                   <UserField>
                     <Buttons
                       className="edit-button"
-                      onClick={() => handleEdit(usuario.id_Usuario)}
+                      onClick={() => handleEdit(usuario)}
                     >
                       Editar
                     </Buttons>
@@ -96,4 +103,4 @@ const Usuario: React.FC = () => {
   );
 };
 
-export default Usuario;
+export default ListaUsuario;

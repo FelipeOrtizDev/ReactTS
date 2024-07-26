@@ -7,7 +7,7 @@ import {
   Usuario,
 } from "../../services/api/usuarioService";
 
-const ModalContainer = styled.div`
+export const ModalContainer = styled.div`
   position: fixed;
   top: 0;
   left: 0;
@@ -19,7 +19,7 @@ const ModalContainer = styled.div`
   justify-content: center;
 `;
 
-const ModalContent = styled.div`
+export const ModalContent = styled.div`
   background-color: #fff;
   padding: 20px;
   border-radius: 8px;
@@ -30,7 +30,7 @@ const ModalContent = styled.div`
   gap: 10px;
 `;
 
-const Form = styled.form`
+export const Form = styled.form`
   display: flex;
   flex-direction: column;
   gap: 10px;
