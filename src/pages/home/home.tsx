@@ -4,13 +4,13 @@ import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 
 const Home: React.FC = () => {
-    return (
+  return (
     <div className="home">
       <Header />
       <main className="home_principal"></main>
       <Footer />
     </div>
-    );
-  };
-  
+  );
+};
+
 export default Home;
