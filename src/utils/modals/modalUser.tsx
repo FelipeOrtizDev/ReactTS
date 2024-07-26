@@ -7,7 +7,13 @@ import {
   Usuario,
 } from "../../services/api/usuarioService";
 import { Formn, ModalContainer, ModalContent, Title } from "./modalUserStyles";
-import { ButtonsBox, Optionn, Selectn, Buttons, Inputn } from "../../utils/commonStyles";
+import {
+  ButtonsBox,
+  Optionn,
+  Selectn,
+  Buttons,
+  Inputn,
+} from "../../utils/commonStyles";
 
 interface UserModalProps {
   show: boolean;
@@ -38,6 +44,7 @@ const UserModal: React.FC<UserModalProps> = ({ show, onClose, usuario }) => {
       }
 
       onClose();
+      window.location.reload();
     } catch (error) {
       console.error("Erro ao adicionar usuário:", error);
     }
@@ -90,17 +97,18 @@ const UserModal: React.FC<UserModalProps> = ({ show, onClose, usuario }) => {
           {errors.SB_Matricula && <span>{errors.SB_Matricula.message}</span>}
           <Selectn
             {...register("SB_Perfil", { required: "Perfil é obrigatório" })}
-          ><Optionn value="">Selecione...</Optionn>
-          <Optionn value="Administrador">Administrador</Optionn>
-          <Optionn value="Padrão">Padrão</Optionn>
+          >
+            <Optionn value="">Selecione...</Optionn>
+            <Optionn value="Administrador">Administrador</Optionn>
+            <Optionn value="Padrão">Padrão</Optionn>
           </Selectn>
           {errors.SB_Perfil && <span>{errors.SB_Perfil.message}</span>}
           <Selectn
             {...register("SB_Status", { required: "Status é obrigatório" })}
           >
             <Optionn value="">Selecione...</Optionn>
-            <Optionn value="Ativo">Ativo</Optionn>
-            <Optionn value="Inativo">Inativo</Optionn>
+            <Optionn value="1">Ativo</Optionn>
+            <Optionn value="0">Inativo</Optionn>
           </Selectn>
           {errors.SB_Status && <span>{errors.SB_Status.message}</span>}
           <Inputn
@@ -110,11 +118,15 @@ const UserModal: React.FC<UserModalProps> = ({ show, onClose, usuario }) => {
           />
           {errors.SB_Unidade && <span>{errors.SB_Unidade.message}</span>}
           <ButtonsBox>
-          <Buttons type="submit">{usuario ? "Atualizar" : "Adicionar"}<BsClipboardCheck /></Buttons>
-          <Buttons type="button" className="close-button" onClick={onClose}>
-            Fechar<BsArrowBarRight />
-          </Buttons></ButtonsBox>
-          
+            <Buttons type="submit">
+              {usuario ? "Atualizar" : "Adicionar"}
+              <BsClipboardCheck />
+            </Buttons>
+            <Buttons type="button" className="close-button" onClick={onClose}>
+              Fechar
+              <BsArrowBarRight />
+            </Buttons>
+          </ButtonsBox>
         </Formn>
       </ModalContent>
     </ModalContainer>

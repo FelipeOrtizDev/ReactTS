@@ -17,13 +17,22 @@ import {
   SolicitacaoBase,
 } from "../../services/api/solicitacaoBase";
 import { BsSend, BsArrowBarRight, BsEraser } from "react-icons/bs";
-import { Buttons, ButtonsBox, Inputn, Optionn, Selectn } from "../../utils/commonStyles";
+import { Link } from "react-router-dom";
+import {
+  Buttons,
+  ButtonsBox,
+  ButtonsLink,
+  Inputn,
+  Optionn,
+  Selectn,
+} from "../../utils/commonStyles";
 
 const VrfFechamento: React.FC = () => {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, reset } = useForm();
 
   const onSubmit = async (data: any) => {
     const endereco: Endereco = {
+      id_Endereco: 0, // Inicializamos com 0, pois será definido pela API
       SB_Municipio: data.municipio,
       SB_Logradouro: data.logradouro,
       SB_Numero: Number(data.numero),
@@ -35,23 +44,41 @@ const VrfFechamento: React.FC = () => {
       SB_SetorAbastecimento: data.setorAbastecimento,
     };
 
-    const solicitacaoBase: SolicitacaoBase = {
-      SB_DataSolicitacao: data.dataSolicitacao,
-      SB_HoraSolicitacao: data.horaSolicitacao,
-      SB_NumeroOS: data.numeroOS,
-      SB_TipoServico: data.tipoServico,
-      SB_Observacoes: data.observacoes,
-      SB_Microzona: Number(data.microzona),
-      SB_Solicitante: data.solicitante,
-      SB_Enderecos_id_Endereco: endereco.id_Endereco!,
-    };
-    console.log(solicitacaoBase);
     try {
-      await createEnderecos(endereco);
+      // Criar o endereço e obter a resposta da API
+      const createdEndereco = await createEnderecos(endereco);
+
+      // Verificar se o id_Endereco está presente na resposta
+      if (createdEndereco.id_Endereco === undefined) {
+        throw new Error(
+          "Erro: id_Endereco não está definido após a criação do endereço"
+        );
+      }
+
+      // Criar a solicitação base associando corretamente o id_Endereco
+      const solicitacaoBase: SolicitacaoBase = {
+        SB_DataSolicitacao: data.dataSolicitacao,
+        SB_HoraSolicitacao: data.horaSolicitacao,
+        SB_NumeroOS: data.numeroOS,
+        SB_TipoServico: data.tipoServico,
+        SB_Observacoes: data.observacoes,
+        SB_Microzona: Number(data.microzona),
+        SB_Solicitante: data.solicitante,
+        SB_Enderecos_id_Endereco: createdEndereco.id_Endereco,
+        SB_Endereco: createdEndereco,
+      };
+      console.log(solicitacaoBase);
+
+      // Enviar a solicitação base
       await createSolicitacaoBase(solicitacaoBase);
+      alert("Solicitação criada com sucesso");
     } catch (error) {
-      throw new Error("Erro ao enviar solicitação" + error);
+      console.error("Erro ao enviar solicitação:", error);
+      throw new Error("Erro ao enviar solicitação: " + error);
     }
+  };
+  const handleReset = () => {
+    reset(); // Resetar todos os campos do formulário para seus valores iniciais
   };
   return (
     <>
@@ -183,8 +210,8 @@ const VrfFechamento: React.FC = () => {
                 <Labeln>Possui Microzona?</Labeln>
                 <Selectn {...register("microzona")}>
                   <Optionn value="">Selecione...</Optionn>
-                  <Optionn value="Sim">Sim</Optionn>
-                  <Optionn value="Não">Não</Optionn>
+                  <Optionn value="1">Sim</Optionn>
+                  <Optionn value="0">Não</Optionn>
                 </Selectn>
               </InfoBox>
               <InfoBox>
@@ -205,11 +232,11 @@ const VrfFechamento: React.FC = () => {
             </Field>
           </SectionBox>
           <ButtonsBox>
-            <Buttons>
+            <ButtonsLink as={Link} to={"/"}>
               Voltar
               <BsArrowBarRight />
-            </Buttons>
-            <Buttons type="reset">
+            </ButtonsLink>
+            <Buttons type="reset" onClick={handleReset}>
               Limpar
               <BsEraser />
             </Buttons>

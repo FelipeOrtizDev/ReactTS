@@ -6,7 +6,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import VrfFechamento from "./pages/vrfFechamento/vrfFechamento.tsx";
 import Home from "./pages/home/home.tsx";
 import ServicosEmAndamentoPage from "./pages/asd/ServicosEmAndamentoPage.tsx";
-import Usuario from "./pages/usuarios/usuario.tsx";
+import ListaUsuario from "./pages/usuarios/usuario.tsx";
 
 const router = createBrowserRouter([
   {
@@ -18,7 +18,7 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "servicosemandamento",
+        path: "/servicosemandamento",
         element: <ServicosEmAndamentoPage />,
       },
       {
@@ -27,7 +27,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/usuario",
-        element: <Usuario />,
+        element: <ListaUsuario />,
       },
     ],
   },

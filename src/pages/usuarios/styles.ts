@@ -39,11 +39,31 @@ export const Container = styled.div`
 export const Block = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
-  padding-top: 25%;
+  justify-content: center;
+  padding-top: 15%;
   margin-bottom: 25px;
   .botao_2 {
     margin-left: 10px;
+  }
+`;
+
+export const SearchInput = styled.input`
+  width: 30%;
+  padding: 8px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1em;
+`;
+
+export const PaginationControls = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+
+  span {
+    margin: 0 15px;
   }
 `;
 
@@ -70,11 +90,11 @@ export const Title = styled.div`
   font-weight: bold;
   font-size: 30px;
   text-align: left;
-  margin-left: 20%;
+  margin-left: 25%;
+  margin-right: 25%;
 `;
 
 export const Field = styled.div`
-  //   padding: 0.35em 0.625em 0.75em;
   border: 2px;
   display: flex;
   flex-direction: row;

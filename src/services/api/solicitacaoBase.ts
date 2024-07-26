@@ -1,4 +1,5 @@
 import { axiosInstance } from "./conexaoApi";
+import { Endereco } from "./enderecoService";
 
 export interface SolicitacaoBase {
   id_SolicitacaoBase?: number;
@@ -10,6 +11,7 @@ export interface SolicitacaoBase {
   SB_Microzona: number;
   SB_Solicitante: string;
   SB_Enderecos_id_Endereco: number;
+  SB_Endereco: Endereco;
 }
 
 export const getSolicitacoesBase = async (): Promise<SolicitacaoBase[]> => {
