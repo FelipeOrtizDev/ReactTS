@@ -18,7 +18,14 @@ import {
 } from "../../services/api/solicitacaoBase";
 import { BsSend, BsArrowBarRight, BsEraser } from "react-icons/bs";
 import { Link } from "react-router-dom";
-import { Buttons, ButtonsBox, ButtonsLink, Inputn, Optionn, Selectn } from "../../utils/commonStyles";
+import {
+  Buttons,
+  ButtonsBox,
+  ButtonsLink,
+  Inputn,
+  Optionn,
+  Selectn,
+} from "../../utils/commonStyles";
 
 const VrfFechamento: React.FC = () => {
   const { register, handleSubmit, reset } = useForm();
@@ -58,12 +65,13 @@ const VrfFechamento: React.FC = () => {
         SB_Microzona: Number(data.microzona),
         SB_Solicitante: data.solicitante,
         SB_Enderecos_id_Endereco: createdEndereco.id_Endereco,
+        SB_Endereco: createdEndereco,
       };
       console.log(solicitacaoBase);
 
       // Enviar a solicitação base
       await createSolicitacaoBase(solicitacaoBase);
-      console.log("Solicitação Base criada com sucesso:", solicitacaoBase);
+      alert("Solicitação criada com sucesso");
     } catch (error) {
       console.error("Erro ao enviar solicitação:", error);
       throw new Error("Erro ao enviar solicitação: " + error);

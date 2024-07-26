@@ -8,6 +8,7 @@ import {
 import { UserField, UserItem, UserList } from "../usuarios/styles";
 import EditModal from "../../utils/modals/modaSA";
 import { Buttons } from "../../utils/commonStyles";
+import { ListContainer, Sac, TitleContainer, HeadListTable } from "./styles";
 
 const ServicosEmAndamentoPage: React.FC = () => {
   const [solicitacoes, setSolicitacoes] = useState<SolicitacaoBase[]>([]);
@@ -45,41 +46,40 @@ const ServicosEmAndamentoPage: React.FC = () => {
   };
 
   return (
-    <div className="servicos-em-andamento-container">
-      <div className="titulo-container">
+    <Sac>
+      <TitleContainer>
         <h3>Fechamentos</h3>
-      </div>
-      <div className="lista-container">
-        <div className="linha titulos">
-          <span>Data</span>
-          <span>Hora</span>
-          <span>Polo</span>
-          <span>Município</span>
-          <span>Endereço</span>
-          <span>Status</span>
-          <span>Andamento</span>
-        </div>
-      </div>
-
-      <UserList>
-        {solicitacoes.map((solicitacao) => (
-          <UserItem key={solicitacao.id_SolicitacaoBase}>
-            <UserField>{solicitacao.SB_DataSolicitacao}</UserField>
-            <UserField>{solicitacao.SB_HoraSolicitacao}</UserField>
-            <UserField>{solicitacao.SB_NumeroOS}</UserField>
-            <UserField>{solicitacao.SB_Microzona}</UserField>
-            <UserField>{solicitacao.SB_Observacoes}</UserField>
-            <UserField>{solicitacao.SB_Solicitante}</UserField>
-            <UserField>{solicitacao.SB_TipoServico}</UserField>
-            <UserField>
-              <Buttons onClick={() => handleEditClick(solicitacao)}>
-                Editar<BsPencil />
-              </Buttons>
-            </UserField>
-          </UserItem>
-        ))}
-      </UserList>
-
+      </TitleContainer>
+      <ListContainer>
+        <HeadListTable>
+          <th>Data</th>
+          <th>Hora</th>
+          <th>Polo</th>
+          <th>Município</th>
+          <th>Endereço</th>
+          <th>Status</th>
+          <th>Andamento</th>
+        </HeadListTable>
+        <UserList>
+          {solicitacoes.map((solicitacao) => (
+            <UserItem key={solicitacao.id_SolicitacaoBase}>
+              <UserField>{solicitacao.SB_DataSolicitacao}</UserField>
+              <UserField>{solicitacao.SB_HoraSolicitacao}</UserField>
+              <UserField>{solicitacao.SB_NumeroOS}</UserField>
+              <UserField>{solicitacao.SB_Microzona}</UserField>
+              <UserField>{solicitacao.SB_Observacoes}</UserField>
+              <UserField>{solicitacao.SB_Solicitante}</UserField>
+              <UserField>{solicitacao.SB_TipoServico}</UserField>
+              <UserField>
+                <Buttons onClick={() => handleEditClick(solicitacao)}>
+                  Editar
+                  <BsPencil />
+                </Buttons>
+              </UserField>
+            </UserItem>
+          ))}
+        </UserList>
+      </ListContainer>
       {isModalOpen && selectedSolicitacao && (
         <EditModal
           solicitacao={selectedSolicitacao}
@@ -127,7 +127,7 @@ const ServicosEmAndamentoPage: React.FC = () => {
           </div>
         </div>
       </div> */}
-    </div>
+    </Sac>
   );
 };
 
