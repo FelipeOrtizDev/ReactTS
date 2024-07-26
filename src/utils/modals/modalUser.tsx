@@ -1,66 +1,13 @@
 import React, { useEffect } from "react";
-import styled from "styled-components";
 import { useForm } from "react-hook-form";
+import { BsClipboardCheck, BsArrowBarRight } from "react-icons/bs";
 import {
   createUser,
   updateUser,
   Usuario,
 } from "../../services/api/usuarioService";
-
-export const ModalContainer = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-export const ModalContent = styled.div`
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  width: 500px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 10px;
-`;
-
-export const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-
-  input {
-    padding: 8px;
-    font-size: 16px;
-  }
-
-  button {
-    padding: 10px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-
-    &:hover {
-      background-color: #0056b3;
-    }
-  }
-`;
-
-export const Title = styled.div`
-  color: #000;
-  font-weight: bold;
-  font-size: 30px;
-  text-align: left;
-`;
+import { Formn, ModalContainer, ModalContent, Title } from "./modalUserStyles";
+import { ButtonsBox, Optionn, Selectn, Buttons, Inputn } from "../../utils/commonStyles";
 
 interface UserModalProps {
   show: boolean;
@@ -104,8 +51,8 @@ const UserModal: React.FC<UserModalProps> = ({ show, onClose, usuario }) => {
     <ModalContainer>
       <ModalContent>
         <Title>{usuario ? "Editar Usuário" : "Adicionar Novo Usuário"}</Title>
-        <Form onSubmit={handleSubmit(onSubmit)}>
-          <input
+        <Formn onSubmit={handleSubmit(onSubmit)}>
+          <Inputn
             type="text"
             {...register("SB_NomeCompleto", {
               required: "Nome completo é obrigatório",
@@ -115,25 +62,25 @@ const UserModal: React.FC<UserModalProps> = ({ show, onClose, usuario }) => {
           {errors.SB_NomeCompleto && (
             <span>{errors.SB_NomeCompleto.message}</span>
           )}
-          <input
+          <Inputn
             type="text"
             {...register("SB_Login", { required: "Login é obrigatório" })}
             placeholder="Login"
           />
           {errors.SB_Login && <span>{errors.SB_Login.message}</span>}
-          <input
+          <Inputn
             type="email"
             {...register("SB_Email", { required: "Email é obrigatório" })}
             placeholder="Email"
           />
           {errors.SB_Email && <span>{errors.SB_Email.message}</span>}
-          <input
+          <Inputn
             type="password"
             {...register("SB_Senha", { required: "Senha é obrigatória" })}
             placeholder="Senha"
           />
           {errors.SB_Senha && <span>{errors.SB_Senha.message}</span>}
-          <input
+          <Inputn
             type="number"
             {...register("SB_Matricula", {
               required: "Matrícula é obrigatória",
@@ -141,29 +88,34 @@ const UserModal: React.FC<UserModalProps> = ({ show, onClose, usuario }) => {
             placeholder="Matrícula"
           />
           {errors.SB_Matricula && <span>{errors.SB_Matricula.message}</span>}
-          <input
-            type="text"
+          <Selectn
             {...register("SB_Perfil", { required: "Perfil é obrigatório" })}
-            placeholder="Perfil"
-          />
+          ><Optionn value="">Selecione...</Optionn>
+          <Optionn value="Administrador">Administrador</Optionn>
+          <Optionn value="Padrão">Padrão</Optionn>
+          </Selectn>
           {errors.SB_Perfil && <span>{errors.SB_Perfil.message}</span>}
-          <input
-            type="number"
+          <Selectn
             {...register("SB_Status", { required: "Status é obrigatório" })}
-            placeholder="Status"
-          />
+          >
+            <Optionn value="">Selecione...</Optionn>
+            <Optionn value="Ativo">Ativo</Optionn>
+            <Optionn value="Inativo">Inativo</Optionn>
+          </Selectn>
           {errors.SB_Status && <span>{errors.SB_Status.message}</span>}
-          <input
+          <Inputn
             type="text"
             {...register("SB_Unidade", { required: "Unidade é obrigatória" })}
             placeholder="Unidade"
           />
           {errors.SB_Unidade && <span>{errors.SB_Unidade.message}</span>}
-          <button type="submit">{usuario ? "Atualizar" : "Adicionar"}</button>
-          <button type="button" className="close-button" onClick={onClose}>
-            Fechar
-          </button>
-        </Form>
+          <ButtonsBox>
+          <Buttons type="submit">{usuario ? "Atualizar" : "Adicionar"}<BsClipboardCheck /></Buttons>
+          <Buttons type="button" className="close-button" onClick={onClose}>
+            Fechar<BsArrowBarRight />
+          </Buttons></ButtonsBox>
+          
+        </Formn>
       </ModalContent>
     </ModalContainer>
   );

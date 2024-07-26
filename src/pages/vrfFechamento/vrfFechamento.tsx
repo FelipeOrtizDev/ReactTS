@@ -1,16 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Box,
-  Buttons,
-  ButtonsBox,
   Field,
   InfoBox,
-  Inputn,
   Labeln,
-  Optionn,
   SectionBox,
   SectionTitle,
-  Selectn,
   TextArean,
   Title,
 } from "./styles";
@@ -23,6 +18,7 @@ import {
 } from "../../services/api/solicitacaoBase";
 import { BsSend, BsArrowBarRight, BsEraser } from "react-icons/bs";
 import { Link } from "react-router-dom";
+import { Buttons, ButtonsBox, Inputn, Optionn, Selectn } from "../../utils/commonStyles";
 
 const VrfFechamento: React.FC = () => {
   const { register, handleSubmit, reset } = useForm();
@@ -229,7 +225,7 @@ const VrfFechamento: React.FC = () => {
           </SectionBox>
           <ButtonsBox>
             <Buttons as={Link} to={"/"}>
-              Sair
+              Voltar
               <BsArrowBarRight />
             </Buttons>
             <Buttons type="reset" onClick={handleReset}>
