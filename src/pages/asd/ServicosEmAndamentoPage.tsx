@@ -7,7 +7,7 @@ import {
 } from "../../services/api/solicitacaoBase";
 import EditModal from "../../utils/modals/modaSA";
 import { Buttons } from "../../utils/commonStyles";
-import { ListContainer, Sac, TitleContainer, HeadListTable, BodyTable, LineTable, CellTable } from "./styles";
+import { ListContainer, Sac, TitleContainer, HeadListTable, BodyTable, LineTable, CellTable, TitleHeadLineTable } from "./styles";
 
 const ServicosEmAndamentoPage: React.FC = () => {
   const [solicitacoes, setSolicitacoes] = useState<SolicitacaoBase[]>([]);
@@ -51,7 +51,7 @@ const ServicosEmAndamentoPage: React.FC = () => {
       </TitleContainer>
       <ListContainer>
         <HeadListTable>
-          <tr>
+          <TitleHeadLineTable>
             <th>Data</th>
             <th>Hora</th>
             <th>Polo</th>
@@ -59,10 +59,28 @@ const ServicosEmAndamentoPage: React.FC = () => {
             <th>Endereço</th>
             <th>Status</th>
             <th>Andamento</th>
-          </tr>
+            <th>Ações</th>
+          </TitleHeadLineTable>
         </HeadListTable>
         <BodyTable>
           {solicitacoes.map((solicitacao) => (
+            <LineTable key={solicitacao.id_SolicitacaoBase}>
+              <CellTable>{solicitacao.SB_DataSolicitacao}</CellTable>
+              <CellTable>{solicitacao.SB_HoraSolicitacao}</CellTable>
+              <CellTable>{solicitacao.SB_NumeroOS}</CellTable>
+              <CellTable>{solicitacao.SB_Microzona}</CellTable>
+              <CellTable>{solicitacao.SB_Observacoes}</CellTable>
+              <CellTable>{solicitacao.SB_Solicitante}</CellTable>
+              <CellTable>{solicitacao.SB_TipoServico}</CellTable>
+              <CellTable>
+                <Buttons onClick={() => handleEditClick(solicitacao)}>
+                  Editar
+                  <BsPencil />
+                </Buttons>
+              </CellTable>
+            </LineTable>
+          ))}
+           {solicitacoes.map((solicitacao) => (
             <LineTable key={solicitacao.id_SolicitacaoBase}>
               <CellTable>{solicitacao.SB_DataSolicitacao}</CellTable>
               <CellTable>{solicitacao.SB_HoraSolicitacao}</CellTable>

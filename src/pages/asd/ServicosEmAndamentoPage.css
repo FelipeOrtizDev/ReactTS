@@ -4,6 +4,7 @@ html {
   padding: 0;
   height: 100%;
   overflow: hidden;
+  scrollbar-color: #888 none;
 }
 
 .servicos-em-andamento-container {
