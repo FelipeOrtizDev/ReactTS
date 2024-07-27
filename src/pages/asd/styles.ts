@@ -9,11 +9,6 @@ export const Sac = styled.div`
   overflow: scroll;
   overflow-x: auto;
   overflow-y: auto;
-
-  ::-webkit-scrollbar-track {
-  background: none; /* Cor do fundo da scrollbar */
-  border-radius: 10px; /* Bordas arredondadas */
-}
 `;
 
 export const TitleContainer = styled.div`
@@ -28,6 +23,7 @@ export const ListContainer = styled.table`
   margin-top: 0;
   width: 100%;
   overflow: hidden;
+  table-layout: fixed;
 `;
 
 export const HeadListTable = styled.thead`
@@ -40,38 +36,16 @@ export const HeadListTable = styled.thead`
 
 export const TitleHeadLineTable = styled.tr`
   display: table-row;
-  th {
-  }
-  /* :first-child {
-    width: 25%;
-  }
-  :nth-child(2) {
-    width: 50%;
-  }
-  :nth-child(5) {
-    width: 25%;
-  } */
 `;
 
 export const BodyTable = styled.tbody`
   width: 100%;
-  overflow: scroll;
 `;
 
 export const LineTable = styled.tr`
   border-bottom: 1px solid #ccc;
-  /* padding: 10px 0; */
   background-color: #f5f5f5;
   color: #000;
-  /* :first-child {
-    width: 25%;
-  }
-  :nth-child(2) {
-    width: 50%;
-  }
-  :nth-child(5) {
-    width: 25%;
-  } */
 `;
 
 export const CellTable = styled.td`

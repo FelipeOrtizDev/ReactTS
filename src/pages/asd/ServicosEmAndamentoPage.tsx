@@ -44,11 +44,11 @@ const ServicosEmAndamentoPage: React.FC = () => {
     setModalOpen(false);
   };
 
-  return (
+  return (<>
+    <TitleContainer>
+      <h3>Fechamentos</h3>
+    </TitleContainer>
     <Sac>
-      <TitleContainer>
-        <h3>Fechamentos</h3>
-      </TitleContainer>
       <ListContainer>
         <HeadListTable>
           <TitleHeadLineTable>
@@ -80,7 +80,92 @@ const ServicosEmAndamentoPage: React.FC = () => {
               </CellTable>
             </LineTable>
           ))}
-           {solicitacoes.map((solicitacao) => (
+          {solicitacoes.map((solicitacao) => (
+            <LineTable key={solicitacao.id_SolicitacaoBase}>
+              <CellTable>{solicitacao.SB_DataSolicitacao}</CellTable>
+              <CellTable>{solicitacao.SB_HoraSolicitacao}</CellTable>
+              <CellTable>{solicitacao.SB_NumeroOS}</CellTable>
+              <CellTable>{solicitacao.SB_Microzona}</CellTable>
+              <CellTable>{solicitacao.SB_Observacoes}</CellTable>
+              <CellTable>{solicitacao.SB_Solicitante}</CellTable>
+              <CellTable>{solicitacao.SB_TipoServico}</CellTable>
+              <CellTable>
+                <Buttons onClick={() => handleEditClick(solicitacao)}>
+                  Editar
+                  <BsPencil />
+                </Buttons>
+              </CellTable>
+            </LineTable>
+          ))}
+          {solicitacoes.map((solicitacao) => (
+            <LineTable key={solicitacao.id_SolicitacaoBase}>
+              <CellTable>{solicitacao.SB_DataSolicitacao}</CellTable>
+              <CellTable>{solicitacao.SB_HoraSolicitacao}</CellTable>
+              <CellTable>{solicitacao.SB_NumeroOS}</CellTable>
+              <CellTable>{solicitacao.SB_Microzona}</CellTable>
+              <CellTable>{solicitacao.SB_Observacoes}</CellTable>
+              <CellTable>{solicitacao.SB_Solicitante}</CellTable>
+              <CellTable>{solicitacao.SB_TipoServico}</CellTable>
+              <CellTable>
+                <Buttons onClick={() => handleEditClick(solicitacao)}>
+                  Editar
+                  <BsPencil />
+                </Buttons>
+              </CellTable>
+            </LineTable>
+          ))}
+          {solicitacoes.map((solicitacao) => (
+            <LineTable key={solicitacao.id_SolicitacaoBase}>
+              <CellTable>{solicitacao.SB_DataSolicitacao}</CellTable>
+              <CellTable>{solicitacao.SB_HoraSolicitacao}</CellTable>
+              <CellTable>{solicitacao.SB_NumeroOS}</CellTable>
+              <CellTable>{solicitacao.SB_Microzona}</CellTable>
+              <CellTable>{solicitacao.SB_Observacoes}</CellTable>
+              <CellTable>{solicitacao.SB_Solicitante}</CellTable>
+              <CellTable>{solicitacao.SB_TipoServico}</CellTable>
+              <CellTable>
+                <Buttons onClick={() => handleEditClick(solicitacao)}>
+                  Editar
+                  <BsPencil />
+                </Buttons>
+              </CellTable>
+            </LineTable>
+          ))}
+          {solicitacoes.map((solicitacao) => (
+            <LineTable key={solicitacao.id_SolicitacaoBase}>
+              <CellTable>{solicitacao.SB_DataSolicitacao}</CellTable>
+              <CellTable>{solicitacao.SB_HoraSolicitacao}</CellTable>
+              <CellTable>{solicitacao.SB_NumeroOS}</CellTable>
+              <CellTable>{solicitacao.SB_Microzona}</CellTable>
+              <CellTable>{solicitacao.SB_Observacoes}</CellTable>
+              <CellTable>{solicitacao.SB_Solicitante}</CellTable>
+              <CellTable>{solicitacao.SB_TipoServico}</CellTable>
+              <CellTable>
+                <Buttons onClick={() => handleEditClick(solicitacao)}>
+                  Editar
+                  <BsPencil />
+                </Buttons>
+              </CellTable>
+            </LineTable>
+          ))}
+          {solicitacoes.map((solicitacao) => (
+            <LineTable key={solicitacao.id_SolicitacaoBase}>
+              <CellTable>{solicitacao.SB_DataSolicitacao}</CellTable>
+              <CellTable>{solicitacao.SB_HoraSolicitacao}</CellTable>
+              <CellTable>{solicitacao.SB_NumeroOS}</CellTable>
+              <CellTable>{solicitacao.SB_Microzona}</CellTable>
+              <CellTable>{solicitacao.SB_Observacoes}</CellTable>
+              <CellTable>{solicitacao.SB_Solicitante}</CellTable>
+              <CellTable>{solicitacao.SB_TipoServico}</CellTable>
+              <CellTable>
+                <Buttons onClick={() => handleEditClick(solicitacao)}>
+                  Editar
+                  <BsPencil />
+                </Buttons>
+              </CellTable>
+            </LineTable>
+          ))}
+          {solicitacoes.map((solicitacao) => (
             <LineTable key={solicitacao.id_SolicitacaoBase}>
               <CellTable>{solicitacao.SB_DataSolicitacao}</CellTable>
               <CellTable>{solicitacao.SB_HoraSolicitacao}</CellTable>
@@ -147,6 +232,7 @@ const ServicosEmAndamentoPage: React.FC = () => {
         </div>
       </div> */}
     </Sac>
+  </>
   );
 };
 
