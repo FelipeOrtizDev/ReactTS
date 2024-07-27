@@ -27,7 +27,7 @@ import {
   Selectn,
 } from "../../utils/commonStyles";
 
-const VrfFechamento: React.FC = () => {
+const Fechamentos: React.FC = () => {
   const { register, handleSubmit, reset } = useForm();
 
   const onSubmit = async (data: any) => {
@@ -250,4 +250,4 @@ const VrfFechamento: React.FC = () => {
     </>
   );
 };
-export default VrfFechamento;
+export default Fechamentos;
