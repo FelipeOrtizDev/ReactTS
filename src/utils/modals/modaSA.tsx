@@ -7,6 +7,7 @@ import {
 import { ModalContainer, ModalContent, Title } from "./modalUserStyles";
 import { Buttons, Inputn } from "../../utils/commonStyles";
 import { Formn } from "./modalUserStyles";
+import { BsClipboard2X, BsClipboard2Check } from "react-icons/bs";
 
 interface EditModalProps {
   solicitacao: SolicitacaoBase;
@@ -64,9 +65,11 @@ const EditModal: React.FC<EditModalProps> = ({
           )}
 
           <Buttons type="button" onClick={onClose}>
-            Cancelar
+            Cancelar <BsClipboard2X />
           </Buttons>
-          <Buttons type="submit">Salvar</Buttons>
+          <Buttons type="submit">Salvar
+            <BsClipboard2Check />
+          </Buttons>
         </Formn>
       </ModalContent>
     </ModalContainer>

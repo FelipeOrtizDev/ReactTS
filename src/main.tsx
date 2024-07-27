@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import VrfFechamento from "./pages/vrfFechamento/vrfFechamento.tsx";
+import Fechamentos from "./pages/Fechamento/Fechamento.tsx";
 import Home from "./pages/home/home.tsx";
 import ServicosEmAndamentoPage from "./pages/asd/ServicosEmAndamentoPage.tsx";
 import ListaUsuario from "./pages/usuarios/usuario.tsx";
@@ -22,8 +22,8 @@ const router = createBrowserRouter([
         element: <ServicosEmAndamentoPage />,
       },
       {
-        path: "/vrffechamento",
-        element: <VrfFechamento />,
+        path: "/fechamento",
+        element: <Fechamentos />,
       },
       {
         path: "/usuario",
