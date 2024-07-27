@@ -51,7 +51,7 @@ export const Buttons = styled.button`
   height: 3rem;
   width: 8rem;
   padding: 1%;
-  padding-bottom: 9px !important;
+  padding-bottom: 10px !important;
   border: none;
   outline: none;
   color: #fff;
