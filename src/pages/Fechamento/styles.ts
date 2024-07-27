@@ -3,31 +3,29 @@ import styled from "styled-components";
 export const Box = styled.div`
   display: flex;
   flex-direction: column;
-  width: 60%;
+  width: 90%;
   background-color: #f8f9fa;
   padding: 2rem;
   margin: 3% auto;
   border-radius: 10px;
+  max-height: 90vh; /* Ajusta a altura máxima */
+  overflow-y: auto; /* Adiciona a rolagem vertical */
 
-  /* @media (min-width: 576px) {
-    max-width: 540px;
+  @media (min-width: 576px) {
+    width: 80%;
   }
 
   @media (min-width: 768px) {
-    max-width: 720px;
+    width: 70%;
   }
 
   @media (min-width: 992px) {
-    max-width: 960px;
+    width: 60%;
   }
 
   @media (min-width: 1200px) {
-    max-width: 1140px;
+    width: 50%;
   }
-
-  @media (min-width: 1400px) {
-    max-width: 1320px;
-  } */
 `;
 
 export const Title = styled.div`
@@ -39,17 +37,22 @@ export const Title = styled.div`
 
 export const Field = styled.div`
   display: grid;
-  grid-template-columns: 55% 65% 80%;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+
+  @media (min-width: 768px) {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  @media (min-width: 992px) {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
 `;
 
 export const SectionBox = styled.div`
-  display: grid;
-  grid-template-columns: max-content;
-
-  @media (min-width: 768px) {
-    flex: 0 0 auto;
-    width: 25%;
-  }
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
 `;
 
 export const SectionTitle = styled.div`
@@ -65,15 +68,11 @@ export const SectionTitle = styled.div`
 
 export const InfoBox = styled.div`
   display: flex;
-  flex-flow: column wrap;
-  margin-right: 3%;
+  flex-direction: column;
+  margin-bottom: 1rem;
 
   @media (min-width: 768px) {
-    // flex: 0 0 auto;
-    // width: 50%;
-  }
-  .input {
-    width: 100%;
+    margin-right: 3%;
   }
 `;
 
