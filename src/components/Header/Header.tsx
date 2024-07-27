@@ -30,7 +30,7 @@ const Header: React.FC = () => {
             <a href="#about">Solicitações</a>
             <ul className="dropdown-content">
               <li>
-                <Link to={"/fechamento"} target="blank">Fechamentos</Link>
+                <Link to={"/fechamento"}>Fechamentos</Link>
               </li>
               <li>
                 <Link to={"/#option2"}>Pesquisa</Link>
@@ -44,7 +44,7 @@ const Header: React.FC = () => {
             </ul>
           </li>
           <li className="nav-item">
-            <Link to="/servicosemandamento">Serviços em Andamento</Link>
+            <Link to="/servicosemandamento" target="blank">Serviços em Andamento</Link>
           </li>
         </ul>
       </div>

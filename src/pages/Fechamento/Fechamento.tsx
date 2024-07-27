@@ -17,7 +17,6 @@ import {
   SolicitacaoBase,
 } from "../../services/api/solicitacaoBase";
 import { BsSend, BsArrowBarRight, BsEraser } from "react-icons/bs";
-import { Link } from "react-router-dom";
 import {
   Buttons,
   ButtonsBox,
@@ -26,6 +25,7 @@ import {
   Optionn,
   Selectn,
 } from "../../utils/commonStyles";
+import { Link } from "react-router-dom";
 
 const Fechamentos: React.FC = () => {
   const { register, handleSubmit, reset } = useForm();
@@ -72,6 +72,7 @@ const Fechamentos: React.FC = () => {
       // Enviar a solicitação base
       await createSolicitacaoBase(solicitacaoBase);
       alert("Solicitação criada com sucesso");
+      window.location.href = "/";
     } catch (error) {
       console.error("Erro ao enviar solicitação:", error);
       throw new Error("Erro ao enviar solicitação: " + error);
@@ -83,7 +84,7 @@ const Fechamentos: React.FC = () => {
   return (
     <>
       <Box>
-        <Title>Solicitação Verificação de Fechamentos</Title>
+        <Title>Solicitação de Fechamento</Title>
         <form onSubmit={handleSubmit(onSubmit)}>
           <SectionBox>
             <SectionTitle>Dados do Solicitante</SectionTitle>
