@@ -100,7 +100,7 @@ const ServicosEmAndamentoPage: React.FC = () => {
           />
         )}
 
-        {/*       <div className='pesquisas-e-ocorrencias'>
+      <div className='pesquisas-e-ocorrencias'>
         <div className='pesquisas-container'>
           <div className='titulo-container borda-verde'>
             <h3>Pesquisas</h3>
@@ -138,7 +138,7 @@ const ServicosEmAndamentoPage: React.FC = () => {
             </div>
           </div>
         </div>
-      </div> */}
+      </div>
     </Sac>
   </>
   );

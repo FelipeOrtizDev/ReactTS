@@ -4,11 +4,10 @@ import {
   SolicitacaoBase,
   updateSolicitacaoBase,
 } from "../../services/api/solicitacaoBase";
-import { ModalContainer, ModalContent, Field, FieldTwo, TextArean } from "./modalUserStyles";
-import { Buttons, ButtonsBox, Inputn, Selectn, Optionn } from "../../utils/commonStyles";
-import { Formn } from "./modalUserStyles";
+import { Formn, ModalContainer, ModalContent, Field, FieldTwo, TextArean } from "./modalUserStyles";
+import { Buttons, ButtonsBox, Inputn, Selectn, Title, Optionn } from "../../utils/commonStyles";
 import { BsClipboard2X, BsClipboard2Check } from "react-icons/bs";
-import {  InfoBox, Labeln, Title, SectionBox, SectionTitle } from "../../pages/Fechamento/styles";
+import {  InfoBox, Labeln, SectionBox, SectionTitle } from "../../pages/Fechamento/styles";
 
 interface EditModalProps {
   solicitacao: SolicitacaoBase;
@@ -159,11 +158,11 @@ const EditModal: React.FC<EditModalProps> = ({
               <InfoBox>
                 <Labeln>Cruzamento</Labeln>
                 <Inputn type="text" 
-                {...register("SB_Endereco.SB_Logradouro", {
+                {...register("SB_Endereco.SB_Cruzamento", {
                   required: "Cruzamento é obrigatório",
                 })}/>
-                {errors.SB_Endereco?.SB_Logradouro && (
-                <span>{errors.SB_Endereco?.SB_Logradouro.message}</span>
+                {errors.SB_Endereco?.SB_Cruzamento && (
+                <span>{errors.SB_Endereco?.SB_Cruzamento.message}</span>
               )}
               </InfoBox>
               <InfoBox>
@@ -212,7 +211,7 @@ const EditModal: React.FC<EditModalProps> = ({
               <InfoBox>
                 <Labeln>Setor Abastecimento</Labeln>
                 <Inputn type="text" 
-                {...register("SB_Endereco.SB_Logradouro", {
+                {...register("SB_Endereco.SB_SetorAbastecimento", {
                   required: "Setor Abastecimento é obrigatório",
                 })}/>
                 {errors.SB_Endereco?.SB_SetorAbastecimento && (
@@ -245,26 +244,26 @@ const EditModal: React.FC<EditModalProps> = ({
               <InfoBox>
                 <Labeln>Numero MZ</Labeln>
                 <Inputn type="text" 
-                {...register("SB_Endereco.SB_Logradouro", {
+                {...register("SB_NumeroMZ", {
                   required: "Numero MZ é obrigatório",
                 })}/>
-                {errors.SB_Endereco?.SB_Logradouro && (
-                <span>{errors.SB_Endereco?.SB_Logradouro.message}</span>
+                {errors.SB_NumeroMZ && (
+                <span>{errors.SB_NumeroMZ.message}</span>
               )}
               </InfoBox>
               <InfoBox>
                 <Labeln>Motivo</Labeln>
                 <Inputn type="text" 
-                {...register("SB_Endereco.SB_Logradouro", {
+                {...register("SB_Motivo", {
                   required: "Motivo é obrigatório",
                 })}/>
-                {errors.SB_Endereco?.SB_Logradouro && (
-                <span>{errors.SB_Endereco?.SB_Logradouro.message}</span>
+                {errors.SB_Motivo && (
+                <span>{errors.SB_Motivo.message}</span>
               )}
               </InfoBox>
             </Field>
             <Labeln>Observações</Labeln>
-            <TextArean {...register("SB_Observacoes")}/>
+            <TextArean {...register("SB_Observacoes") }/>
           </SectionBox>
           <SectionBox>
             <SectionTitle>Acatamento</SectionTitle>

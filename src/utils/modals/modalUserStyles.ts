@@ -100,3 +100,10 @@ export const TextArean = styled.textarea`
     font-size: 0.875rem;
   }
 `;
+
+export const Title = styled.div`
+  font-weight: bold;
+  color: #000000;
+  font-size: 2rem;
+  text-align: left;
+`;
