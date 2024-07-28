@@ -288,7 +288,7 @@ const SolicitacaoBaseForm: React.FC<SolicitacaoBaseFormProps> = ({
           <InfoBox>
             <Labeln>Motivo</Labeln>
             <Inputn
-              type="text"
+              type="number"
               {...register("SB_Motivo", {
                 required: "Motivo é obrigatório",
               })}

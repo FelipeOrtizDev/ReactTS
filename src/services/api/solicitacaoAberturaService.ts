@@ -1,5 +1,4 @@
 import { axiosInstance } from "./conexaoApi";
-import { Endereco } from "./enderecoService";
 
 // Interface para SolicitacaoAbertura
 export interface SolicitacaoAbertura {

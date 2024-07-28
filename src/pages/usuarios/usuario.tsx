@@ -6,7 +6,7 @@ import {
   Box,
   Block,
   Container,
-  Buttons,
+  ButtonsUser,
   Title,
   Field,
   InfoUser,
@@ -15,7 +15,9 @@ import {
   UserList,
   SearchInput,
   PaginationControls,
+  ButtonsUserAdd,
 } from "./styles";
+import { BsArrowLeftShort, BsArrowRightShort, BsPersonPlusFill, BsPersonXFill } from "react-icons/bs";
 import UserModal from "../../utils/modals/modalUser";
 import { Link } from "react-router-dom";
 
@@ -96,12 +98,13 @@ const ListaUsuario: React.FC = () => {
       <Box>
         <Container>
           <Block>
-            <Buttons as={Link} to={"/"}>
+            <ButtonsUser as={Link} to={"/"}>
+            <BsArrowLeftShort />
               Voltar
-            </Buttons>
-            <Buttons className="botao_2" onClick={handleAddNewUser}>
-              adicionar novo usuario
-            </Buttons>
+            </ButtonsUser>
+            <ButtonsUserAdd onClick={handleAddNewUser}>
+              <BsPersonPlusFill />Novo Usuario
+              </ButtonsUserAdd>
             {error && <p style={{ color: "red" }}>{error}</p>}
             <Title>Usuários</Title>
             <SearchInput
@@ -134,40 +137,44 @@ const ListaUsuario: React.FC = () => {
                   <UserField>{usuario.SB_Perfil}</UserField>
                   <UserField>{getStatusConversor(usuario.SB_Status)}</UserField>
                   <UserField>
-                    <Buttons
+                    <ButtonsUser
                       className="edit-button"
                       onClick={() => handleEdit(usuario)}
                     >
                       Editar
-                    </Buttons>
+                      {/* <BsPencil /> */}
+                    </ButtonsUser>
                     {usuario.id_Usuario !== undefined && (
-                      <Buttons
+                      <ButtonsUser
                         className="delete-button"
                         onClick={() => handleDelete(usuario.id_Usuario!)}
                       >
                         Excluir
-                      </Buttons>
+                        <BsPersonXFill />
+                      </ButtonsUser>
                     )}
                   </UserField>
                 </UserItem>
               ))}
             </UserList>
             <PaginationControls>
-              <Buttons
+              <ButtonsUser
                 onClick={handlePreviousPage}
                 disabled={currentPage === 1}
               >
+                <BsArrowLeftShort />
                 Anterior
-              </Buttons>
+              </ButtonsUser>
               <span>
                 Página {currentPage} de {totalPages}
               </span>
-              <Buttons
+              <ButtonsUser
                 onClick={handleNextPage}
                 disabled={currentPage === totalPages}
               >
                 Próxima
-              </Buttons>
+                <BsArrowRightShort />
+              </ButtonsUser>
             </PaginationControls>
           </Container>
         </Container>

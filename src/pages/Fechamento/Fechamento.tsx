@@ -142,7 +142,6 @@ const Fechamentos: React.FC = () => {
       await createSolicitacaoBase(solicitacaoBase);
       alert("Solicitação criada com sucesso");
       window.location.href = "/";
-      console.log(createSolicitacaoBase(solicitacaoBase));
     } catch (error) {
       console.error("Erro ao enviar solicitação:", error);
       throw new Error("Erro ao enviar solicitação: " + error);
@@ -322,8 +321,8 @@ const Fechamentos: React.FC = () => {
                 <Labeln>Motivo</Labeln>
                 <Selectn {...register("motivo")}>
                   <Optionn value="">Selecione...</Optionn>
-                  <Optionn value="1">Rede Primária</Optionn>
-                  <Optionn value="0">Não Implantada</Optionn>
+                  <Optionn value={1}>Rede Primária</Optionn>
+                  <Optionn value={0}>Não Implantada</Optionn>
                 </Selectn>
               </InfoBox>
               <InfoBox>

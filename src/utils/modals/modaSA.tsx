@@ -11,7 +11,8 @@ import { Acatamento } from "../../services/api/acatamentoService";
 import { Fechamento } from "../../services/api/fechamentoService";
 
 import { ModalContainer, ModalContent, Title } from "./modalUserStyles";
-import { Buttons } from "../commonStyles";
+import { Buttons, ButtonsBox } from "../commonStyles";
+import { BsClipboardX } from "react-icons/bs";
 
 interface EditModalProps {
   solicitacao: SolicitacaoBase;
@@ -91,9 +92,11 @@ const EditModal: React.FC<EditModalProps> = ({
           solicitacaoAbertura={solicitacaoAbertura}
           onSubmit={handleSolicitacaoAberturaSubmit}
         />
-        <Buttons type="button" onClick={onClose}>
-          Fechar
-        </Buttons>
+        <ButtonsBox>
+          <Buttons type="button" onClick={onClose}>
+            Fechar <BsClipboardX />
+          </Buttons>
+        </ButtonsBox>
       </ModalContent>
     </ModalContainer>
   );

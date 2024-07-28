@@ -6,7 +6,7 @@ export const Box = styled.div`
   width: 90%;
   background-color: #f8f9fa;
   padding: 2rem;
-  margin: 3% auto;
+  margin: 2% auto;
   border-radius: 10px;
   height: 87vh; /* Ajusta a altura máxima */
   overflow-y: auto; /* Adiciona a rolagem vertical */
