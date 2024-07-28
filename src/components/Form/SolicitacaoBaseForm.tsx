@@ -1,5 +1,5 @@
 import React from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { SolicitacaoBase } from "../../services/api/solicitacaoBase";
 import { Inputn } from "../../utils/commonStyles";
 import {
@@ -12,27 +12,21 @@ import { Field, TextArean } from "../../utils/modals/modalUserStyles";
 
 interface SolicitacaoBaseFormProps {
   solicitacao: SolicitacaoBase;
-  onSubmit: (data: SolicitacaoBase) => void;
 }
 
 const SolicitacaoBaseForm: React.FC<SolicitacaoBaseFormProps> = ({
   solicitacao,
-  onSubmit,
 }) => {
   const {
     register,
-    handleSubmit,
+
     formState: { errors },
   } = useForm<SolicitacaoBase>({
     defaultValues: solicitacao,
   });
 
-  const handleFormSubmit: SubmitHandler<SolicitacaoBase> = (data) => {
-    onSubmit(data);
-  };
-
   return (
-    <form onSubmit={handleSubmit(handleFormSubmit)}>
+    <form>
       <SectionBox>
         <SectionTitle>Dados da Solicitação</SectionTitle>
         <Field>

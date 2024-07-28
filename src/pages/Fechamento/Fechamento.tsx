@@ -78,13 +78,13 @@ const Fechamentos: React.FC = () => {
   };
 
   useEffect(() => {
-    if (mzValue === '1') {
+    if (mzValue === "1") {
       setIsMZEnabled(true);
     } else {
       setIsMZEnabled(false);
     }
   }, [mzValue]);
-  
+
   useEffect(() => {
     setValue("municipio", "");
     setValue("setorAbastecimento", "");
@@ -314,8 +314,11 @@ const Fechamentos: React.FC = () => {
               </InfoBox>
               <InfoBox>
                 <Labeln>Numero MZ</Labeln>
-                <Inputn type="number" {...register("numeroMZ")} disabled={!isMZEnabled}/>
-                
+                <Inputn
+                  type="number"
+                  {...register("numeroMZ")}
+                  disabled={!isMZEnabled}
+                />
               </InfoBox>
               <InfoBox>
                 <Labeln>Motivo</Labeln>

@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { Acatamento } from "../../services/api/acatamentoService";
 import { Inputn } from "../../utils/commonStyles";
 import { FieldTwo, Formn, TextArean } from "../../utils/modals/modalUserStyles";
@@ -12,10 +13,15 @@ import {
 
 interface AcatamentoFormProps {
   acatamento: Acatamento;
+  SB_SolicitacaoBase_id_SolicitacaoBase: number;
+  SB_SolicitacaoBase_SB_Enderecos_id_Endereco: number;
+
   onSubmit: (data: Acatamento) => void;
 }
 
 const AcatamentoForm: React.FC<AcatamentoFormProps> = ({
+  SB_SolicitacaoBase_id_SolicitacaoBase,
+  SB_SolicitacaoBase_SB_Enderecos_id_Endereco,
   acatamento,
   onSubmit,
 }) => {
@@ -27,10 +33,21 @@ const AcatamentoForm: React.FC<AcatamentoFormProps> = ({
     defaultValues: acatamento,
   });
 
-  const handleFormSubmit: SubmitHandler<Acatamento> = (data) => {
-    onSubmit(data);
+  const handleFormSubmit = (data: Acatamento) => {
+    const acatamento: Acatamento = {
+      SB_DataAcatamento: data.SB_DataAcatamento,
+      SB_EquipeResponsavel: data.SB_EquipeResponsavel,
+      SB_PrvisãoAcatamento: data.SB_PrvisãoAcatamento,
+      SB_ObservacaoAcatamento: data.SB_ObservacaoAcatamento,
+      SB_SolicitacaoBase_id_SolicitacaoBase:
+        SB_SolicitacaoBase_id_SolicitacaoBase,
+      SB_SolicitacaoBase_SB_Enderecos_id_Endereco:
+        SB_SolicitacaoBase_SB_Enderecos_id_Endereco,
+    };
+    onSubmit({
+      ...acatamento,
+    });
   };
-
   return (
     <Formn onSubmit={handleSubmit(handleFormSubmit)}>
       <SectionBox>
@@ -50,17 +67,31 @@ const AcatamentoForm: React.FC<AcatamentoFormProps> = ({
           </InfoBox>
           <InfoBox>
             <Labeln>Passado Para</Labeln>
-            <Inputn type="text" />
+            <Inputn
+              type="text"
+              {...register("SB_EquipeResponsavel", {
+                required: "Data Abertura é obrigatória",
+              })}
+            />
           </InfoBox>
         </FieldTwo>
         <FieldTwo>
           <InfoBox>
             <Labeln>Previsão (h)</Labeln>
-            <Inputn type="time" />
+            <Inputn
+              type="time"
+              {...register("SB_PrvisãoAcatamento", {
+                required: "Data Abertura é obrigatória",
+              })}
+            />
           </InfoBox>
           <InfoBox>
             <Labeln>Observações</Labeln>
-            <TextArean />
+            <TextArean
+              {...register("SB_ObservacaoAcatamento", {
+                required: "Data Abertura é obrigatória",
+              })}
+            />
           </InfoBox>
         </FieldTwo>
       </SectionBox>

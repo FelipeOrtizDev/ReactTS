@@ -7,7 +7,12 @@ import {
   SectionBox,
   SectionTitle,
 } from "../../pages/Fechamento/styles";
-import { Field, FieldTwo, Formn, ObsArea } from "../../utils/modals/modalUserStyles";
+import {
+  Field,
+  FieldTwo,
+  Formn,
+  ObsArea,
+} from "../../utils/modals/modalUserStyles";
 import { Inputn, Optionn, Selectn } from "../../utils/commonStyles";
 
 interface FechamentoProps {
@@ -23,7 +28,7 @@ const FechamentoForm: React.FC<FechamentoProps> = ({
     register,
     handleSubmit,
     formState: { errors },
-    watch
+    watch,
   } = useForm<Fechamento>({
     defaultValues: fechamento,
   });
@@ -31,7 +36,7 @@ const FechamentoForm: React.FC<FechamentoProps> = ({
     onSubmit(data);
   };
   const hasFValue = watch("SB_HouveFechamento");
-  const [disabledInputs, setDisabledInputs] = useState(false);
+  const [disabledInputs] = useState(false);
 
   return (
     <>
@@ -48,11 +53,13 @@ const FechamentoForm: React.FC<FechamentoProps> = ({
               <Field>
                 <InfoBox>
                   <Labeln>Data</Labeln>
-                  <Inputn type="date" 
+                  <Inputn
+                    type="date"
                     disabled={disabledInputs}
-                  {...register("SB_DataFechamento", {
+                    {...register("SB_DataFechamento", {
                       required: "Data é obrigatória",
-                    })} />
+                    })}
+                  />
                   {errors.SB_DataFechamento && (
                     <span>{errors.SB_DataFechamento.message}</span>
                   )}
@@ -92,9 +99,7 @@ const FechamentoForm: React.FC<FechamentoProps> = ({
                       required: "Rede é obrigatória",
                     })}
                   />
-                  {errors.SB_Rede && (
-                    <span>{errors.SB_Rede.message}</span>
-                  )}
+                  {errors.SB_Rede && <span>{errors.SB_Rede.message}</span>}
                 </InfoBox>
               </Field>
               <Field>
@@ -193,9 +198,7 @@ const FechamentoForm: React.FC<FechamentoProps> = ({
                 </InfoBox>
                 <InfoBox>
                   <Labeln>Observações Fechamento</Labeln>
-                  <ObsArea 
-                  {...register("SB_HFSObservacaoFechamento")} 
-                  />
+                  <ObsArea {...register("SB_HFSObservacaoFechamento")} />
                   {errors.SB_HFSObservacaoFechamento && (
                     <span>{errors.SB_HFSObservacaoFechamento.message}</span>
                   )}
@@ -203,29 +206,32 @@ const FechamentoForm: React.FC<FechamentoProps> = ({
               </Field>
             </>
           )}
-          {hasFValue === 0 && (<>
-            <FieldTwo>
-              <InfoBox>
-                <Labeln>Motivo</Labeln>
-                <Inputn
-                  type="text"
-                  {...register("SB_HSNMotivo", {
-                    required: "Motivo é obrigatório",
-                  })}
-                />
-                {errors.SB_HSNMotivo && (
-                  <span>{errors.SB_HSNMotivo.message}</span>
-                )}
-              </InfoBox>
-              <InfoBox>
-                <Labeln>Observações Não Fechamento</Labeln>
-                <ObsArea {...register("SB_HSNObservacao")} />
-                {errors.SB_HSNObservacao && (
-                  <span>{errors.SB_HSNObservacao.message}</span>
-                )}
-              </InfoBox>
-            </FieldTwo>
-          </>)} {(<></>)}
+          {hasFValue === 0 && (
+            <>
+              <FieldTwo>
+                <InfoBox>
+                  <Labeln>Motivo</Labeln>
+                  <Inputn
+                    type="text"
+                    {...register("SB_HSNMotivo", {
+                      required: "Motivo é obrigatório",
+                    })}
+                  />
+                  {errors.SB_HSNMotivo && (
+                    <span>{errors.SB_HSNMotivo.message}</span>
+                  )}
+                </InfoBox>
+                <InfoBox>
+                  <Labeln>Observações Não Fechamento</Labeln>
+                  <ObsArea {...register("SB_HSNObservacao")} />
+                  {errors.SB_HSNObservacao && (
+                    <span>{errors.SB_HSNObservacao.message}</span>
+                  )}
+                </InfoBox>
+              </FieldTwo>
+            </>
+          )}{" "}
+          {<></>}
         </SectionBox>
       </Formn>
     </>

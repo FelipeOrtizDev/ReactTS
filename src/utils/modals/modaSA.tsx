@@ -1,74 +1,50 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import SolicitacaoBaseForm from "../../components/Form/SolicitacaoBaseForm";
-import AcatamentoForm from "../../components/Form/AcatamentoForm";
-import SolicitacaoAberturaForm from "../../components/Form/solicitacaoAberturaForm";
-import FechamentoForm from "../../components/Form/fechamentoForm";
-
-import { SolicitacaoBase } from "../../services/api/solicitacaoBase";
-import { SolicitacaoAbertura } from "../../services/api/solicitacaoAberturaService";
-import { Acatamento } from "../../services/api/acatamentoService";
-import { Fechamento } from "../../services/api/fechamentoService";
 
 import { ModalContainer, ModalContent, Title } from "./modalUserStyles";
 import { Buttons, ButtonsBox } from "../commonStyles";
 import { BsClipboardX } from "react-icons/bs";
+import { useAcatamentoSubmit } from "../../hooks/useA";
+import AcatamentoForm from "../../components/Form/AcatamentoForm";
+import { SolicitacaoBase } from "../../services/api/solicitacaoBase";
+import { Acatamento } from "../../services/api/acatamentoService";
+import { Fechamento } from "../../services/api/fechamentoService";
 
 interface EditModalProps {
   solicitacao: SolicitacaoBase;
   acatamento: Acatamento;
-  solicitacaoAbertura: SolicitacaoAbertura;
   fechamento: Fechamento;
   onClose: () => void;
-  onSave: (updated: any) => void;
+  onSave: (data: any) => void;
 }
 
 const EditModal: React.FC<EditModalProps> = ({
   solicitacao,
   acatamento,
-  solicitacaoAbertura,
-  fechamento,
+
   onClose,
   onSave,
 }) => {
-  // Handlers for each form submission
-  const handleSolicitacaoBaseSubmit = async (data: SolicitacaoBase) => {
-    try {
-      console.log("Solicitação Base:", data);
-      // Add logic for handling form submission, e.g., API call
-      onSave({ solicitacao: data });
-    } catch (error) {
-      console.error("Erro ao enviar solicitação base:", error);
-    }
-  };
+  const { handleSubmit: handleAcatamentoSubmit } = useAcatamentoSubmit();
 
-  const handleAcatamentoSubmit = async (data: Acatamento) => {
+  const handleSubmitAll = async () => {
     try {
-      console.log("Acatamento:", data);
-      // Add logic for handling form submission, e.g., API call
-      onSave({ acatamento: data });
-    } catch (error) {
-      console.error("Erro ao enviar acatamento:", error);
-    }
-  };
+      const acatamentoData = await handleAcatamentoSubmit({
+        ...acatamento,
+        SB_SolicitacaoBase_id_SolicitacaoBase: solicitacao.id_SolicitacaoBase,
+        SB_SolicitacaoBase_SB_Enderecos_id_Endereco:
+          solicitacao.SB_Enderecos_id_Endereco,
+      });
 
-  const handleSolicitacaoAberturaSubmit = async (data: SolicitacaoAbertura) => {
-    try {
-      console.log("Solicitação Abertura:", data);
-      // Add logic for handling form submission, e.g., API call
-      onSave({ solicitacaoAbertura: data });
-    } catch (error) {
-      console.error("Erro ao enviar solicitação abertura:", error);
-    }
-  };
+      const allData = {
+        acatamento: acatamentoData,
+      };
 
-  const handleFechamentoSubmit = async (data: Fechamento) => {
-    try {
-      console.log("Acatamento Abertura:", data);
-      // Add logic for handling form submission, e.g., API call
-      onSave({ fechamento: data });
+      onSave(allData);
     } catch (error) {
-      console.error("Erro ao enviar acatamento abertura:", error);
+      console.error("Erro ao enviar dados:", error);
+      alert("Erro ao enviar dados, por favor, tente novamente.");
     }
   };
 
@@ -76,25 +52,26 @@ const EditModal: React.FC<EditModalProps> = ({
     <ModalContainer>
       <ModalContent>
         <Title>Editar Solicitação e Acatamento</Title>
-        <SolicitacaoBaseForm
-          solicitacao={solicitacao}
-          onSubmit={handleSolicitacaoBaseSubmit}
-        />
+        <SolicitacaoBaseForm solicitacao={solicitacao} />
         <AcatamentoForm
+          SB_SolicitacaoBase_id_SolicitacaoBase={solicitacao.id_SolicitacaoBase}
+          SB_SolicitacaoBase_SB_Enderecos_id_Endereco={
+            solicitacao.SB_Enderecos_id_Endereco
+          }
           acatamento={acatamento}
           onSubmit={handleAcatamentoSubmit}
         />
-        <FechamentoForm
+        {/* <FechamentoForm
           fechamento={fechamento}
           onSubmit={handleFechamentoSubmit}
         />
-        <SolicitacaoAberturaForm
-          solicitacaoAbertura={solicitacaoAbertura}
-          onSubmit={handleSolicitacaoAberturaSubmit}
-        />
+        <SolicitacaoAberturaForm /> */}
         <ButtonsBox>
           <Buttons type="button" onClick={onClose}>
             Fechar <BsClipboardX />
+          </Buttons>
+          <Buttons type="button" onClick={handleSubmitAll}>
+            Salvar Tudo
           </Buttons>
         </ButtonsBox>
       </ModalContent>
