@@ -10,6 +10,7 @@ export interface Fechamento {
   SB_HouveFechamento: number;
   SB_Rede: string;
   SB_UltilizouMZ: string;
+  SB_QTDELigacoes: number;
   SB_FechadoPor: string;
   SB_HFSMotivo: string;
   SB_HSNObservacao: string;

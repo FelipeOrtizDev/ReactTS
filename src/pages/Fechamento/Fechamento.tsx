@@ -8,7 +8,7 @@ import {
   SectionTitle,
   TextArean,
 } from "./styles";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { createEnderecos, Endereco } from "../../services/api/enderecoService";
 import {
@@ -31,6 +31,8 @@ const Fechamentos: React.FC = () => {
   const { register, handleSubmit, reset, watch, setValue } = useForm();
   const selectedPolo = watch("polo");
   const selectedMunicipio = watch("municipio");
+  const mzValue = watch("microzona");
+  const [isMZEnabled, setIsMZEnabled] = useState(false);
 
   const municipioOptions: {
     [key: string]: {
@@ -75,6 +77,14 @@ const Fechamentos: React.FC = () => {
     },
   };
 
+  useEffect(() => {
+    if (mzValue === '1') {
+      setIsMZEnabled(true);
+    } else {
+      setIsMZEnabled(false);
+    }
+  }, [mzValue]);
+  
   useEffect(() => {
     setValue("municipio", "");
     setValue("setorAbastecimento", "");
@@ -299,6 +309,11 @@ const Fechamentos: React.FC = () => {
                   <Optionn value="1">Sim</Optionn>
                   <Optionn value="0">Não</Optionn>
                 </Selectn>
+              </InfoBox>
+              <InfoBox>
+                <Labeln>Numero MZ</Labeln>
+                <Inputn type="text" {...register("numeroMZ")} disabled={!isMZEnabled}/>
+                
               </InfoBox>
               <InfoBox>
                 <Labeln>Motivo</Labeln>
