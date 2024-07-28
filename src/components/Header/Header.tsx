@@ -44,7 +44,9 @@ const Header: React.FC = () => {
             </ul>
           </li>
           <li className="nav-item">
-            <Link to="/servicosemandamento" target="blank">Serviços em Andamento</Link>
+            <Link to="/servicosemandamento" target={"_blank"}>
+              Serviços em Andamento
+            </Link>
           </li>
         </ul>
       </div>

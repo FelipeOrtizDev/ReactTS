@@ -37,18 +37,42 @@ const Fechamentos: React.FC = () => {
       [key: string]: string[];
     };
   } = {
-    Itaquera: { SãoPaulo: ["Artur Alvin", "Carmo", "CID. Tiradentes", "Guaianazes", "Itaquera", "Savoy", "STA. Etelvina"] },
-    Penha: { SãoPaulo: ["Cangaiba", "Ermelino Matarazoo", "Itam PTA.", "JD. Popular", "Penha", "Sao Miguel PTA."] },
+    Itaquera: {
+      SãoPaulo: [
+        "Artur Alvin",
+        "Carmo",
+        "CID. Tiradentes",
+        "Guaianazes",
+        "Itaquera",
+        "Savoy",
+        "STA. Etelvina",
+      ],
+    },
+    Penha: {
+      SãoPaulo: [
+        "Cangaiba",
+        "Ermelino Matarazoo",
+        "Itam PTA.",
+        "JD. Popular",
+        "Penha",
+        "Sao Miguel PTA.",
+      ],
+    },
     Suzano: {
-      Itaquecetuba: ["Itaqua-Centro", "Pinheirinho", "REC. Monica", "V. Industrial"],
+      Itaquecetuba: [
+        "Itaqua-Centro",
+        "Pinheirinho",
+        "REC. Monica",
+        "V. Industrial",
+      ],
       FerrazDeVasconselos: ["Ferraz De Vasconcelos"],
       Aruja: ["Aruja"],
       Suzano: ["Suzano"],
       Poa: ["Poa"],
       BiritibaMirim: ["Cruz Das Almas", "Hiroy", "Takebe", "Vista Alegre"],
       Salesopolis: ["Salesopolis-Centro", "V. Dos Remedios"],
-      MogiDasCruzes: ["REC. Monica"]
-    }
+      MogiDasCruzes: ["REC. Monica"],
+    },
   };
 
   useEffect(() => {
@@ -100,6 +124,7 @@ const Fechamentos: React.FC = () => {
         SB_Motivo: data.motivo,
         SB_NumeroMZ: data.numeroMZ,
         SB_Prioridade: data.prioridade,
+        SB_Responsavel: data.responsavel,
         SB_Status: "Solicitado",
       };
 
@@ -160,9 +185,18 @@ const Fechamentos: React.FC = () => {
                 <Labeln>Município</Labeln>
                 <Selectn {...register("municipio")}>
                   <Optionn value="">Selecione...</Optionn>
-                  {selectedPolo && municipioOptions[selectedPolo] && Object.keys(municipioOptions[selectedPolo]).map(municipio => (
-                    <Optionn key={municipio} value={municipio}>{municipio.replace(/([A-Z])/g, ' $1').trim().toUpperCase()}</Optionn>
-                  ))}
+                  {selectedPolo &&
+                    municipioOptions[selectedPolo] &&
+                    Object.keys(municipioOptions[selectedPolo]).map(
+                      (municipio) => (
+                        <Optionn key={municipio} value={municipio}>
+                          {municipio
+                            .replace(/([A-Z])/g, " $1")
+                            .trim()
+                            .toUpperCase()}
+                        </Optionn>
+                      )
+                    )}
                 </Selectn>
               </InfoBox>
 
@@ -229,9 +263,17 @@ const Fechamentos: React.FC = () => {
                 <Labeln>Setor de Abastecimento</Labeln>
                 <Selectn {...register("setorAbastecimento")}>
                   <Optionn value="">Selecione...</Optionn>
-                  {selectedPolo && selectedMunicipio && municipioOptions[selectedPolo] && municipioOptions[selectedPolo][selectedMunicipio] && municipioOptions[selectedPolo][selectedMunicipio].map(setor => (
-                    <Optionn key={setor} value={setor}>{setor.toUpperCase()}</Optionn>
-                  ))}
+                  {selectedPolo &&
+                    selectedMunicipio &&
+                    municipioOptions[selectedPolo] &&
+                    municipioOptions[selectedPolo][selectedMunicipio] &&
+                    municipioOptions[selectedPolo][selectedMunicipio].map(
+                      (setor) => (
+                        <Optionn key={setor} value={setor}>
+                          {setor.toUpperCase()}
+                        </Optionn>
+                      )
+                    )}
                 </Selectn>
               </InfoBox>
               <InfoBox>
