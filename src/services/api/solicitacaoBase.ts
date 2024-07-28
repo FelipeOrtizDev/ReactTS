@@ -14,6 +14,7 @@ export interface SolicitacaoBase {
   SB_Prioridade: string;
   SB_Motivo: number;
   SB_Status: string;
+  SB_Responsavel: string;
   SB_Enderecos_id_Endereco: number;
   SB_Endereco: Endereco;
 }

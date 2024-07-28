@@ -80,7 +80,7 @@ const ServicosEmAndamentoPage: React.FC = () => {
                 <CellTable>{solicitacao.SB_Endereco.SB_Polo}</CellTable>
                 <CellTable>{solicitacao.SB_Endereco.SB_Municipio}</CellTable>
                 <CellTable>{solicitacao.SB_Endereco.SB_Logradouro}</CellTable>
-                <CellTable>{solicitacao.SB_DataSolicitacao}</CellTable>
+                <CellTable>{solicitacao.SB_Status}</CellTable>
                 <CellTable>{solicitacao.SB_TipoServico}</CellTable>
                 <CellTable>
                   <Buttons onClick={() => handleEditClick(solicitacao)}>
@@ -100,47 +100,47 @@ const ServicosEmAndamentoPage: React.FC = () => {
           />
         )}
 
-      <div className='pesquisas-e-ocorrencias'>
-        <div className='pesquisas-container'>
-          <div className='titulo-container borda-verde'>
-            <h3>Pesquisas</h3>
+        <div className="pesquisas-e-ocorrencias">
+          <div className="pesquisas-container">
+            <div className="titulo-container borda-verde">
+              <h3>Pesquisas</h3>
+            </div>
+            <div className="lista-container">
+              <div className="linha titulos">
+                <span>Data</span>
+                <span>Hora</span>
+                <span>Polo</span>
+                <span>Município</span>
+                <span>Endereço</span>
+                <span>Tipo</span>
+                <span>Andamento</span>
+              </div>
+            </div>
           </div>
-          <div className='lista-container'>
-            <div className='linha titulos'>
-              <span>Data</span>
-              <span>Hora</span>
-              <span>Polo</span>
-              <span>Município</span>
-              <span>Endereço</span>
-              <span>Tipo</span>
-              <span>Andamento</span>
+          <div className="separador"></div>
+          <div className="ocorrencias-container">
+            <div className="titulo-container borda-verde">
+              <h3>Ocorrências</h3>
+            </div>
+            <div className="lista-container">
+              <div className="linha titulos">
+                <span>Data</span>
+                <span>Hora</span>
+                <span>Polo</span>
+                <span>Município</span>
+                <span>Equipamento</span>
+                <span className="afeta-abastecimento">
+                  Afeta
+                  <br />
+                  Abastecimento
+                </span>
+                <span>Andamento</span>
+              </div>
             </div>
           </div>
         </div>
-        <div className='separador'></div>
-        <div className='ocorrencias-container'>
-          <div className='titulo-container borda-verde'>
-            <h3>Ocorrências</h3>
-          </div>
-          <div className='lista-container'>
-            <div className='linha titulos'>
-              <span>Data</span>
-              <span>Hora</span>
-              <span>Polo</span>
-              <span>Município</span>
-              <span>Equipamento</span>
-              <span className='afeta-abastecimento'>
-                Afeta
-                <br />
-                Abastecimento
-              </span>
-              <span>Andamento</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </Sac>
-  </>
+      </Sac>
+    </>
   );
 };
 
