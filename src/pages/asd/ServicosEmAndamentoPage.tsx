@@ -6,7 +6,6 @@ import {
   SolicitacaoBase,
 } from "../../services/api/solicitacaoBase";
 import EditModal from "../../utils/modals/modaSA";
-import { Buttons } from "../../utils/commonStyles";
 import {
   ListContainer,
   Sac,
@@ -16,6 +15,7 @@ import {
   LineTable,
   CellTable,
   TitleHeadLineTable,
+  Buttons
 } from "./styles";
 
 const ServicosEmAndamentoPage: React.FC = () => {
@@ -55,9 +55,7 @@ const ServicosEmAndamentoPage: React.FC = () => {
 
   return (
     <>
-      <TitleContainer>
-        <h3>Fechamentos</h3>
-      </TitleContainer>
+      <TitleContainer>Fechamentos</TitleContainer>
       <Sac>
         <ListContainer>
           <HeadListTable>

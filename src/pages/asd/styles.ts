@@ -11,9 +11,12 @@ export const Sac = styled.div`
 export const TitleContainer = styled.div`
   background-color: #00a3e2;
   color: white;
-  padding: 10px 0;
+  padding: 1rem;
   border-bottom: 8px solid #5cac28;
   text-align: center;
+  font-size: 1.7rem;
+  font-family: Arial, sans-serif;
+  font-weight: bold;
 `;
 
 export const ListContainer = styled.table`
@@ -47,4 +50,25 @@ export const LineTable = styled.tr`
 
 export const CellTable = styled.td`
   text-align: center;
+`;
+
+export const Buttons = styled.button`
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-evenly;
+    height: 3rem;
+    width: 6rem;
+    border: none;
+    outline: none;
+    color: #fff;
+    border-radius: 5px;
+    background-color: #00a3e2;
+    cursor: pointer;
+    margin: 0.5rem;
+    font-size: 1.3rem;
+    font-weight: 600;
+
+  svg {
+    stroke-width: 1;
+  }
 `;

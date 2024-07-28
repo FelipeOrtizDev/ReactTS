@@ -13,7 +13,13 @@ export interface Fechamento {
   SB_QTDELigacoes: number;
   SB_FechadoPor: string;
   SB_HFSMotivo: string;
+  SB_HSNMotivo: string;
   SB_HSNObservacao: string;
+  SB_Previsão: string;
+  SB_HFSObservacaoFechamento: string;
+  SB_Executante: string;
+  SB_ManobraWFM: string;
+  SB_OFechado: string;
   SB_SolicitacaoBase_id_SolicitacaoBase: number;
   SB_SolicitacaoBase_SB_Enderecos_id_Endereco: number;
 }

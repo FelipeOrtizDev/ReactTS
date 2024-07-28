@@ -142,7 +142,6 @@ const Fechamentos: React.FC = () => {
       await createSolicitacaoBase(solicitacaoBase);
       alert("Solicitação criada com sucesso");
       window.location.href = "/";
-      console.log(createSolicitacaoBase(solicitacaoBase));
     } catch (error) {
       console.error("Erro ao enviar solicitação:", error);
       throw new Error("Erro ao enviar solicitação: " + error);
@@ -224,7 +223,10 @@ const Fechamentos: React.FC = () => {
                 <Labeln>Complemento</Labeln>
                 <Inputn type="text" {...register("complemento")} />
               </InfoBox>
-
+              <InfoBox>
+                <Labeln>Cruzamento</Labeln>
+                <Inputn type="text" {...register("cruzamento")} />
+              </InfoBox>
               <InfoBox>
                 <Labeln>Bairro</Labeln>
                 <Inputn type="text" {...register("bairro")} />
@@ -312,15 +314,15 @@ const Fechamentos: React.FC = () => {
               </InfoBox>
               <InfoBox>
                 <Labeln>Numero MZ</Labeln>
-                <Inputn type="text" {...register("numeroMZ")} disabled={!isMZEnabled}/>
+                <Inputn type="number" {...register("numeroMZ")} disabled={!isMZEnabled}/>
                 
               </InfoBox>
               <InfoBox>
                 <Labeln>Motivo</Labeln>
                 <Selectn {...register("motivo")}>
                   <Optionn value="">Selecione...</Optionn>
-                  <Optionn value="Rede Primária">Rede Primária</Optionn>
-                  <Optionn value="Não Implantada">Não Implantada</Optionn>
+                  <Optionn value={1}>Rede Primária</Optionn>
+                  <Optionn value={0}>Não Implantada</Optionn>
                 </Selectn>
               </InfoBox>
               <InfoBox>

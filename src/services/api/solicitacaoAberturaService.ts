@@ -1,5 +1,4 @@
 import { axiosInstance } from "./conexaoApi";
-import { Endereco } from "./enderecoService";
 
 // Interface para SolicitacaoAbertura
 export interface SolicitacaoAbertura {
@@ -17,7 +16,9 @@ export interface SolicitacaoAbertura {
 }
 
 // Funções de serviço para SolicitacaoAbertura
-export const getSolicitacoesAbertura = async (): Promise<SolicitacaoAbertura[]> => {
+export const getSolicitacoesAbertura = async (): Promise<
+  SolicitacaoAbertura[]
+> => {
   try {
     const response = await axiosInstance.get("/solicitacoes-abertura");
     return response.data;
@@ -30,7 +31,10 @@ export const createSolicitacaoAbertura = async (
   solicitacaoAbertura: SolicitacaoAbertura
 ): Promise<SolicitacaoAbertura> => {
   try {
-    const response = await axiosInstance.post("/solicitacoes-abertura", solicitacaoAbertura);
+    const response = await axiosInstance.post(
+      "/solicitacoes-abertura",
+      solicitacaoAbertura
+    );
     return response.data;
   } catch (error) {
     throw new Error("Erro ao criar solicitação de abertura: " + error);
@@ -42,7 +46,10 @@ export const updateSolicitacaoAbertura = async (
   solicitacaoAbertura: Partial<SolicitacaoAbertura>
 ): Promise<SolicitacaoAbertura> => {
   try {
-    const response = await axiosInstance.put(`/solicitacoes-abertura/${id}`, solicitacaoAbertura);
+    const response = await axiosInstance.put(
+      `/solicitacoes-abertura/${id}`,
+      solicitacaoAbertura
+    );
     return response.data;
   } catch (error) {
     throw new Error("Erro ao atualizar solicitação de abertura: " + error);

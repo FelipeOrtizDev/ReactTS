@@ -1,3 +1,4 @@
+import { Buttons } from "./../../utils/commonStyles";
 import styled from "styled-components";
 
 export const Box = styled.div`
@@ -67,23 +68,21 @@ export const PaginationControls = styled.div`
   }
 `;
 
-export const Buttons = styled.button`
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 35px;
-  width: auto;
-  padding: 0 20px;
-  border: none;
-  outline: none;
-  color: #fff;
-  border-radius: 5px;
-  background-color: #00a3e2;
+export const ButtonsUser = styled(Buttons)`
   transition: all 0.3s linear;
-  cursor: pointer;
-  margin-right: 10px;
-  margin-top: 7px;
   text-decoration: none;
+  padding: 0.7rem;
+  height: 2.2rem;
+
+  svg {
+    stroke-width: 0.5;
+  }
+`;
+
+export const ButtonsUserAdd = styled(ButtonsUser)`
+  width: 20rem;
+  margin-right: 0;
+  height: inherit;
 `;
 
 export const Title = styled.div`
