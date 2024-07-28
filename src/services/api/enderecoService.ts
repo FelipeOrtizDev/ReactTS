@@ -30,7 +30,7 @@ export const createEnderecos = async (
     const response = await axiosInstance.post("/enderecos", endereco);
     return response.data;
   } catch (error) {
-    throw new Error("Erro ao criar endereço" + error);
+    throw new Error("Erro ao criar endereço: " + error);
   }
 };
 
@@ -42,7 +42,7 @@ export const updateEnderecos = async (
     const response = await axiosInstance.put(`/enderecos/${id}`, endereco);
     return response.data;
   } catch (error) {
-    throw new Error("Erro ao atualizar endereços" + error);
+    throw new Error("Erro ao atualizar endereço: " + error);
   }
 };
 
@@ -50,6 +50,6 @@ export const deleteEnderecos = async (id: number): Promise<void> => {
   try {
     await axiosInstance.delete(`/enderecos/${id}`);
   } catch (error) {
-    throw new Error("Erro ao deletar Endereço" + error);
+    throw new Error("Erro ao deletar endereço: " + error);
   }
 };
