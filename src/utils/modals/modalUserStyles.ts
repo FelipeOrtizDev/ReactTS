@@ -94,6 +94,25 @@ export const TextArean = styled.textarea`
   }
 `;
 
+export const ObsArea = styled.textarea`
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #000;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 0.375rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  resize: none;
+  width: 90%;
+
+  @media (max-width: 630px) {
+    font-size: 0.875rem;
+  }
+`;
+
 export const Title = styled.div`
   font-weight: bold;
   color: #000000;

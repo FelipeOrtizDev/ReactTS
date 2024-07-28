@@ -12,6 +12,7 @@ import {
   FieldTwo,
   TextArean,
   Title,
+  ObsArea,
 } from "./modalUserStyles";
 import {
   Buttons,
@@ -119,32 +120,31 @@ const EditModal: React.FC<EditModalProps> = ({
                   )}
                 </InfoBox>
               </Field>
-              {/* // responsavel, prioridade - conectar com iterface */}
               <Field>
                 <InfoBox>
                   <Labeln>Responsável</Labeln>
                   <Inputn
                     type="text"
-                    {...register("SB_Solicitante", {
+                    {...register("SB_Responsavel", {
                       required: "Responsável é obrigatório",
                     })}
                     defaultValue={solicitacao.SB_Responsavel}
                   />
-                  {errors.SB_Solicitante && (
-                    <span>{errors.SB_Solicitante.message}</span>
+                  {errors.SB_Responsavel && (
+                    <span>{errors.SB_Responsavel.message}</span>
                   )}
                 </InfoBox>
                 <InfoBox>
                   <Labeln>Prioridade</Labeln>
                   <Inputn
                     type="text"
-                    {...register("SB_Solicitante", {
+                    {...register("SB_Prioridade", {
                       required: "Prioridade é obrigatória",
                     })}
                     defaultValue={solicitacao.SB_Prioridade}
                   />
-                  {errors.SB_Solicitante && (
-                    <span>{errors.SB_Solicitante.message}</span>
+                  {errors.SB_Prioridade && (
+                    <span>{errors.SB_Prioridade.message}</span>
                   )}
                 </InfoBox>
                 <InfoBox>
@@ -174,7 +174,6 @@ const EditModal: React.FC<EditModalProps> = ({
                   )}
                 </InfoBox>
               </Field>
-              {/* // cruzamen -conect interface */}
               <Field>
                 <InfoBox>
                   <Labeln>Número</Labeln>
@@ -229,7 +228,6 @@ const EditModal: React.FC<EditModalProps> = ({
                   )}
                 </InfoBox>
               </Field>
-              {/* //ref, os , tipo, setor abastecimento */}
               <Field>
                 <InfoBox>
                   <Labeln>Referência</Labeln>
@@ -286,7 +284,6 @@ const EditModal: React.FC<EditModalProps> = ({
                   )}
                 </InfoBox>
               </Field>
-              {/* // Micro, MZ, Motivo */}
               <Field>
                 <InfoBox>
                   <Labeln>Zona de Pressão</Labeln>
@@ -375,6 +372,135 @@ const EditModal: React.FC<EditModalProps> = ({
                 <Optionn value="Sim">Sim</Optionn>
                 <Optionn value="Não">Não</Optionn>
               </Selectn>
+              <Field>
+                <InfoBox>
+                  <Labeln>Data</Labeln>
+                  <Inputn type="date" required/>
+                  {errors.SB_Motivo && <span>{errors.SB_Motivo.message}</span>}
+                </InfoBox>
+                <InfoBox>
+                  <Labeln>Hora</Labeln>
+                  <Inputn type="time"
+                  {...register("SB_HoraSolicitacao", {
+                      required: "Hora é obrigatória",
+                    })}
+                  />
+                  {errors.SB_HoraSolicitacao && (
+                    <span>{errors.SB_HoraSolicitacao.message}</span>
+                  )}
+                </InfoBox>
+                <InfoBox>
+                  <Labeln>Fechado Por</Labeln>
+                  <Inputn type="text"
+                  {...register("SB_HoraSolicitacao", {
+                      required: "Fechado por é obrigatório",
+                    })}
+                  />
+                  {errors.SB_HoraSolicitacao && (
+                    <span>{errors.SB_HoraSolicitacao.message}</span>
+                  )}
+                </InfoBox>
+                <InfoBox>
+                  <Labeln>Rede</Labeln>
+                  <Inputn type="text"
+                  {...register("SB_HoraSolicitacao", {
+                      required: "Rede é obrigatória",
+                    })}
+                  />
+                  {errors.SB_HoraSolicitacao && (
+                    <span>{errors.SB_HoraSolicitacao.message}</span>
+                  )}
+                </InfoBox>
+              </Field>
+              <Field>
+              <InfoBox>
+                  <Labeln>Fechamento</Labeln>
+                  <Inputn type="text"
+                  {...register("SB_HoraSolicitacao", {
+                      required: "Fechamento é obrigatório",
+                    })}
+                  />
+                  {errors.SB_HoraSolicitacao && (
+                    <span>{errors.SB_HoraSolicitacao.message}</span>
+                  )}
+                </InfoBox>
+                <InfoBox>
+                  <Labeln>Utilizou MZ</Labeln>
+                  <Inputn type="text"
+                  {...register("SB_HoraSolicitacao", {
+                      required: "Utilizou MZ é obrigatório",
+                    })}
+                  />
+                  {errors.SB_HoraSolicitacao && (
+                    <span>{errors.SB_HoraSolicitacao.message}</span>
+                  )}
+                </InfoBox>
+                <InfoBox>
+                  <Labeln>Motivo</Labeln>
+                  <Inputn type="text"
+                  {...register("SB_HoraSolicitacao", {
+                      required: "Motivo é obrigatório",
+                    })}
+                  />
+                  {errors.SB_HoraSolicitacao && (
+                    <span>{errors.SB_HoraSolicitacao.message}</span>
+                  )}
+                </InfoBox>
+                <InfoBox>
+                  <Labeln>Manobra WFM</Labeln>
+                  <Inputn type="text"
+                  {...register("SB_HoraSolicitacao", {
+                      required: "Manobra WFM é obrigatório",
+                    })}
+                  />
+                  {errors.SB_HoraSolicitacao && (
+                    <span>{errors.SB_HoraSolicitacao.message}</span>
+                  )}
+                </InfoBox>
+              </Field>
+              <Field>
+              <InfoBox>
+                  <Labeln>Qtde. Ligações</Labeln>
+                  <Inputn type="text"
+                  {...register("SB_HoraSolicitacao", {
+                      required: "Qtde. Ligações é obrigatório",
+                    })}
+                  />
+                  {errors.SB_HoraSolicitacao && (
+                    <span>{errors.SB_HoraSolicitacao.message}</span>
+                  )}
+                </InfoBox>
+                <InfoBox>
+                  <Labeln>Executante</Labeln>
+                  <Inputn type="text"
+                  {...register("SB_HoraSolicitacao", {
+                      required: "Executante é obrigatório",
+                    })}
+                  />
+                  {errors.SB_HoraSolicitacao && (
+                    <span>{errors.SB_HoraSolicitacao.message}</span>
+                  )}
+                </InfoBox>
+                <InfoBox>
+                  <Labeln>Previsão</Labeln>
+                  <Inputn type="text"
+                  {...register("SB_HoraSolicitacao", {
+                      required: "Previsão é obrigatório",
+                    })}
+                  />
+                  {errors.SB_HoraSolicitacao && (
+                    <span>{errors.SB_HoraSolicitacao.message}</span>
+                  )}
+                </InfoBox>
+                <InfoBox>
+                  <Labeln>Observações Fechamento</Labeln>
+                  <ObsArea {...register("SB_HoraSolicitacao")}
+                  />
+                  {errors.SB_HoraSolicitacao && (
+                    <span>{errors.SB_HoraSolicitacao.message}</span>
+                  )}
+                </InfoBox>
+              </Field>
             </SectionBox>
 
             <ButtonsBox>
