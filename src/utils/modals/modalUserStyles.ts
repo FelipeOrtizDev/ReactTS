@@ -16,37 +16,24 @@ export const ModalContent = styled.div`
   background-color: #fff;
   padding: 20px;
   border-radius: 8px;
-  width: 80%;
-  height: 95vh;
+  width: 90%;
+  max-width: 1200px;
+  max-height: 90vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  overflow-y: auto; /* Adicionar scroll vertical */
+  overflow-y: auto; /* Garantir scroll vertical */
 
-  @media (max-width: 630px) {
-    width: 100%;
+  @media (max-width: 992px) {
+    max-width: 90%;
     padding: 1rem;
-    margin: 2% auto;
   }
 
-  @media (min-width: 576px) {
-    max-width: 540px;
+  @media (max-width: 768px) {
+    max-width: 95%;
   }
 
-  @media (min-width: 768px) {
-    max-width: 720px;
-  }
-
-  @media (min-width: 992px) {
-    max-width: 960px;
-  }
-
-  @media (min-width: 1200px) {
-    max-width: 1140px;
-  }
-
-  @media (min-width: 1400px) {
-    max-width: 1320px;
+  @media (max-width: 576px) {
+    padding: 0.5rem;
   }
 `;
 
@@ -63,6 +50,7 @@ export const Formn = styled.form`
 export const Field = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
 
   @media (max-width: 1008px) {
     grid-template-columns: repeat(2, 1fr);
@@ -80,6 +68,11 @@ export const Field = styled.div`
 export const FieldTwo = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+
+  @media (max-width: 576px) {
+    grid-template-columns: 1fr;
+  }
 `;
 
 export const TextArean = styled.textarea`
@@ -106,5 +99,9 @@ export const Title = styled.div`
   color: #000000;
   font-size: 2rem;
   text-align: left;
-  padding-top: 2rem;
+
+  @media (max-width: 576px) {
+    font-size: 1.5rem;
+    text-align: center;
+  }
 `;
