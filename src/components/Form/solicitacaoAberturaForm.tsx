@@ -39,7 +39,7 @@ const SolicitacaoAberturaForm: React.FC<SolicitacaoAberturaFormProps> = ({
   return (
     <Formn onSubmit={handleSubmit(handleFormSubmit)}>
       <SectionBox>
-        <SectionTitle>Solicitação de Abertura</SectionTitle>
+        <Title>Solicitação de Abertura</Title>
         <Field>
           <InfoBox>
             <Labeln>Data Abertura</Labeln>
@@ -78,7 +78,7 @@ const SolicitacaoAberturaForm: React.FC<SolicitacaoAberturaFormProps> = ({
             )}
           </InfoBox>
         </Field>
-        <Title>Acatamento Abertura</Title>
+        <SectionTitle>Acatamento Abertura</SectionTitle>
         <FieldTwo>
           <InfoBox>
             <Labeln>Data Abertura</Labeln>
