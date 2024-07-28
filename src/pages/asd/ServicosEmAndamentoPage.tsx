@@ -7,7 +7,16 @@ import {
 } from "../../services/api/solicitacaoBase";
 import EditModal from "../../utils/modals/modaSA";
 import { Buttons } from "../../utils/commonStyles";
-import { ListContainer, Sac, TitleContainer, HeadListTable, BodyTable, LineTable, CellTable, TitleHeadLineTable } from "./styles";
+import {
+  ListContainer,
+  Sac,
+  TitleContainer,
+  HeadListTable,
+  BodyTable,
+  LineTable,
+  CellTable,
+  TitleHeadLineTable,
+} from "./styles";
 
 const ServicosEmAndamentoPage: React.FC = () => {
   const [solicitacoes, setSolicitacoes] = useState<SolicitacaoBase[]>([]);
@@ -44,155 +53,54 @@ const ServicosEmAndamentoPage: React.FC = () => {
     setModalOpen(false);
   };
 
-  return (<>
-    <TitleContainer>
-      <h3>Fechamentos</h3>
-    </TitleContainer>
-    <Sac>
-      <ListContainer>
-        <HeadListTable>
-          <TitleHeadLineTable>
-            <th>Data</th>
-            <th>Hora</th>
-            <th>Polo</th>
-            <th>Município</th>
-            <th>Endereço</th>
-            <th>Status</th>
-            <th>Andamento</th>
-            <th>Ações</th>
-          </TitleHeadLineTable>
-        </HeadListTable>
-        <BodyTable>
-          {solicitacoes.map((solicitacao) => (
-            <LineTable key={solicitacao.id_SolicitacaoBase}>
-              <CellTable>{solicitacao.SB_DataSolicitacao}</CellTable>
-              <CellTable>{solicitacao.SB_HoraSolicitacao}</CellTable>
-              <CellTable>{solicitacao.SB_NumeroOS}</CellTable>
-              <CellTable>{solicitacao.SB_Microzona}</CellTable>
-              <CellTable>{solicitacao.SB_Observacoes}</CellTable>
-              <CellTable>{solicitacao.SB_Solicitante}</CellTable>
-              <CellTable>{solicitacao.SB_TipoServico}</CellTable>
-              <CellTable>
-                <Buttons onClick={() => handleEditClick(solicitacao)}>
-                  Editar
-                  <BsPencil />
-                </Buttons>
-              </CellTable>
-            </LineTable>
-          ))}
-          {solicitacoes.map((solicitacao) => (
-            <LineTable key={solicitacao.id_SolicitacaoBase}>
-              <CellTable>{solicitacao.SB_DataSolicitacao}</CellTable>
-              <CellTable>{solicitacao.SB_HoraSolicitacao}</CellTable>
-              <CellTable>{solicitacao.SB_NumeroOS}</CellTable>
-              <CellTable>{solicitacao.SB_Microzona}</CellTable>
-              <CellTable>{solicitacao.SB_Observacoes}</CellTable>
-              <CellTable>{solicitacao.SB_Solicitante}</CellTable>
-              <CellTable>{solicitacao.SB_TipoServico}</CellTable>
-              <CellTable>
-                <Buttons onClick={() => handleEditClick(solicitacao)}>
-                  Editar
-                  <BsPencil />
-                </Buttons>
-              </CellTable>
-            </LineTable>
-          ))}
-          {solicitacoes.map((solicitacao) => (
-            <LineTable key={solicitacao.id_SolicitacaoBase}>
-              <CellTable>{solicitacao.SB_DataSolicitacao}</CellTable>
-              <CellTable>{solicitacao.SB_HoraSolicitacao}</CellTable>
-              <CellTable>{solicitacao.SB_NumeroOS}</CellTable>
-              <CellTable>{solicitacao.SB_Microzona}</CellTable>
-              <CellTable>{solicitacao.SB_Observacoes}</CellTable>
-              <CellTable>{solicitacao.SB_Solicitante}</CellTable>
-              <CellTable>{solicitacao.SB_TipoServico}</CellTable>
-              <CellTable>
-                <Buttons onClick={() => handleEditClick(solicitacao)}>
-                  Editar
-                  <BsPencil />
-                </Buttons>
-              </CellTable>
-            </LineTable>
-          ))}
-          {solicitacoes.map((solicitacao) => (
-            <LineTable key={solicitacao.id_SolicitacaoBase}>
-              <CellTable>{solicitacao.SB_DataSolicitacao}</CellTable>
-              <CellTable>{solicitacao.SB_HoraSolicitacao}</CellTable>
-              <CellTable>{solicitacao.SB_NumeroOS}</CellTable>
-              <CellTable>{solicitacao.SB_Microzona}</CellTable>
-              <CellTable>{solicitacao.SB_Observacoes}</CellTable>
-              <CellTable>{solicitacao.SB_Solicitante}</CellTable>
-              <CellTable>{solicitacao.SB_TipoServico}</CellTable>
-              <CellTable>
-                <Buttons onClick={() => handleEditClick(solicitacao)}>
-                  Editar
-                  <BsPencil />
-                </Buttons>
-              </CellTable>
-            </LineTable>
-          ))}
-          {solicitacoes.map((solicitacao) => (
-            <LineTable key={solicitacao.id_SolicitacaoBase}>
-              <CellTable>{solicitacao.SB_DataSolicitacao}</CellTable>
-              <CellTable>{solicitacao.SB_HoraSolicitacao}</CellTable>
-              <CellTable>{solicitacao.SB_NumeroOS}</CellTable>
-              <CellTable>{solicitacao.SB_Microzona}</CellTable>
-              <CellTable>{solicitacao.SB_Observacoes}</CellTable>
-              <CellTable>{solicitacao.SB_Solicitante}</CellTable>
-              <CellTable>{solicitacao.SB_TipoServico}</CellTable>
-              <CellTable>
-                <Buttons onClick={() => handleEditClick(solicitacao)}>
-                  Editar
-                  <BsPencil />
-                </Buttons>
-              </CellTable>
-            </LineTable>
-          ))}
-          {solicitacoes.map((solicitacao) => (
-            <LineTable key={solicitacao.id_SolicitacaoBase}>
-              <CellTable>{solicitacao.SB_DataSolicitacao}</CellTable>
-              <CellTable>{solicitacao.SB_HoraSolicitacao}</CellTable>
-              <CellTable>{solicitacao.SB_NumeroOS}</CellTable>
-              <CellTable>{solicitacao.SB_Microzona}</CellTable>
-              <CellTable>{solicitacao.SB_Observacoes}</CellTable>
-              <CellTable>{solicitacao.SB_Solicitante}</CellTable>
-              <CellTable>{solicitacao.SB_TipoServico}</CellTable>
-              <CellTable>
-                <Buttons onClick={() => handleEditClick(solicitacao)}>
-                  Editar
-                  <BsPencil />
-                </Buttons>
-              </CellTable>
-            </LineTable>
-          ))}
-          {solicitacoes.map((solicitacao) => (
-            <LineTable key={solicitacao.id_SolicitacaoBase}>
-              <CellTable>{solicitacao.SB_DataSolicitacao}</CellTable>
-              <CellTable>{solicitacao.SB_HoraSolicitacao}</CellTable>
-              <CellTable>{solicitacao.SB_NumeroOS}</CellTable>
-              <CellTable>{solicitacao.SB_Microzona}</CellTable>
-              <CellTable>{solicitacao.SB_Observacoes}</CellTable>
-              <CellTable>{solicitacao.SB_Solicitante}</CellTable>
-              <CellTable>{solicitacao.SB_TipoServico}</CellTable>
-              <CellTable>
-                <Buttons onClick={() => handleEditClick(solicitacao)}>
-                  Editar
-                  <BsPencil />
-                </Buttons>
-              </CellTable>
-            </LineTable>
-          ))}
-        </BodyTable>
-      </ListContainer>
-      {isModalOpen && selectedSolicitacao && (
-        <EditModal
-          solicitacao={selectedSolicitacao}
-          onClose={() => setModalOpen(false)}
-          onSave={handleSave}
-        />
-      )}
+  return (
+    <>
+      <TitleContainer>
+        <h3>Fechamentos</h3>
+      </TitleContainer>
+      <Sac>
+        <ListContainer>
+          <HeadListTable>
+            <TitleHeadLineTable>
+              <th>Data</th>
+              <th>Hora</th>
+              <th>Polo</th>
+              <th>Município</th>
+              <th>Endereço</th>
+              <th>Status</th>
+              <th>Andamento</th>
+              <th>Ações</th>
+            </TitleHeadLineTable>
+          </HeadListTable>
+          <BodyTable>
+            {solicitacoes.map((solicitacao) => (
+              <LineTable key={solicitacao.id_SolicitacaoBase}>
+                <CellTable>{solicitacao.SB_DataSolicitacao}</CellTable>
+                <CellTable>{solicitacao.SB_HoraSolicitacao}</CellTable>
+                <CellTable>{solicitacao.SB_Endereco.SB_Polo}</CellTable>
+                <CellTable>{solicitacao.SB_Endereco.SB_Municipio}</CellTable>
+                <CellTable>{solicitacao.SB_Endereco.SB_Logradouro}</CellTable>
+                <CellTable>{solicitacao.SB_DataSolicitacao}</CellTable>
+                <CellTable>{solicitacao.SB_TipoServico}</CellTable>
+                <CellTable>
+                  <Buttons onClick={() => handleEditClick(solicitacao)}>
+                    Editar
+                    <BsPencil />
+                  </Buttons>
+                </CellTable>
+              </LineTable>
+            ))}
+          </BodyTable>
+        </ListContainer>
+        {isModalOpen && selectedSolicitacao && (
+          <EditModal
+            solicitacao={selectedSolicitacao}
+            onClose={() => setModalOpen(false)}
+            onSave={handleSave}
+          />
+        )}
 
-      {/*       <div className='pesquisas-e-ocorrencias'>
+        {/*       <div className='pesquisas-e-ocorrencias'>
         <div className='pesquisas-container'>
           <div className='titulo-container borda-verde'>
             <h3>Pesquisas</h3>
@@ -231,8 +139,8 @@ const ServicosEmAndamentoPage: React.FC = () => {
           </div>
         </div>
       </div> */}
-    </Sac>
-  </>
+      </Sac>
+    </>
   );
 };
 
