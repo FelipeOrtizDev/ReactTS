@@ -8,8 +8,8 @@ import {
   SectionBox,
   SectionTitle,
 } from "../../pages/Fechamento/styles";
-import { Inputn } from "../../utils/commonStyles";
-import { Formn } from "../../utils/modals/modalUserStyles";
+import { Inputn, Title } from "../../utils/commonStyles";
+import { FieldTwo, Formn, ObsArea } from "../../utils/modals/modalUserStyles";
 
 interface SolicitacaoAberturaFormProps {
   solicitacaoAbertura: SolicitacaoAbertura;
@@ -23,6 +23,7 @@ const SolicitacaoAberturaForm: React.FC<SolicitacaoAberturaFormProps> = ({
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm<SolicitacaoAbertura>({
     defaultValues: solicitacaoAbertura,
@@ -31,11 +32,13 @@ const SolicitacaoAberturaForm: React.FC<SolicitacaoAberturaFormProps> = ({
   const handleFormSubmit: SubmitHandler<SolicitacaoAbertura> = (data) => {
     onSubmit(data);
   };
+  // const servAceitoValue = watch();
+  // const hasAberturaValue = watch();
 
   return (
     <Formn onSubmit={handleSubmit(handleFormSubmit)}>
       <SectionBox>
-        <SectionTitle> Solicitação Abertura ?</SectionTitle>
+        <SectionTitle>Solicitação de Abertura</SectionTitle>
         <Field>
           <InfoBox>
             <Labeln>Data Abertura</Labeln>
@@ -50,10 +53,83 @@ const SolicitacaoAberturaForm: React.FC<SolicitacaoAberturaFormProps> = ({
             )}
           </InfoBox>
           <InfoBox>
-            <Labeln>Motivo</Labeln>
-            <Inputn type="text" {...register("SB_HNMotivo")} />
+            <Labeln>Hora</Labeln>
+            <Inputn
+              type="time"
+              {...register("SB_HoraAbertura", {
+                required: "Hora é obrigatória",
+              })}
+            />
+            {errors.SB_HoraAbertura && (
+              <span>{errors.SB_HoraAbertura.message}</span>
+            )}
+          </InfoBox>
+          <InfoBox>
+            <Labeln>Solicitante</Labeln>
+            <Inputn
+              type="text"
+              {...register("SB_Solicitante", {
+                required: "Data Abertura é obrigatória",
+              })}
+            />
+            {errors.SB_Solicitante && (
+              <span>{errors.SB_Solicitante.message}</span>
+            )}
           </InfoBox>
         </Field>
+        <Title>Acatamento Abertura</Title>
+        <FieldTwo>
+          <InfoBox>
+            <Labeln>Data Abertura</Labeln>
+            <Inputn
+              type="date"
+              {...register("SB_DataAbertura", {
+                required: "Data Abertura é obrigatória",
+              })}
+            />
+            {errors.SB_DataAbertura && (
+              <span>{errors.SB_DataAbertura.message}</span>
+            )}
+          </InfoBox>
+          <InfoBox>
+            <Labeln>Passado Para</Labeln>
+            <Inputn
+              type="text"
+              {...register("SB_Solicitante", {
+                required: "Data Abertura é obrigatória",
+              })}
+            />
+            {errors.SB_Solicitante && (
+              <span>{errors.SB_Solicitante.message}</span>
+            )}
+          </InfoBox>
+        </FieldTwo>
+        <FieldTwo>
+          <InfoBox>
+            <Labeln>Previsão</Labeln>
+            <Inputn
+              type="time"
+            // {...register("", {
+            //   required: "Previsão é obrigatória",
+            // })}
+            />
+            {/* {errors.SB_Previsão && (
+                    <span>{errors.SB_Previsão.message}</span>
+                  )} */}
+          </InfoBox>
+          <InfoBox>
+            <Labeln>Observações</Labeln>
+            <ObsArea
+            // {...register("SB_HFSObservacaoFechamento")} 
+            />
+            {/* {errors.SB_HFSObservacaoFechamento && (
+                    <span>{errors.SB_HFSObservacaoFechamento.message}</span>
+                  )} */}
+          </InfoBox>
+        </FieldTwo>
+      </SectionBox>
+      <SectionBox>
+        <SectionTitle>O Serviço de Abertura foi aceito?</SectionTitle>
       </SectionBox>
     </Formn>
   );
