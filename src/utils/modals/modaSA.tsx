@@ -27,15 +27,18 @@ import {
   SectionBox,
   SectionTitle,
 } from "../../pages/Fechamento/styles";
+import { Acatamento } from "../../services/api/acatamentoService";
 
 interface EditModalProps {
   solicitacao: SolicitacaoBase;
+  acamento: Acatamento;
   onClose: () => void;
   onSave: (updated: SolicitacaoBase) => void;
 }
 
 const EditModal: React.FC<EditModalProps> = ({
   solicitacao,
+  acamento,
   onClose,
   onSave,
 }) => {
@@ -43,7 +46,7 @@ const EditModal: React.FC<EditModalProps> = ({
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<SolicitacaoBase>();
+  } = useForm<SolicitacaoBase, Acatamento>();
 
   const onSubmit = async (data: SolicitacaoBase) => {
     try {
@@ -350,21 +353,30 @@ const EditModal: React.FC<EditModalProps> = ({
               <FieldTwo>
                 <InfoBox>
                   <Labeln>Data</Labeln>
-                  <Inputn type="date" />
+                  <Inputn
+                    type="date"
+                    defaultValue={acamento.SB_DataAcatamento}
+                  />
                 </InfoBox>
                 <InfoBox>
                   <Labeln>Passado Para</Labeln>
-                  <Inputn type="text" />
+                  <Inputn
+                    type="text"
+                    defaultValue={acamento.SB_EquipeResponsavel}
+                  />
                 </InfoBox>
               </FieldTwo>
               <FieldTwo>
                 <InfoBox>
                   <Labeln>Previsão (h)</Labeln>
-                  <Inputn type="time" />
+                  <Inputn
+                    type="time"
+                    defaultValue={acamento.SB_PrvisãoAcatamento}
+                  />
                 </InfoBox>
                 <InfoBox>
                   <Labeln>Observações</Labeln>
-                  <TextArean />
+                  <TextArean defaultValue={acamento.SB_ObservacaoAcatamento} />
                 </InfoBox>
               </FieldTwo>
             </SectionBox>
