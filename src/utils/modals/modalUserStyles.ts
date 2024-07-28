@@ -106,4 +106,5 @@ export const Title = styled.div`
   color: #000000;
   font-size: 2rem;
   text-align: left;
+  padding-top: 2rem;
 `;
