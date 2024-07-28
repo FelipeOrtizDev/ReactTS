@@ -2,8 +2,8 @@ import { axiosInstance } from "./conexaoApi";
 
 export interface Acatamento {
   id_Acatamentos?: number;
-  SB_DataAcatamento: string;
-  SB_PrvisãoAcatamento: number;
+  SB_DataAcatamento?: string;
+  SB_PrvisãoAcatamento: string;
   SB_EquipeResponsavel: string;
   SB_ObservacaoAcatamento: string;
   SB_SolicitacaoBase_id_SolicitacaoBase: number;
