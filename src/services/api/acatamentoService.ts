@@ -5,9 +5,9 @@ export interface Acatamento {
   SB_DataAcatamento: string;
   SB_PrvisãoAcatamento: string;
   SB_EquipeResponsavel: string;
-  SB_Fechamentos_id_Fechamentos: number;
-  SB_Fechamentos_SB_SolicitacaoBase_id_SolicitacaoBase: number;
-  SB_Fechamentos_SB_SolicitacaoBase_SB_Enderecos_id_Endereco: number;
+  SB_ObservacaoAcatamento: string;
+  SB_SolicitacaoBase_id_SolicitacaoBase: number;
+  SB_SolicitacaoBase_SB_Enderecos_id_Endereco: number;
 }
 
 export const getAcatamentos = async (): Promise<Acatamento[]> => {
