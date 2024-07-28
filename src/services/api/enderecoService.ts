@@ -11,6 +11,7 @@ export interface Endereco {
   SB_Polo: string;
   SB_Referencia: string;
   SB_SetorAbastecimento: string;
+  SB_Cruzamento: string;
 }
 
 export const getEnderecos = async (): Promise<Endereco[]> => {

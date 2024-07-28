@@ -9,7 +9,7 @@ import {
   TextArean,
   Title,
 } from "./styles";
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { createEnderecos, Endereco } from "../../services/api/enderecoService";
 import {
@@ -28,7 +28,37 @@ import {
 import { Link } from "react-router-dom";
 
 const Fechamentos: React.FC = () => {
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit, reset, watch, setValue } = useForm();
+  const selectedPolo = watch("polo");
+  const selectedMunicipio = watch("municipio");
+
+  const municipioOptions: {
+    [key: string]: {
+      [key: string]: string[];
+    };
+  } = {
+    Itaquera: { SãoPaulo: ["Artur Alvin", "Carmo", "CID. Tiradentes", "Guaianazes", "Itaquera", "Savoy", "STA. Etelvina"] },
+    Penha: { SãoPaulo: ["Cangaiba", "Ermelino Matarazoo", "Itam PTA.", "JD. Popular", "Penha", "Sao Miguel PTA."] },
+    Suzano: {
+      Itaquecetuba: ["Itaqua-Centro", "Pinheirinho", "REC. Monica", "V. Industrial"],
+      FerrazDeVasconselos: ["Ferraz De Vasconcelos"],
+      Aruja: ["Aruja"],
+      Suzano: ["Suzano"],
+      Poa: ["Poa"],
+      BiritibaMirim: ["Cruz Das Almas", "Hiroy", "Takebe", "Vista Alegre"],
+      Salesopolis: ["Salesopolis-Centro", "V. Dos Remedios"],
+      MogiDasCruzes: ["REC. Monica"]
+    }
+  };
+
+  useEffect(() => {
+    setValue("municipio", "");
+    setValue("setorAbastecimento", "");
+  }, [selectedPolo, setValue]);
+
+  useEffect(() => {
+    setValue("setorAbastecimento", "");
+  }, [selectedMunicipio, setValue]);
 
   const onSubmit = async (data: any) => {
     const endereco: Endereco = {
@@ -41,6 +71,7 @@ const Fechamentos: React.FC = () => {
       SB_ZonaPressao: data.zonaPressao,
       SB_Polo: data.polo,
       SB_Referencia: data.referencia,
+      SB_Cruzamento: data.cruzamento,
       SB_SetorAbastecimento: data.setorAbastecimento,
     };
 
@@ -66,21 +97,27 @@ const Fechamentos: React.FC = () => {
         SB_Solicitante: data.solicitante,
         SB_Enderecos_id_Endereco: createdEndereco.id_Endereco,
         SB_Endereco: createdEndereco,
+        SB_Motivo: data.motivo,
+        SB_NumeroMZ: data.numeroMZ,
+        SB_Prioridade: data.prioridade,
+        SB_Status: "Solicitado",
       };
-      console.log(solicitacaoBase);
 
       // Enviar a solicitação base
       await createSolicitacaoBase(solicitacaoBase);
       alert("Solicitação criada com sucesso");
-      window.location.href = "/";
+      /* window.location.href = "/"; */
+      console.log(createSolicitacaoBase(solicitacaoBase));
     } catch (error) {
       console.error("Erro ao enviar solicitação:", error);
       throw new Error("Erro ao enviar solicitação: " + error);
     }
   };
+
   const handleReset = () => {
     reset(); // Resetar todos os campos do formulário para seus valores iniciais
   };
+
   return (
     <>
       <Box>
@@ -101,7 +138,9 @@ const Fechamentos: React.FC = () => {
                 <Labeln>Polo</Labeln>
                 <Selectn {...register("polo")}>
                   <Optionn value="">Selecione...</Optionn>
-                  <Optionn value="teste">Teste</Optionn>
+                  <Optionn value="Itaquera">Itaquera</Optionn>
+                  <Optionn value="Penha">Penha</Optionn>
+                  <Optionn value="Suzano">Suzano</Optionn>
                 </Selectn>
               </InfoBox>
               <InfoBox>
@@ -121,7 +160,9 @@ const Fechamentos: React.FC = () => {
                 <Labeln>Município</Labeln>
                 <Selectn {...register("municipio")}>
                   <Optionn value="">Selecione...</Optionn>
-                  <Optionn value="SP">São Paulo</Optionn>
+                  {selectedPolo && municipioOptions[selectedPolo] && Object.keys(municipioOptions[selectedPolo]).map(municipio => (
+                    <Optionn key={municipio} value={municipio}>{municipio.replace(/([A-Z])/g, ' $1').trim()}</Optionn>
+                  ))}
                 </Selectn>
               </InfoBox>
 
@@ -188,14 +229,16 @@ const Fechamentos: React.FC = () => {
                 <Labeln>Setor de Abastecimento</Labeln>
                 <Selectn {...register("setorAbastecimento")}>
                   <Optionn value="">Selecione...</Optionn>
-                  <Optionn value="ZonaLeste">Zona Leste</Optionn>
+                  {selectedPolo && selectedMunicipio && municipioOptions[selectedPolo] && municipioOptions[selectedPolo][selectedMunicipio] && municipioOptions[selectedPolo][selectedMunicipio].map(setor => (
+                    <Optionn key={setor} value={setor}>{setor}</Optionn>
+                  ))}
                 </Selectn>
               </InfoBox>
               <InfoBox>
                 <Labeln>Zona de Pressão</Labeln>
                 <Selectn {...register("zonaPressao")}>
                   <Optionn value="">Selecione...</Optionn>
-                  <Optionn value="Alta">ALta</Optionn>
+                  <Optionn value="Alta">Alta</Optionn>
                 </Selectn>
               </InfoBox>
               <InfoBox>
@@ -251,4 +294,5 @@ const Fechamentos: React.FC = () => {
     </>
   );
 };
+
 export default Fechamentos;
