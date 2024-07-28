@@ -3,18 +3,21 @@ import React from "react";
 import SolicitacaoBaseForm from "../../components/Form/SolicitacaoBaseForm";
 import AcatamentoForm from "../../components/Form/AcatamentoForm";
 import SolicitacaoAberturaForm from "../../components/Form/solicitacaoAberturaForm";
-import AcatamentoAberturaForm from "../../components/Form/AcatamentoAberturaForm";
+import FechamentoForm from "../../components/Form/fechamentoForm";
 
-import { ModalContainer, ModalContent, Title } from "./modalUserStyles";
 import { SolicitacaoBase } from "../../services/api/solicitacaoBase";
 import { SolicitacaoAbertura } from "../../services/api/solicitacaoAberturaService";
-import { AcatamentosAbertura } from "../../services/api/acatamentosAberturaService";
 import { Acatamento } from "../../services/api/acatamentoService";
+import { Fechamento } from "../../services/api/fechamentoService";
+
+import { ModalContainer, ModalContent, Title } from "./modalUserStyles";
+import { Buttons } from "../commonStyles";
+
 interface EditModalProps {
   solicitacao: SolicitacaoBase;
   acatamento: Acatamento;
   solicitacaoAbertura: SolicitacaoAbertura;
-  acatamentoAbertura: AcatamentosAbertura;
+  fechamento: Fechamento;
   onClose: () => void;
   onSave: (updated: any) => void;
 }
@@ -23,7 +26,7 @@ const EditModal: React.FC<EditModalProps> = ({
   solicitacao,
   acatamento,
   solicitacaoAbertura,
-  acatamentoAbertura,
+  fechamento,
   onClose,
   onSave,
 }) => {
@@ -58,11 +61,11 @@ const EditModal: React.FC<EditModalProps> = ({
     }
   };
 
-  const handleAcatamentoAberturaSubmit = async (data: AcatamentosAbertura) => {
+  const handleFechamentoSubmit = async (data: Fechamento) => {
     try {
       console.log("Acatamento Abertura:", data);
       // Add logic for handling form submission, e.g., API call
-      onSave({ acatamentoAbertura: data });
+      onSave({ fechamento: data });
     } catch (error) {
       console.error("Erro ao enviar acatamento abertura:", error);
     }
@@ -80,17 +83,17 @@ const EditModal: React.FC<EditModalProps> = ({
           acatamento={acatamento}
           onSubmit={handleAcatamentoSubmit}
         />
+        <FechamentoForm
+          fechamento={fechamento}
+          onSubmit={handleFechamentoSubmit}
+        />
         <SolicitacaoAberturaForm
           solicitacaoAbertura={solicitacaoAbertura}
           onSubmit={handleSolicitacaoAberturaSubmit}
         />
-        <AcatamentoAberturaForm
-          acatamentoAbertura={acatamentoAbertura}
-          onSubmit={handleAcatamentoAberturaSubmit}
-        />
-        <button type="button" onClick={onClose}>
+        <Buttons type="button" onClick={onClose}>
           Fechar
-        </button>
+        </Buttons>
       </ModalContent>
     </ModalContainer>
   );
