@@ -7,7 +7,6 @@ import {
   SectionBox,
   SectionTitle,
   TextArean,
-  Title,
 } from "./styles";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -24,6 +23,7 @@ import {
   Inputn,
   Optionn,
   Selectn,
+  Title,
 } from "../../utils/commonStyles";
 import { Link } from "react-router-dom";
 
@@ -71,6 +71,7 @@ const Fechamentos: React.FC = () => {
       SB_ZonaPressao: data.zonaPressao,
       SB_Polo: data.polo,
       SB_Referencia: data.referencia,
+      SB_Cruzamento: data.cruzamento,
       SB_SetorAbastecimento: data.setorAbastecimento,
     };
 
@@ -96,13 +97,17 @@ const Fechamentos: React.FC = () => {
         SB_Solicitante: data.solicitante,
         SB_Enderecos_id_Endereco: createdEndereco.id_Endereco,
         SB_Endereco: createdEndereco,
+        SB_Motivo: data.motivo,
+        SB_NumeroMZ: data.numeroMZ,
+        SB_Prioridade: data.prioridade,
+        SB_Status: "Solicitado",
       };
-      console.log(solicitacaoBase);
 
       // Enviar a solicitação base
       await createSolicitacaoBase(solicitacaoBase);
       alert("Solicitação criada com sucesso");
       window.location.href = "/";
+      console.log(createSolicitacaoBase(solicitacaoBase));
     } catch (error) {
       console.error("Erro ao enviar solicitação:", error);
       throw new Error("Erro ao enviar solicitação: " + error);
@@ -133,9 +138,9 @@ const Fechamentos: React.FC = () => {
                 <Labeln>Polo</Labeln>
                 <Selectn {...register("polo")}>
                   <Optionn value="">Selecione...</Optionn>
-                  <Optionn value="Itaquera">Itaquera</Optionn>
-                  <Optionn value="Penha">Penha</Optionn>
-                  <Optionn value="Suzano">Suzano</Optionn>
+                  <Optionn value="Itaquera">ITAQUERA</Optionn>
+                  <Optionn value="Penha">PENHA/ SÃO MIGUEL</Optionn>
+                  <Optionn value="Suzano">SUZANO/ ITAQUA</Optionn>
                 </Selectn>
               </InfoBox>
               <InfoBox>
@@ -156,7 +161,7 @@ const Fechamentos: React.FC = () => {
                 <Selectn {...register("municipio")}>
                   <Optionn value="">Selecione...</Optionn>
                   {selectedPolo && municipioOptions[selectedPolo] && Object.keys(municipioOptions[selectedPolo]).map(municipio => (
-                    <Optionn key={municipio} value={municipio}>{municipio.replace(/([A-Z])/g, ' $1').trim()}</Optionn>
+                    <Optionn key={municipio} value={municipio}>{municipio.replace(/([A-Z])/g, ' $1').trim().toUpperCase()}</Optionn>
                   ))}
                 </Selectn>
               </InfoBox>
@@ -225,7 +230,7 @@ const Fechamentos: React.FC = () => {
                 <Selectn {...register("setorAbastecimento")}>
                   <Optionn value="">Selecione...</Optionn>
                   {selectedPolo && selectedMunicipio && municipioOptions[selectedPolo] && municipioOptions[selectedPolo][selectedMunicipio] && municipioOptions[selectedPolo][selectedMunicipio].map(setor => (
-                    <Optionn key={setor} value={setor}>{setor}</Optionn>
+                    <Optionn key={setor} value={setor}>{setor.toUpperCase()}</Optionn>
                   ))}
                 </Selectn>
               </InfoBox>
