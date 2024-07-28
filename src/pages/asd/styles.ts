@@ -6,9 +6,6 @@ export const Sac = styled.div`
   height: 100vh;
   display: flex;
   flex-direction: column;
-  overflow: scroll;
-  overflow-x: auto;
-  overflow-y: auto;
 `;
 
 export const TitleContainer = styled.div`

@@ -8,7 +8,7 @@ export const Box = styled.div`
   padding: 2rem;
   margin: 3% auto;
   border-radius: 10px;
-  max-height: 90vh; /* Ajusta a altura máxima */
+  height: 87vh; /* Ajusta a altura máxima */
   overflow-y: auto; /* Adiciona a rolagem vertical */
 
   @media (min-width: 576px) {
@@ -28,17 +28,9 @@ export const Box = styled.div`
   }
 `;
 
-export const Title = styled.div`
-  font-weight: bold;
-  color: #000000;
-  font-size: 2rem;
-  text-align: left;
-`;
-
 export const Field = styled.div`
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1rem;
 
   @media (min-width: 768px) {
     grid-template-columns: 1fr 1fr;
@@ -52,7 +44,6 @@ export const Field = styled.div`
 export const SectionBox = styled.div`
   display: flex;
   flex-direction: column;
-  margin-bottom: 1rem;
 `;
 
 export const SectionTitle = styled.div`
@@ -61,8 +52,7 @@ export const SectionTitle = styled.div`
   color: #333;
   width: 100%;
   text-align: left;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+  margin-top: 0.5rem;
   line-height: 1.5;
 `;
 

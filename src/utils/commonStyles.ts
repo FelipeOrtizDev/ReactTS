@@ -1,5 +1,6 @@
 import styled from "styled-components";
 
+
 export const Inputn = styled.input`
   padding: 0.375rem 0.75rem;
   font-size: 1rem;
@@ -11,6 +12,13 @@ export const Inputn = styled.input`
   border: 1px solid #ced4da;
   border-radius: 0.375rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+`;
+
+export const Title = styled.div`
+  font-weight: bold;
+  color: #000000;
+  font-size: 2rem;
+  text-align: left;
 `;
 
 export const Selectn = styled.select`
