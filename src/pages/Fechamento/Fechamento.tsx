@@ -41,6 +41,7 @@ const Fechamentos: React.FC = () => {
       SB_ZonaPressao: data.zonaPressao,
       SB_Polo: data.polo,
       SB_Referencia: data.referencia,
+      SB_Cruzamento: data.cruzamento,
       SB_SetorAbastecimento: data.setorAbastecimento,
     };
 
@@ -66,13 +67,17 @@ const Fechamentos: React.FC = () => {
         SB_Solicitante: data.solicitante,
         SB_Enderecos_id_Endereco: createdEndereco.id_Endereco,
         SB_Endereco: createdEndereco,
+        SB_Motivo: data.motivo,
+        SB_NumeroMZ: data.numeroMZ,
+        SB_Prioridade: data.prioridade,
+        SB_Status: "Solicitado",
       };
-      console.log(solicitacaoBase);
 
       // Enviar a solicitação base
       await createSolicitacaoBase(solicitacaoBase);
       alert("Solicitação criada com sucesso");
-      window.location.href = "/";
+      /* window.location.href = "/"; */
+      console.log(createSolicitacaoBase(solicitacaoBase));
     } catch (error) {
       console.error("Erro ao enviar solicitação:", error);
       throw new Error("Erro ao enviar solicitação: " + error);
