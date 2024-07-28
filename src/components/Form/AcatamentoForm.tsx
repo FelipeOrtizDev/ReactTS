@@ -1,6 +1,9 @@
 import React from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { Acatamento } from "../../services/api/acatamentoService";
+import { useForm } from "react-hook-form";
+import {
+  Acatamento,
+  createAcatamento,
+} from "../../services/api/acatamentoService";
 import { Inputn } from "../../utils/commonStyles";
 import { FieldTwo, Formn, TextArean } from "../../utils/modals/modalUserStyles";
 import {
@@ -11,24 +14,30 @@ import {
 } from "../../pages/Fechamento/styles";
 
 interface AcatamentoFormProps {
-  acatamento: Acatamento;
+  solicitacaoBaseId: number;
   onSubmit: (data: Acatamento) => void;
 }
 
 const AcatamentoForm: React.FC<AcatamentoFormProps> = ({
-  acatamento,
+  solicitacaoBaseId,
   onSubmit,
 }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Acatamento>({
-    defaultValues: acatamento,
-  });
+  } = useForm<Acatamento>();
 
-  const handleFormSubmit: SubmitHandler<Acatamento> = (data) => {
-    onSubmit(data);
+  const handleFormSubmit = async (data: Acatamento) => {
+    try {
+      data.SB_SolicitacaoBase_id_SolicitacaoBase = solicitacaoBaseId;
+
+      const createdAcatamento = await createAcatamento(data);
+      console.log(createdAcatamento);
+      onSubmit(createdAcatamento);
+    } catch (error) {
+      console.error("Erro ao criar acatamento:", error);
+    }
   };
 
   return (
@@ -50,17 +59,33 @@ const AcatamentoForm: React.FC<AcatamentoFormProps> = ({
           </InfoBox>
           <InfoBox>
             <Labeln>Passado Para</Labeln>
-            <Inputn type="text" />
+            <Inputn
+              type="text"
+              {...register("SB_EquipeResponsavel", {
+                required: "Equipe Responsável é obrigatória",
+              })}
+            />
+            {errors.SB_EquipeResponsavel && (
+              <span>{errors.SB_EquipeResponsavel.message}</span>
+            )}
           </InfoBox>
         </FieldTwo>
         <FieldTwo>
           <InfoBox>
             <Labeln>Previsão (h)</Labeln>
-            <Inputn type="time" />
+            <Inputn
+              type="time"
+              {...register("SB_PrvisãoAcatamento", {
+                required: "A Previsão e Obrigatoria",
+              })}
+            />
+            {errors.SB_PrvisãoAcatamento && (
+              <span>{errors.SB_PrvisãoAcatamento.message}</span>
+            )}
           </InfoBox>
           <InfoBox>
             <Labeln>Observações</Labeln>
-            <TextArean />
+            <TextArean {...register("SB_ObservacaoAcatamento")} />
           </InfoBox>
         </FieldTwo>
       </SectionBox>

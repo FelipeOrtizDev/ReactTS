@@ -2,7 +2,7 @@ import { axiosInstance } from "./conexaoApi";
 import { Endereco } from "./enderecoService";
 
 export interface SolicitacaoBase {
-  id_SolicitacaoBase?: number;
+  id_SolicitacaoBase: number;
   SB_DataSolicitacao: string;
   SB_HoraSolicitacao: string;
   SB_NumeroOS: string;

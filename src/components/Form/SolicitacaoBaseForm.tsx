@@ -1,6 +1,9 @@
-import React from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { SolicitacaoBase } from "../../services/api/solicitacaoBase";
+import React, { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import {
+  SolicitacaoBase,
+  updateSolicitacaoBase,
+} from "../../services/api/solicitacaoBase";
 import { Inputn } from "../../utils/commonStyles";
 import {
   InfoBox,
@@ -23,14 +26,23 @@ const SolicitacaoBaseForm: React.FC<SolicitacaoBaseFormProps> = ({
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<SolicitacaoBase>({
     defaultValues: solicitacao,
   });
 
-  const handleFormSubmit: SubmitHandler<SolicitacaoBase> = (data) => {
-    onSubmit(data);
-  };
+  useEffect(() => {
+    reset(solicitacao);
+  }, [solicitacao, reset]);
 
+  const handleFormSubmit = async (data: SolicitacaoBase) => {
+    try {
+      await updateSolicitacaoBase(solicitacao.id_SolicitacaoBase, data);
+      onSubmit(data);
+    } catch (error) {
+      console.error("Erro ao atualizar solicitação base:", error);
+    }
+  };
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)}>
       <SectionBox>

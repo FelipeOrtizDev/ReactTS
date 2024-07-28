@@ -1,6 +1,7 @@
 import { axiosInstance } from "./conexaoApi";
+import { SolicitacaoBase } from "./solicitacaoBase";
 
-export interface Acatamento {
+export interface Acatamento extends SolicitacaoBase {
   id_Acatamentos?: number;
   SB_DataAcatamento?: string;
   SB_PrvisãoAcatamento: string;

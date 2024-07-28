@@ -1,6 +1,7 @@
 import { axiosInstance } from "./conexaoApi";
+import { SolicitacaoBase } from "./solicitacaoBase";
 
-export interface Fechamento {
+export interface Fechamento extends SolicitacaoBase {
   id_Fechamentos?: number;
   SB_DataFechamento: string;
   SB_HoraFechamento: string;
@@ -14,6 +15,12 @@ export interface Fechamento {
   SB_FechadoPor: string;
   SB_HFSMotivo: string;
   SB_HSNObservacao: string;
+  SB_HSNMotivo: string;
+  SB_ManobraWFM: string;
+  SB_Executante: string;
+  SB_Previsão: string;
+  SB_HFSObservacaoFechamento: string;
+  SB_OFechado: string;
   SB_SolicitacaoBase_id_SolicitacaoBase: number;
   SB_SolicitacaoBase_SB_Enderecos_id_Endereco: number;
 }

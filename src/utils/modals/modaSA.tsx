@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from "react";
+import React, { useRef } from "react";
 import SolicitacaoBaseForm from "../../components/Form/SolicitacaoBaseForm";
 import AcatamentoForm from "../../components/Form/AcatamentoForm";
-import SolicitacaoAberturaForm from "../../components/Form/solicitacaoAberturaForm";
+/* import SolicitacaoAberturaForm from "../../components/Form/solicitacaoAberturaForm"; */
 import FechamentoForm from "../../components/Form/fechamentoForm";
 
 import { SolicitacaoBase } from "../../services/api/solicitacaoBase";
@@ -11,12 +11,14 @@ import { Acatamento } from "../../services/api/acatamentoService";
 import { Fechamento } from "../../services/api/fechamentoService";
 
 import { ModalContainer, ModalContent, Title } from "./modalUserStyles";
-import { Buttons } from "../commonStyles";
+import { Buttons, ButtonsBox } from "../commonStyles";
+import { AcatamentosAbertura } from "../../services/api/acatamentosAberturaService";
 
 interface EditModalProps {
   solicitacao: SolicitacaoBase;
   acatamento: Acatamento;
   solicitacaoAbertura: SolicitacaoAbertura;
+  acatamentoAbertura: AcatamentosAbertura;
   fechamento: Fechamento;
   onClose: () => void;
   onSave: (updated: any) => void;
@@ -24,50 +26,59 @@ interface EditModalProps {
 
 const EditModal: React.FC<EditModalProps> = ({
   solicitacao,
-  acatamento,
-  solicitacaoAbertura,
-  fechamento,
   onClose,
   onSave,
 }) => {
-  // Handlers for each form submission
+  const solicitacaoBaseSubmit = useRef<() => Promise<void>>();
+  const acatamentoSubmit = useRef<() => Promise<void>>();
+  const solicitacaoAberturaSubmit = useRef<() => Promise<void>>();
+  const fechamentoSubmitRef = useRef<{ submit: () => Promise<void> }>(null);
+
   const handleSolicitacaoBaseSubmit = async (data: SolicitacaoBase) => {
-    try {
-      console.log("Solicitação Base:", data);
-      // Add logic for handling form submission, e.g., API call
-      onSave({ solicitacao: data });
-    } catch (error) {
-      console.error("Erro ao enviar solicitação base:", error);
-    }
+    console.log(data);
+    onSave({ solicitacao: data });
   };
 
   const handleAcatamentoSubmit = async (data: Acatamento) => {
-    try {
-      console.log("Acatamento:", data);
-      // Add logic for handling form submission, e.g., API call
-      onSave({ acatamento: data });
-    } catch (error) {
-      console.error("Erro ao enviar acatamento:", error);
-    }
+    console.log(data);
+    onSave({ acatamento: data });
   };
-
-  const handleSolicitacaoAberturaSubmit = async (data: SolicitacaoAbertura) => {
-    try {
-      console.log("Solicitação Abertura:", data);
-      // Add logic for handling form submission, e.g., API call
-      onSave({ solicitacaoAbertura: data });
-    } catch (error) {
-      console.error("Erro ao enviar solicitação abertura:", error);
-    }
-  };
-
+  /* const handleSolicitacaoAberturaSubmit = async (
+    data: CombinedSolicitacaoAbertura
+  ) => {
+    onSave({
+      solicitacaoAbertura: {
+        SB_DataAbertura: data.SB_DataAbertura,
+        SB_HoraAbertura: data.SB_HoraAbertura,
+        SB_HNMotivo: data.SB_HNMotivo,
+        SB_HNObservações: data.SB_HNObservações,
+      },
+      acatamentoAbertura: {
+        SB_DataAcatamentoAbertura: data.SB_DataAcatamentoAbertura,
+        SB_EquipeResponsavelAbertura: data.SB_EquipeResponsavelAbertura,
+        SB_PrevisãoAcatamentoAbertura: data.SB_PrvisãoAcatamentoAbertura,
+        SB_ObservacaoAcatamentoAbertura: data.SB_ObservacaoAcatamentoAbertura,
+      },
+    });
+  }; */
   const handleFechamentoSubmit = async (data: Fechamento) => {
+    onSave({ fechamento: data });
+  };
+
+  const handleSubmitAll = async () => {
     try {
-      console.log("Acatamento Abertura:", data);
-      // Add logic for handling form submission, e.g., API call
-      onSave({ fechamento: data });
+      if (solicitacaoBaseSubmit.current) await solicitacaoBaseSubmit.current();
+      if (acatamentoSubmit.current) await acatamentoSubmit.current();
+      if (solicitacaoAberturaSubmit.current)
+        await solicitacaoAberturaSubmit.current();
+      if (fechamentoSubmitRef.current) {
+        console.log("Submetendo Fechamento:");
+        await fechamentoSubmitRef.current.submit();
+      }
+      alert("All data submitted successfully!");
     } catch (error) {
-      console.error("Erro ao enviar acatamento abertura:", error);
+      console.error("Erro ao enviar dados:", error);
+      alert("Erro ao enviar dados, por favor, tente novamente.");
     }
   };
 
@@ -78,22 +89,29 @@ const EditModal: React.FC<EditModalProps> = ({
         <SolicitacaoBaseForm
           solicitacao={solicitacao}
           onSubmit={handleSolicitacaoBaseSubmit}
+          setSubmitRef={solicitacaoBaseSubmit}
         />
         <AcatamentoForm
-          acatamento={acatamento}
+          solicitacaoBaseId={solicitacao.id_SolicitacaoBase}
           onSubmit={handleAcatamentoSubmit}
         />
         <FechamentoForm
-          fechamento={fechamento}
+          solicitacaoBaseId={solicitacao.id_SolicitacaoBase}
           onSubmit={handleFechamentoSubmit}
+          setSubmitRef={fechamentoSubmit}
         />
-        <SolicitacaoAberturaForm
-          solicitacaoAbertura={solicitacaoAbertura}
+        {/* <SolicitacaoAberturaForm
+          solicitacaoBaseId={solicitacao.id_SolicitacaoBase}
           onSubmit={handleSolicitacaoAberturaSubmit}
-        />
-        <Buttons type="button" onClick={onClose}>
-          Fechar
-        </Buttons>
+        /> */}
+        <ButtonsBox>
+          <Buttons type="button" onClick={onClose}>
+            Cancelar
+          </Buttons>
+          <Buttons type="button" onClick={handleSubmitAll}>
+            Salvar Tudo
+          </Buttons>
+        </ButtonsBox>
       </ModalContent>
     </ModalContainer>
   );

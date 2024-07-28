@@ -1,23 +1,25 @@
 import { axiosInstance } from "./conexaoApi";
-import { Endereco } from "./enderecoService";
+import { SolicitacaoBase } from "./solicitacaoBase";
 
 // Interface para SolicitacaoAbertura
-export interface SolicitacaoAbertura {
+export interface SolicitacaoAbertura extends SolicitacaoBase {
   id_SolicitacaoAbertura?: number;
   SB_DataAbertura: string;
   SB_SolicitacaoBase_id_SolicitacaoBase: number;
   SB_SolicitacaoBase_SB_Enderecos_id_Endereco: number;
-  SB_HAbertura?: number;
-  SB_HNMotivo?: string;
-  SB_HNObservacoes?: string;
-  SB_HSData?: string;
-  SB_HoraAbertura?: string;
-  SB_Solicitante?: string;
-  SB_ServiçoAceito?: number;
+  SB_HAbertura: number;
+  SB_HNMotivo: string;
+  SB_HNObservações: string;
+  SB_HSData: string;
+  SB_HoraAbertura: string;
+  SB_Solicitante: string;
+  SB_ServiçoAceito: number;
 }
 
 // Funções de serviço para SolicitacaoAbertura
-export const getSolicitacoesAbertura = async (): Promise<SolicitacaoAbertura[]> => {
+export const getSolicitacoesAbertura = async (): Promise<
+  SolicitacaoAbertura[]
+> => {
   try {
     const response = await axiosInstance.get("/solicitacoes-abertura");
     return response.data;
@@ -30,7 +32,10 @@ export const createSolicitacaoAbertura = async (
   solicitacaoAbertura: SolicitacaoAbertura
 ): Promise<SolicitacaoAbertura> => {
   try {
-    const response = await axiosInstance.post("/solicitacoes-abertura", solicitacaoAbertura);
+    const response = await axiosInstance.post(
+      "/solicitacoes-abertura",
+      solicitacaoAbertura
+    );
     return response.data;
   } catch (error) {
     throw new Error("Erro ao criar solicitação de abertura: " + error);
@@ -42,7 +47,10 @@ export const updateSolicitacaoAbertura = async (
   solicitacaoAbertura: Partial<SolicitacaoAbertura>
 ): Promise<SolicitacaoAbertura> => {
   try {
-    const response = await axiosInstance.put(`/solicitacoes-abertura/${id}`, solicitacaoAbertura);
+    const response = await axiosInstance.put(
+      `/solicitacoes-abertura/${id}`,
+      solicitacaoAbertura
+    );
     return response.data;
   } catch (error) {
     throw new Error("Erro ao atualizar solicitação de abertura: " + error);

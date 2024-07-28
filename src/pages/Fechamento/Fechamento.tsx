@@ -78,13 +78,13 @@ const Fechamentos: React.FC = () => {
   };
 
   useEffect(() => {
-    if (mzValue === '1') {
+    if (mzValue === "1") {
       setIsMZEnabled(true);
     } else {
       setIsMZEnabled(false);
     }
   }, [mzValue]);
-  
+
   useEffect(() => {
     setValue("municipio", "");
     setValue("setorAbastecimento", "");
@@ -96,7 +96,7 @@ const Fechamentos: React.FC = () => {
 
   const onSubmit = async (data: any) => {
     const endereco: Endereco = {
-      id_Endereco: 0, // Inicializamos com 0, pois será definido pela API
+      // Inicializamos com 0, pois será definido pela API
       SB_Municipio: data.municipio,
       SB_Logradouro: data.logradouro,
       SB_Numero: Number(data.numero),
@@ -122,6 +122,7 @@ const Fechamentos: React.FC = () => {
 
       // Criar a solicitação base associando corretamente o id_Endereco
       const solicitacaoBase: SolicitacaoBase = {
+        id_SolicitacaoBase: 0,
         SB_DataSolicitacao: data.dataSolicitacao,
         SB_HoraSolicitacao: data.horaSolicitacao,
         SB_NumeroOS: data.numeroOS,
@@ -138,11 +139,9 @@ const Fechamentos: React.FC = () => {
         SB_Status: "Solicitado",
       };
 
-      // Enviar a solicitação base
       await createSolicitacaoBase(solicitacaoBase);
       alert("Solicitação criada com sucesso");
       window.location.href = "/";
-      console.log(createSolicitacaoBase(solicitacaoBase));
     } catch (error) {
       console.error("Erro ao enviar solicitação:", error);
       throw new Error("Erro ao enviar solicitação: " + error);
@@ -233,6 +232,10 @@ const Fechamentos: React.FC = () => {
                 <Labeln>Referência</Labeln>
                 <Inputn type="text" {...register("referencia")} />
               </InfoBox>
+              <InfoBox>
+                <Labeln>Cruzamento</Labeln>
+                <Inputn type="text" {...register("cruzamento")} />
+              </InfoBox>
             </Field>
           </SectionBox>
           <SectionBox>
@@ -312,15 +315,18 @@ const Fechamentos: React.FC = () => {
               </InfoBox>
               <InfoBox>
                 <Labeln>Numero MZ</Labeln>
-                <Inputn type="text" {...register("numeroMZ")} disabled={!isMZEnabled}/>
-                
+                <Inputn
+                  type="text"
+                  {...register("numeroMZ")}
+                  disabled={!isMZEnabled}
+                />
               </InfoBox>
               <InfoBox>
                 <Labeln>Motivo</Labeln>
                 <Selectn {...register("motivo")}>
                   <Optionn value="">Selecione...</Optionn>
-                  <Optionn value="Rede Primária">Rede Primária</Optionn>
-                  <Optionn value="Não Implantada">Não Implantada</Optionn>
+                  <Optionn value="1">Rede Primária</Optionn>
+                  <Optionn value="0">Não Implantada</Optionn>
                 </Selectn>
               </InfoBox>
               <InfoBox>
