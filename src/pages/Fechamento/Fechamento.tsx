@@ -123,7 +123,7 @@ const Fechamentos: React.FC = () => {
 
       // Criar a solicitação base associando corretamente o id_Endereco
       const solicitacaoBase: SolicitacaoBase = {
-        id_SolicitacaoBase: 1,
+        id_SolicitacaoBase: data.id,
         SB_DataSolicitacao: data.dataSolicitacao,
         SB_HoraSolicitacao: data.horaSolicitacao,
         SB_NumeroOS: data.numeroOS,

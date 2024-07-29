@@ -5,10 +5,10 @@ export interface Fechamento {
     SB_Status: string;
     SB_Prioridade: string;
     SB_ServicoAceito: number;
-    SB_HouveFechamento: number;
+    SB_HouveFechamento?: number;
     SB_Rede: string;
     SB_UltilizouMZ: string;
-    SB_QTDELigacoes: number;
+    SB_QTDELigacoes?: number;
     SB_FechadoPor: string;
     SB_HFSMotivo: string;
     SB_HSNMotivo: string;

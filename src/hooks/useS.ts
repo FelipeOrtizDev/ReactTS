@@ -1,19 +1,25 @@
 import { useState } from "react";
-import {
-  SolicitacaoBase,
-  updateSolicitacaoBase,
-} from "../services/api/solicitacaoBase";
+import { SolicitacaoAbertura } from "../../src/services/models/solicitacaoAberturaModel";
+import { createSolicitacaoAbertura } from "../services/api/solicitacaoAberturaService";
+import { createAcatamentosAbertura } from "../services/api/acatamentosAberturaService";
+import { AcatamentosAbertura } from "../services/models/acatamentoAberturaModel";
 
-export const useSolicitacaoBaseSubmit = () => {
-  const [data, setData] = useState<SolicitacaoBase | null>(null);
+export const useSolicitacaoAberturaSubmit = () => {
+  const [data, setData] = useState<SolicitacaoAbertura | null>(null);
 
-  const handleSubmit = async (id: number, formData: SolicitacaoBase) => {
+  const handleSubmit = async (formData: SolicitacaoAbertura, acatamentoAberturaData: AcatamentosAbertura) => {
     try {
-      const response = await updateSolicitacaoBase(id, formData);
-      setData(response);
-      return response;
+      console.log("Enviando dados para a API:", formData, acatamentoAberturaData);
+
+      const solicitacaoResponse = await createSolicitacaoAbertura(formData);
+      const acatamentoResponse = await createAcatamentosAbertura(acatamentoAberturaData);
+      
+      setData(solicitacaoResponse);
+      console.log("Resposta da API:", solicitacaoResponse, acatamentoResponse);
+
+      return { solicitacaoResponse, acatamentoResponse };
     } catch (error) {
-      console.error("Error updating SolicitacaoBase:", error);
+      console.error("Erro ao criar solicitação de abertura ou acatamento:", error);
       throw error;
     }
   };

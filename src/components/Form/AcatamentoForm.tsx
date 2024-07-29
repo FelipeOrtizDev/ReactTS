@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Acatamento } from "../../services/models/acatamentoModel";
-import { useFormStore } from "./formStore";
+import { useFormAcatamentoStore } from "./formStore";
 import { Inputn } from "../../utils/commonStyles";
 import { FieldTwo, Formn, TextArean } from "../../utils/modals/modalUserStyles";
 import {
@@ -17,7 +17,7 @@ interface AcatamentoFormProps {
 }
 const AcatamentoForm: React.FC<AcatamentoFormProps> = ({ solicitacaoBaseId, enderecoId }) => {
   const { register, handleSubmit, setValue, getValues } = useForm<Acatamento>();
-  const { acatamento, setAcatamento } = useFormStore();
+  const { acatamento, setAcatamento } = useFormAcatamentoStore();
 
   useEffect(() => {
     // Inicializando os valores do formulário com Zustand
@@ -44,11 +44,7 @@ const AcatamentoForm: React.FC<AcatamentoFormProps> = ({ solicitacaoBaseId, ende
       SB_SolicitacaoBase_SB_Enderecos_id_Endereco: enderecoId,
     });
 
-    console.log("Estado de acatamento atualizado:", {
-      ...data,
-      SB_SolicitacaoBase_id_SolicitacaoBase: solicitacaoBaseId,
-      SB_SolicitacaoBase_SB_Enderecos_id_Endereco: enderecoId,
-    });
+    
   };
   return (
     <Formn onSubmit={handleSubmit(handleFormSubmit)}>

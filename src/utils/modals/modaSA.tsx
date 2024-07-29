@@ -3,11 +3,13 @@ import SolicitacaoBaseForm from "../../components/Form/SolicitacaoBaseForm";
 import AcatamentoForm from "../../components/Form/AcatamentoForm";
 
 import { useAcatamentoSubmit } from "../../hooks/useA";
-import { useFormStore } from "../../components/Form/formStore";
+import { useFormAcatamentoAberturaStore, useFormAcatamentoStore, useFormFechamentoStore, useFormServicoAberturaStore, } from "../../components/Form/formStore";
 import { ModalContainer, ModalContent, Title } from "./modalUserStyles";
 import { Buttons, ButtonsBox } from "../commonStyles";
 import { Fechamento } from "../../services/models/fechamentoModel";
 import { SolicitacaoBase } from "../../services/models/solicitacaoBaseModel";
+import FechamentoForm from "../../components/Form/fechamentoForm";
+import SolicitacaoAberturaForm from "../../components/Form/solicitacaoAberturaForm";
 
 interface EditModalProps {
   solicitacao: SolicitacaoBase;
@@ -23,30 +25,42 @@ const EditModal: React.FC<EditModalProps> = ({
   onSave,
 }) => {
   const { handleSubmit: handleAcatamentoSubmit } = useAcatamentoSubmit();
-  const { acatamento } = useFormStore();
+  const { acatamento } = useFormAcatamentoStore();
+  const { fechamento: fechamentoState } = useFormFechamentoStore();
+  const { solicitacaoAbertura } = useFormServicoAberturaStore();
+  const { acatamentoAbertura } = useFormAcatamentoAberturaStore();
 
-  
+
   const handleSubmitAll = async () => {
     try {
-      // Garantir que todos os campos necessários estão definidos
+      //FC
+      if (!fechamentoState.SB_DataFechamento || !fechamentoState.SB_HoraFechamento || !fechamentoState.SB_FechadoPor) {
+        alert("Preencha todos os campos obrigatórios.");
+        return;
+      }
+      onSave({ fechamento: fechamentoState });
+      //AC
       const acatamentoData = {
         ...acatamento,
         SB_SolicitacaoBase_id_SolicitacaoBase: solicitacao.id_SolicitacaoBase,
         SB_SolicitacaoBase_SB_Enderecos_id_Endereco: solicitacao.SB_Enderecos_id_Endereco,
       };
-
-      console.log("Dados de Acatamento antes do envio:", acatamentoData);
-
       if (!acatamentoData.SB_DataAcatamento || !acatamentoData.SB_PrevisaoAcatamento || !acatamentoData.SB_EquipeResponsavel) {
         alert("Preencha todos os campos obrigatórios.");
         return;
       }
-
       const response = await handleAcatamentoSubmit(acatamentoData);
-
-      console.log("Resposta do servidor:", response);
-
       onSave({ acatamento: response });
+      //SA
+      console.log("Dados de Solicitação Abertura antes do envio:", solicitacaoAbertura);
+      console.log("Dados de Acatamento Abertura antes do envio:", acatamentoAbertura);
+      if (!solicitacaoAbertura.SB_DataAbertura || !solicitacaoAbertura.SB_HoraAbertura || !solicitacaoAbertura.SB_Solicitante) {
+        alert("Preencha todos os campos obrigatórios.");
+        return;
+      }
+      onSave({ solicitacaoAbertura, acatamentoAbertura });
+
+
     } catch (error) {
       console.error("Erro ao enviar acatamento:", error);
       alert("Erro ao enviar dados, por favor, tente novamente.");
@@ -61,6 +75,22 @@ const EditModal: React.FC<EditModalProps> = ({
         <AcatamentoForm
           solicitacaoBaseId={solicitacao.id_SolicitacaoBase}
           enderecoId={solicitacao.SB_Enderecos_id_Endereco}
+        />
+        <FechamentoForm
+          fechamento={fechamento}
+          onSubmit={(data: Fechamento) => {
+            console.log("Dados do formulário de Fechamento enviados:", data);
+          }}
+        />
+
+        <SolicitacaoAberturaForm
+          solicitacaoAbertura={solicitacaoAbertura}
+          acatamentosAbertura={acatamentoAbertura}
+          solicitacaoBaseId={solicitacao.id_SolicitacaoBase}
+          enderecoId={solicitacao.SB_Enderecos_id_Endereco}
+          onSubmit={(data) => {
+            console.log("Dados do formulário de Solicitação de Abertura enviados:", data);
+          }}
         />
         <ButtonsBox>
           <Buttons type="button" onClick={onClose}>
