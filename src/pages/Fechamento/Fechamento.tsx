@@ -10,10 +10,9 @@ import {
 } from "./styles";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { createEnderecos, Endereco } from "../../services/api/enderecoService";
+import { createEnderecos } from "../../services/api/enderecoService";
 import {
-  createSolicitacaoBase,
-  SolicitacaoBase,
+  createSolicitacaoBase
 } from "../../services/api/solicitacaoBase";
 import { BsSend, BsArrowBarRight, BsEraser } from "react-icons/bs";
 import {
@@ -26,6 +25,8 @@ import {
   Title,
 } from "../../utils/commonStyles";
 import { Link } from "react-router-dom";
+import { SolicitacaoBase } from "../../services/models/solicitacaoBaseModel";
+import { Endereco } from "../../services/models/enderecoModel";
 
 const Fechamentos: React.FC = () => {
   const { register, handleSubmit, reset, watch, setValue } = useForm();
@@ -122,6 +123,7 @@ const Fechamentos: React.FC = () => {
 
       // Criar a solicitação base associando corretamente o id_Endereco
       const solicitacaoBase: SolicitacaoBase = {
+        id_SolicitacaoBase: 1,
         SB_DataSolicitacao: data.dataSolicitacao,
         SB_HoraSolicitacao: data.horaSolicitacao,
         SB_NumeroOS: data.numeroOS,

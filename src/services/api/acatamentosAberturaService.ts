@@ -1,14 +1,7 @@
+import { AcatamentosAbertura } from "../models/acatamentoAberturaModel";
 import { axiosInstance } from "./conexaoApi";
 
 // Interface para AcatamentosAbertura
-export interface AcatamentosAbertura {
-  id_AcatamentosAbertura?: number;
-  SB_DataAcatamentoAbertura: string;
-  SB_PrvisãoAcatamentoAbertura: string;
-  SB_EquipeResponsavelAbertura: string;
-  SB_SolicitacaoAbertura_id_SolicitacaoAbertura: number;
-  SB_ObservacaoAcatamentoAbertura?: string;
-}
 
 // Funções de serviço para AcatamentosAbertura
 export const getAcatamentosAbertura = async (): Promise<AcatamentosAbertura[]> => {
