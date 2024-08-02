@@ -3,8 +3,9 @@ import { BsPencil } from "react-icons/bs";
 import "./ServicosEmAndamentoPage.css";
 import {
   getSolicitacoesBase,
-  SolicitacaoBase,
+
 } from "../../services/api/solicitacaoBase";
+import { SolicitacaoBase } from "../../services/models/solicitacaoBaseModel";
 import EditModal from "../../utils/modals/modaSA";
 import {
   ListContainer,
@@ -94,8 +95,8 @@ const ServicosEmAndamentoPage: React.FC = () => {
           <EditModal
             solicitacao={selectedSolicitacao}
             onClose={() => setModalOpen(false)}
-            onSave={handleSave}
-          />
+            fechamento={selectedSolicitacao.fechamento}
+            onSave={handleSave} />
         )}
 
         <div className="pesquisas-e-ocorrencias">

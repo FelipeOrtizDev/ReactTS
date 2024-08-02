@@ -35,6 +35,7 @@ export const Selectn = styled.select`
   background-clip: padding-box;
   border: 1px solid #ced4da;
   border-radius: 0.375rem;
+  margin-bottom: 15px;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 `;
 

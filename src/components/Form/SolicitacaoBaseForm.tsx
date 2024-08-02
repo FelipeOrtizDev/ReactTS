@@ -1,6 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { SolicitacaoBase } from "../../services/api/solicitacaoBase";
+import { SolicitacaoBase } from "../../services/models/solicitacaoBaseModel";
 import { Inputn } from "../../utils/commonStyles";
 import {
   InfoBox,

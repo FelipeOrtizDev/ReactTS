@@ -1,4 +1,4 @@
-import create from "zustand";
+import {create} from "zustand";
 import { Acatamento } from "../../services/models/acatamentoModel";
 import { Fechamento } from "../../services/models/fechamentoModel";
 import { SolicitacaoAbertura } from "../../services/models/solicitacaoAberturaModel";
