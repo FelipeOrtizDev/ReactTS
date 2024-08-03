@@ -1,89 +1,69 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import SolicitacaoBaseForm from "../../components/Form/SolicitacaoBaseForm";
 import AcatamentoForm from "../../components/Form/AcatamentoForm";
-
 import { useAcatamentoSubmit } from "../../hooks/useA";
-import { useFormAcatamentoAberturaStore, useFormAcatamentoStore, useFormFechamentoStore, useFormServicoAberturaStore, } from "../../components/Form/formStore";
+import { useFechamentoStore } from "../../components/Form/formfechamentoStore";
 import { ModalContainer, ModalContent, Title } from "./modalUserStyles";
 import { Buttons, ButtonsBox } from "../commonStyles";
 import { Fechamento } from "../../services/models/fechamentoModel";
 import { SolicitacaoBase } from "../../services/models/solicitacaoBaseModel";
 import FechamentoForm from "../../components/Form/fechamentoForm";
-import SolicitacaoAberturaForm from "../../components/Form/solicitacaoAberturaForm";
+import SolicitacaoAberturaForm from "../../components/Form/formfechamentoStore";
+import { Acatamento } from "../../services/models/acatamentoModel";
 
 interface EditModalProps {
   solicitacao: SolicitacaoBase;
-  fechamento: Fechamento;
   onClose: () => void;
   onSave: (data: any) => void;
 }
 
 const EditModal: React.FC<EditModalProps> = ({
   solicitacao,
-  fechamento,
   onClose,
   onSave,
 }) => {
-  const { handleSubmit: handleAcatamentoSubmit } = useAcatamentoSubmit();
-  const { acatamento } = useFormAcatamentoStore();
-  const { fechamento: fechamentoState } = useFormFechamentoStore();
-  const { solicitacaoAbertura } = useFormServicoAberturaStore();
-  const { acatamentoAbertura } = useFormAcatamentoAberturaStore();
+  const { fechamentos } = useFechamentoStore();
+  const { acatamentos } = useAcatamentoStore();
 
+  const fechamento = fechamentos[solicitacao.id_SolicitacaoBase] || {
+    SB_SolicitacaoBase_id_SolicitacaoBase: solicitacao.id_SolicitacaoBase,
+  };
 
-  const handleSubmitAll = async () => {
-    try {
-      //FC
-      if (!fechamentoState.SB_DataFechamento || !fechamentoState.SB_HoraFechamento || !fechamentoState.SB_FechadoPor) {
-        alert("Preencha todos os campos obrigatórios.");
-        return;
-      }
-      onSave({ fechamento: fechamentoState });
-      //AC
-      const acatamentoData = {
-        ...acatamento,
-        SB_SolicitacaoBase_id_SolicitacaoBase: solicitacao.id_SolicitacaoBase,
-        SB_SolicitacaoBase_SB_Enderecos_id_Endereco: solicitacao.SB_Enderecos_id_Endereco,
-      };
-      if (!acatamentoData.SB_DataAcatamento || !acatamentoData.SB_PrevisaoAcatamento || !acatamentoData.SB_EquipeResponsavel) {
-        alert("Preencha todos os campos obrigatórios.");
-        return;
-      }
-      const response = await handleAcatamentoSubmit(acatamentoData);
-      onSave({ acatamento: response });
-      //SA
-      console.log("Dados de Solicitação Abertura antes do envio:", solicitacaoAbertura);
-      console.log("Dados de Acatamento Abertura antes do envio:", acatamentoAbertura);
-      if (!solicitacaoAbertura.SB_DataAbertura || !solicitacaoAbertura.SB_HoraAbertura || !solicitacaoAbertura.SB_Solicitante) {
-        alert("Preencha todos os campos obrigatórios.");
-        return;
-      }
-      onSave({ solicitacaoAbertura, acatamentoAbertura });
+  const acatamento = acatamentos[solicitacao.id_SolicitacaoBase] || {
+    SB_SolicitacaoBase_id_SolicitacaoBase: solicitacao.id_SolicitacaoBase,
+  };
+  const handleSaveSolicitacao = (data: SolicitacaoBase) => {
+    onSave({ ...data, fechamento, acatamento });
+  };
 
+  const handleSaveFechamento = (data: Fechamento) => {
+    onSave({ ...solicitacao, fechamento: data, acatamento });
+  };
 
-    } catch (error) {
-      console.error("Erro ao enviar acatamento:", error);
-      alert("Erro ao enviar dados, por favor, tente novamente.");
-    }
+  const handleSaveAcatamento = (data: Acatamento) => {
+    onSave({ ...solicitacao, fechamento, acatamento: data });
   };
 
   return (
     <ModalContainer>
       <ModalContent>
         <Title>Editar Solicitação e Acatamento</Title>
-        <SolicitacaoBaseForm solicitacao={solicitacao} />
-        <AcatamentoForm
+        <SolicitacaoBaseForm
+          solicitacao={solicitacao}
+          onSubmit={handleSaveSolicitacao}
+        />
+        {/* <AcatamentoForm
           solicitacaoBaseId={solicitacao.id_SolicitacaoBase}
-          enderecoId={solicitacao.SB_Enderecos_id_Endereco}
-        />
+          acatamento={acatamento}
+          onSubmit={handleSaveAcatamento}
+        /> */}
         <FechamentoForm
+          solicitacaoBaseId={solicitacao.id_SolicitacaoBase}
           fechamento={fechamento}
-          onSubmit={(data: Fechamento) => {
-            console.log("Dados do formulário de Fechamento enviados:", data);
-          }}
+          onSubmit={handleSaveFechamento}
         />
-
-        <SolicitacaoAberturaForm
+        {/*  <SolicitacaoAberturaForm
           solicitacaoAbertura={solicitacaoAbertura}
           acatamentosAbertura={acatamentoAbertura}
           solicitacaoBaseId={solicitacao.id_SolicitacaoBase}
@@ -91,7 +71,7 @@ const EditModal: React.FC<EditModalProps> = ({
           onSubmit={(data) => {
             console.log("Dados do formulário de Solicitação de Abertura enviados:", data);
           }}
-        />
+        /> */}
         <ButtonsBox>
           <Buttons type="button" onClick={onClose}>
             Fechar

@@ -1,10 +1,10 @@
 export interface Fechamento {
   id_Fechamentos?: number;
-  SB_DataFechamento: string;
-  SB_HoraFechamento: string;
-  SB_Status: string;
-  SB_Prioridade: string;
-  SB_ServicoAceito: number;
+  SB_DataFechamento?: string;
+  SB_HoraFechamento?: string;
+  SB_Status?: string;
+  SB_Prioridade?: string;
+  SB_ServicoAceito?: number;
   SB_HouveFechamento?: number;
   SB_Rede: string;
   SB_UltilizouMZ: string;

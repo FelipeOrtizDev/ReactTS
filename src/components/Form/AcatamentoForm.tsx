@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Acatamento } from "../../services/models/acatamentoModel";
-import { useFormAcatamentoStore } from "./formStore";
+import { useFormAcatamentoStore } from "./formfechamentoStore";
 import { Inputn } from "../../utils/commonStyles";
 import { FieldTwo, Formn, TextArean } from "../../utils/modals/modalUserStyles";
 import {
@@ -15,22 +15,29 @@ interface AcatamentoFormProps {
   solicitacaoBaseId: number;
   enderecoId: number;
 }
-const AcatamentoForm: React.FC<AcatamentoFormProps> = ({ solicitacaoBaseId, enderecoId }) => {
+const AcatamentoForm: React.FC<AcatamentoFormProps> = ({
+  solicitacaoBaseId,
+  enderecoId,
+}) => {
   const { register, handleSubmit, setValue, getValues } = useForm<Acatamento>();
   const { acatamento, setAcatamento } = useFormAcatamentoStore();
 
   useEffect(() => {
     // Inicializando os valores do formulário com Zustand
-    setValue('SB_DataAcatamento', acatamento.SB_DataAcatamento || '');
-    setValue('SB_EquipeResponsavel', acatamento.SB_EquipeResponsavel || '');
-    setValue('SB_PrevisaoAcatamento', acatamento.SB_PrevisaoAcatamento || '');
-    setValue('SB_ObservacaoAcatamento', acatamento.SB_ObservacaoAcatamento || '');
+    setValue("SB_DataAcatamento", acatamento.SB_DataAcatamento || "");
+    setValue("SB_EquipeResponsavel", acatamento.SB_EquipeResponsavel || "");
+    setValue("SB_PrevisaoAcatamento", acatamento.SB_PrevisaoAcatamento || "");
+    setValue(
+      "SB_ObservacaoAcatamento",
+      acatamento.SB_ObservacaoAcatamento || ""
+    );
 
     console.log("Valores iniciais do formulário:", getValues());
   }, [acatamento, setValue, getValues]);
 
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setAcatamento({ [name]: value });
   };
@@ -43,8 +50,6 @@ const AcatamentoForm: React.FC<AcatamentoFormProps> = ({ solicitacaoBaseId, ende
       SB_SolicitacaoBase_id_SolicitacaoBase: solicitacaoBaseId,
       SB_SolicitacaoBase_SB_Enderecos_id_Endereco: enderecoId,
     });
-
-    
   };
   return (
     <Formn onSubmit={handleSubmit(handleFormSubmit)}>

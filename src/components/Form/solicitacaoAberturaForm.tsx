@@ -2,7 +2,10 @@ import React, { useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { SolicitacaoAbertura } from "../../services/models/solicitacaoAberturaModel";
 import { AcatamentosAbertura } from "../../services/models/acatamentoAberturaModel";
-import { useFormServicoAberturaStore, useFormAcatamentoAberturaStore } from "./formStore";
+import {
+  useFormServicoAberturaStore,
+  useFormAcatamentoAberturaStore,
+} from "./formfechamentoStore";
 import { Inputn, Optionn, Selectn, Title } from "../../utils/commonStyles";
 import {
   Field,
@@ -22,7 +25,6 @@ interface SolicitacaoAberturaFormProps {
   solicitacaoBaseId: number;
   enderecoId: number;
 
-
   onSubmit: (data: CombinedFormData) => void;
 }
 
@@ -34,35 +36,67 @@ const SolicitacaoAberturaForm: React.FC<SolicitacaoAberturaFormProps> = ({
 
   onSubmit,
 }) => {
-  const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm<CombinedFormData>({
-    defaultValues: { ...solicitacaoAbertura, ...acatamentosAbertura }
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    formState: { errors },
+  } = useForm<CombinedFormData>({
+    defaultValues: { ...solicitacaoAbertura, ...acatamentosAbertura },
   });
 
-  const { solicitacaoAbertura: solicitacaoAberturaState, setSolicitacaoAbertura } = useFormServicoAberturaStore();
+  const {
+    solicitacaoAbertura: solicitacaoAberturaState,
+    setSolicitacaoAbertura,
+  } = useFormServicoAberturaStore();
 
   useEffect(() => {
-    setValue('SB_DataAbertura', solicitacaoAberturaState.SB_DataAbertura || '');
-    setValue('SB_HoraAbertura', solicitacaoAberturaState.SB_HoraAbertura || '');
-    setValue('SB_Solicitante', solicitacaoAberturaState.SB_Solicitante || '');
-    setValue('SB_ServicoAceito', solicitacaoAberturaState.SB_ServicoAceito || 0);
-    setValue('SB_HAbertura', solicitacaoAberturaState.SB_HAbertura || 0);
-    setValue('SB_HNMotivo', solicitacaoAberturaState.SB_HNMotivo || '');
-    setValue('SB_HNObservacoes', solicitacaoAberturaState.SB_HNObservacoes || '');
-    setValue('SB_HSData', solicitacaoAberturaState.SB_HSData || '');
+    setValue("SB_DataAbertura", solicitacaoAberturaState.SB_DataAbertura || "");
+    setValue("SB_HoraAbertura", solicitacaoAberturaState.SB_HoraAbertura || "");
+    setValue("SB_Solicitante", solicitacaoAberturaState.SB_Solicitante || "");
+    setValue(
+      "SB_ServicoAceito",
+      solicitacaoAberturaState.SB_ServicoAceito || 0
+    );
+    setValue("SB_HAbertura", solicitacaoAberturaState.SB_HAbertura || 0);
+    setValue("SB_HNMotivo", solicitacaoAberturaState.SB_HNMotivo || "");
+    setValue(
+      "SB_HNObservacoes",
+      solicitacaoAberturaState.SB_HNObservacoes || ""
+    );
+    setValue("SB_HSData", solicitacaoAberturaState.SB_HSData || "");
   }, [solicitacaoAberturaState, setValue]);
 
-  const { acatamentoAbertura: acatamentoAberturaState, setAcatamentoAbertura } = useFormAcatamentoAberturaStore();
-  
+  const { acatamentoAbertura: acatamentoAberturaState, setAcatamentoAbertura } =
+    useFormAcatamentoAberturaStore();
+
   useEffect(() => {
-    setValue('SB_DataAcatamentoAbertura', acatamentoAberturaState.SB_DataAcatamentoAbertura || '');
-    setValue('SB_EquipeResponsavelAbertura', acatamentoAberturaState.SB_EquipeResponsavelAbertura || '');
-    setValue('SB_PrvisaoAcatamentoAbertura', acatamentoAberturaState.SB_PrvisaoAcatamentoAbertura || '');
-    setValue('SB_ObservacaoAcatamentoAbertura', acatamentoAberturaState.SB_ObservacaoAcatamentoAbertura || '');
+    setValue(
+      "SB_DataAcatamentoAbertura",
+      acatamentoAberturaState.SB_DataAcatamentoAbertura || ""
+    );
+    setValue(
+      "SB_EquipeResponsavelAbertura",
+      acatamentoAberturaState.SB_EquipeResponsavelAbertura || ""
+    );
+    setValue(
+      "SB_PrvisaoAcatamentoAbertura",
+      acatamentoAberturaState.SB_PrvisaoAcatamentoAbertura || ""
+    );
+    setValue(
+      "SB_ObservacaoAcatamentoAbertura",
+      acatamentoAberturaState.SB_ObservacaoAcatamentoAbertura || ""
+    );
   }, [acatamentoAberturaState, setValue]);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
     const { name, value } = e.target;
-    if (name.startsWith('SB_')) {
+    if (name.startsWith("SB_")) {
       setSolicitacaoAbertura({ [name]: value });
     } else {
       setAcatamentoAbertura({ [name]: value });
@@ -70,18 +104,16 @@ const SolicitacaoAberturaForm: React.FC<SolicitacaoAberturaFormProps> = ({
   };
 
   const handleFormSubmit: SubmitHandler<CombinedFormData> = (data) => {
-   
     const solicitacaoData = {
       ...data,
       SB_SolicitacaoBase_id_SolicitacaoBase: solicitacaoBaseId,
       SB_SolicitacaoBase_SB_Enderecos_id_Endereco: enderecoId,
-      
     };
 
-    
     const acatamentoData = {
       ...data,
-      SB_SolicitacaoAbertura_id_SolicitacaoAbertura: solicitacaoAberturaState.id_SolicitacaoAbertura || 0
+      SB_SolicitacaoAbertura_id_SolicitacaoAbertura:
+        solicitacaoAberturaState.id_SolicitacaoAbertura || 0,
     };
 
     onSubmit({ ...solicitacaoData, ...acatamentoData });
@@ -192,7 +224,10 @@ const SolicitacaoAberturaForm: React.FC<SolicitacaoAberturaFormProps> = ({
       </SectionBox>
       <SectionBox>
         <SectionTitle>O Serviço de Abertura foi aceito?</SectionTitle>
-        <Selectn {...register("SB_ServicoAceito", { valueAsNumber: true })} onChange={handleInputChange}>
+        <Selectn
+          {...register("SB_ServicoAceito", { valueAsNumber: true })}
+          onChange={handleInputChange}
+        >
           <Optionn value="">Selecione...</Optionn>
           <Optionn value={1}>Sim</Optionn>
           <Optionn value={0}>Não</Optionn>
@@ -201,7 +236,10 @@ const SolicitacaoAberturaForm: React.FC<SolicitacaoAberturaFormProps> = ({
       {servAceitoValue === 1 && (
         <SectionBox>
           <SectionTitle>Houve Abertura?</SectionTitle>
-          <Selectn {...register("SB_HAbertura", { valueAsNumber: true })} onChange={handleInputChange}>
+          <Selectn
+            {...register("SB_HAbertura", { valueAsNumber: true })}
+            onChange={handleInputChange}
+          >
             <Optionn value="">Selecione...</Optionn>
             <Optionn value={1}>Sim</Optionn>
             <Optionn value={0}>Não</Optionn>

@@ -12,21 +12,19 @@ import { Field, TextArean } from "../../utils/modals/modalUserStyles";
 
 interface SolicitacaoBaseFormProps {
   solicitacao: SolicitacaoBase;
+  onSubmit: (data: SolicitacaoBase) => void;
 }
 
 const SolicitacaoBaseForm: React.FC<SolicitacaoBaseFormProps> = ({
   solicitacao,
+  onSubmit,
 }) => {
-  const {
-    register,
-
-    formState: { errors },
-  } = useForm<SolicitacaoBase>({
+  const { register, handleSubmit } = useForm<SolicitacaoBase>({
     defaultValues: solicitacao,
   });
 
   return (
-    <form>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <SectionBox>
         <SectionTitle>Dados da Solicitação</SectionTitle>
         <Field>
@@ -39,9 +37,6 @@ const SolicitacaoBaseForm: React.FC<SolicitacaoBaseFormProps> = ({
               })}
               defaultValue={solicitacao.SB_DataSolicitacao}
             />
-            {errors.SB_DataSolicitacao && (
-              <span>{errors.SB_DataSolicitacao.message}</span>
-            )}
           </InfoBox>
           <InfoBox>
             <Labeln>Hora da Solicitação</Labeln>
@@ -52,9 +47,6 @@ const SolicitacaoBaseForm: React.FC<SolicitacaoBaseFormProps> = ({
               })}
               defaultValue={solicitacao.SB_HoraSolicitacao}
             />
-            {errors.SB_HoraSolicitacao && (
-              <span>{errors.SB_HoraSolicitacao.message}</span>
-            )}
           </InfoBox>
           <InfoBox>
             <Labeln>Polo</Labeln>
@@ -65,9 +57,6 @@ const SolicitacaoBaseForm: React.FC<SolicitacaoBaseFormProps> = ({
               })}
               defaultValue={solicitacao.SB_Endereco.SB_Polo}
             />
-            {errors.SB_Endereco?.SB_Polo && (
-              <span>{errors.SB_Endereco?.SB_Polo.message}</span>
-            )}
           </InfoBox>
           <InfoBox>
             <Labeln>Solicitante</Labeln>
@@ -78,9 +67,6 @@ const SolicitacaoBaseForm: React.FC<SolicitacaoBaseFormProps> = ({
               })}
               defaultValue={solicitacao.SB_Solicitante}
             />
-            {errors.SB_Solicitante && (
-              <span>{errors.SB_Solicitante.message}</span>
-            )}
           </InfoBox>
         </Field>
         <Field>
@@ -93,9 +79,6 @@ const SolicitacaoBaseForm: React.FC<SolicitacaoBaseFormProps> = ({
               })}
               defaultValue={solicitacao.SB_Responsavel}
             />
-            {errors.SB_Responsavel && (
-              <span>{errors.SB_Responsavel.message}</span>
-            )}
           </InfoBox>
           <InfoBox>
             <Labeln>Prioridade</Labeln>
@@ -106,9 +89,6 @@ const SolicitacaoBaseForm: React.FC<SolicitacaoBaseFormProps> = ({
               })}
               defaultValue={solicitacao.SB_Prioridade}
             />
-            {errors.SB_Prioridade && (
-              <span>{errors.SB_Prioridade.message}</span>
-            )}
           </InfoBox>
           <InfoBox>
             <Labeln>Município</Labeln>
@@ -119,9 +99,6 @@ const SolicitacaoBaseForm: React.FC<SolicitacaoBaseFormProps> = ({
               })}
               defaultValue={solicitacao.SB_Endereco.SB_Municipio}
             />
-            {errors.SB_Endereco?.SB_Municipio && (
-              <span>{errors.SB_Endereco?.SB_Municipio.message}</span>
-            )}
           </InfoBox>
           <InfoBox>
             <Labeln>Logradouro</Labeln>
@@ -132,9 +109,6 @@ const SolicitacaoBaseForm: React.FC<SolicitacaoBaseFormProps> = ({
               })}
               defaultValue={solicitacao.SB_Endereco.SB_Logradouro}
             />
-            {errors.SB_Endereco?.SB_Logradouro && (
-              <span>{errors.SB_Endereco?.SB_Logradouro.message}</span>
-            )}
           </InfoBox>
         </Field>
         <Field>
@@ -147,9 +121,6 @@ const SolicitacaoBaseForm: React.FC<SolicitacaoBaseFormProps> = ({
               })}
               defaultValue={solicitacao.SB_Endereco.SB_Numero}
             />
-            {errors.SB_Endereco?.SB_Numero && (
-              <span>{errors.SB_Endereco?.SB_Numero.message}</span>
-            )}
           </InfoBox>
           <InfoBox>
             <Labeln>Complemento</Labeln>
@@ -160,9 +131,6 @@ const SolicitacaoBaseForm: React.FC<SolicitacaoBaseFormProps> = ({
               })}
               defaultValue={solicitacao.SB_Endereco.SB_Complemento}
             />
-            {errors.SB_Endereco?.SB_Complemento && (
-              <span>{errors.SB_Endereco?.SB_Complemento.message}</span>
-            )}
           </InfoBox>
           <InfoBox>
             <Labeln>Cruzamento</Labeln>
@@ -173,9 +141,6 @@ const SolicitacaoBaseForm: React.FC<SolicitacaoBaseFormProps> = ({
               })}
               defaultValue={solicitacao.SB_Endereco.SB_Cruzamento}
             />
-            {errors.SB_Endereco?.SB_Cruzamento && (
-              <span>{errors.SB_Endereco?.SB_Cruzamento.message}</span>
-            )}
           </InfoBox>
           <InfoBox>
             <Labeln>Bairro</Labeln>
@@ -186,9 +151,6 @@ const SolicitacaoBaseForm: React.FC<SolicitacaoBaseFormProps> = ({
               })}
               defaultValue={solicitacao.SB_Endereco.SB_Bairro}
             />
-            {errors.SB_Endereco?.SB_Bairro && (
-              <span>{errors.SB_Endereco?.SB_Bairro.message}</span>
-            )}
           </InfoBox>
         </Field>
         <Field>
@@ -201,9 +163,6 @@ const SolicitacaoBaseForm: React.FC<SolicitacaoBaseFormProps> = ({
               })}
               defaultValue={solicitacao.SB_Endereco.SB_Referencia}
             />
-            {errors.SB_Endereco?.SB_Referencia && (
-              <span>{errors.SB_Endereco?.SB_Referencia.message}</span>
-            )}
           </InfoBox>
           <InfoBox>
             <Labeln>Número OS</Labeln>
@@ -214,7 +173,6 @@ const SolicitacaoBaseForm: React.FC<SolicitacaoBaseFormProps> = ({
               })}
               defaultValue={solicitacao.SB_NumeroOS}
             />
-            {errors.SB_NumeroOS && <span>{errors.SB_NumeroOS.message}</span>}
           </InfoBox>
           <InfoBox>
             <Labeln>Tipo de Serviço</Labeln>
@@ -225,9 +183,6 @@ const SolicitacaoBaseForm: React.FC<SolicitacaoBaseFormProps> = ({
               })}
               defaultValue={solicitacao.SB_TipoServico}
             />
-            {errors.SB_TipoServico && (
-              <span>{errors.SB_TipoServico.message}</span>
-            )}
           </InfoBox>
           <InfoBox>
             <Labeln>Setor Abastecimento</Labeln>
@@ -238,9 +193,6 @@ const SolicitacaoBaseForm: React.FC<SolicitacaoBaseFormProps> = ({
               })}
               defaultValue={solicitacao.SB_Endereco.SB_SetorAbastecimento}
             />
-            {errors.SB_Endereco?.SB_SetorAbastecimento && (
-              <span>{errors.SB_Endereco?.SB_SetorAbastecimento.message}</span>
-            )}
           </InfoBox>
         </Field>
         <Field>
@@ -253,9 +205,6 @@ const SolicitacaoBaseForm: React.FC<SolicitacaoBaseFormProps> = ({
               })}
               defaultValue={solicitacao.SB_Endereco.SB_ZonaPressao}
             />
-            {errors.SB_Endereco?.SB_ZonaPressao && (
-              <span>{errors.SB_Endereco?.SB_ZonaPressao.message}</span>
-            )}
           </InfoBox>
           <InfoBox>
             <Labeln>Microzona</Labeln>
@@ -266,7 +215,6 @@ const SolicitacaoBaseForm: React.FC<SolicitacaoBaseFormProps> = ({
               })}
               defaultValue={solicitacao.SB_Microzona}
             />
-            {errors.SB_Microzona && <span>{errors.SB_Microzona.message}</span>}
           </InfoBox>
           <InfoBox>
             <Labeln>Numero MZ</Labeln>
@@ -277,7 +225,6 @@ const SolicitacaoBaseForm: React.FC<SolicitacaoBaseFormProps> = ({
               })}
               defaultValue={solicitacao.SB_NumeroMZ}
             />
-            {errors.SB_NumeroMZ && <span>{errors.SB_NumeroMZ.message}</span>}
           </InfoBox>
           <InfoBox>
             <Labeln>Motivo</Labeln>
@@ -288,7 +235,6 @@ const SolicitacaoBaseForm: React.FC<SolicitacaoBaseFormProps> = ({
               })}
               defaultValue={solicitacao.SB_Motivo}
             />
-            {errors.SB_Motivo && <span>{errors.SB_Motivo.message}</span>}
           </InfoBox>
         </Field>
         <Labeln>Observações</Labeln>
