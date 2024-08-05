@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Acatamento } from "../../services/models/acatamentoModel";
 import { useFormAcatamentoStore } from "./formStore";
-import { Inputn } from "../../utils/commonStyles";
+import { Inputn, Optionn, Selectn } from "../../utils/commonStyles";
 import { FieldTwo, Formn, TextArean } from "../../utils/modals/modalUserStyles";
 import {
   InfoBox,

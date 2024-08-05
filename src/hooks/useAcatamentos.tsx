@@ -5,8 +5,8 @@ import {
   createAcatamento,
   updateAcatamento,
   deleteAcatamento,
-  Acatamento,
 } from "../services/api/acatamentoService";
+import { Acatamento } from "../services/models/acatamentoModel";
 
 export const useAcatamentos = () => {
   const [acatamentos, setAcatamentos] = useState<Acatamento[]>([]);

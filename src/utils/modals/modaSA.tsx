@@ -1,15 +1,16 @@
-import React from "react";
+import React, { ChangeEvent, useState } from "react";
 import SolicitacaoBaseForm from "../../components/Form/SolicitacaoBaseForm";
 import AcatamentoForm from "../../components/Form/AcatamentoForm";
 
 import { useAcatamentoSubmit } from "../../hooks/useA";
 import { useFormAcatamentoAberturaStore, useFormAcatamentoStore, useFormFechamentoStore, useFormServicoAberturaStore, } from "../../components/Form/formStore";
 import { ModalContainer, ModalContent, Title } from "./modalUserStyles";
-import { Buttons, ButtonsBox } from "../commonStyles";
+import { Buttons, ButtonsBox, Optionn, Selectn } from "../commonStyles";
 import { Fechamento } from "../../services/models/fechamentoModel";
 import { SolicitacaoBase } from "../../services/models/solicitacaoBaseModel";
 import FechamentoForm from "../../components/Form/fechamentoForm";
 import SolicitacaoAberturaForm from "../../components/Form/solicitacaoAberturaForm";
+import { SectionBox, SectionTitle } from "../../pages/Fechamento/styles";
 
 interface EditModalProps {
   solicitacao: SolicitacaoBase;
@@ -29,6 +30,12 @@ const EditModal: React.FC<EditModalProps> = ({
   const { fechamento: fechamentoState } = useFormFechamentoStore();
   const { solicitacaoAbertura } = useFormServicoAberturaStore();
   const { acatamentoAbertura } = useFormAcatamentoAberturaStore();
+  const [hasFValue, setHasFValue] = useState<Number | null>(null);
+
+  // Função para lidar com a mudança de seleção
+  const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    setHasFValue(Number(event.target.value));
+  };
 
 
   const handleSubmitAll = async () => {
@@ -76,12 +83,21 @@ const EditModal: React.FC<EditModalProps> = ({
           solicitacaoBaseId={solicitacao.id_SolicitacaoBase}
           enderecoId={solicitacao.SB_Enderecos_id_Endereco}
         />
+        <SectionBox>
+      <SectionTitle>Serviço foi aceito?</SectionTitle>
+      <Selectn onChange={handleSelectChange}>
+          <Optionn value="">Selecione...</Optionn>
+          <Optionn value={1}>Sim</Optionn>
+          <Optionn value={0}>Não</Optionn>
+        </Selectn>
+      </SectionBox>
+      {hasFValue === 1 &&( <>
         <FechamentoForm
           fechamento={fechamento}
           onSubmit={(data: Fechamento) => {
             console.log("Dados do formulário de Fechamento enviados:", data);
           }}
-        />
+        /> </>)}
 
         <SolicitacaoAberturaForm
           solicitacaoAbertura={solicitacaoAbertura}
