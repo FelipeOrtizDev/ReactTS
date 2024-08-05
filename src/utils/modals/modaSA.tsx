@@ -3,13 +3,13 @@ import React from "react";
 import SolicitacaoBaseForm from "../../components/Form/SolicitacaoBaseForm";
 import AcatamentoForm from "../../components/Form/AcatamentoForm";
 import { useAcatamentoSubmit } from "../../hooks/useA";
-import { useFechamentoStore } from "../../components/Form/formfechamentoStore";
+import { useFechamentoStore } from "../../components/Form/Stores/formfechamentoStore";
 import { ModalContainer, ModalContent, Title } from "./modalUserStyles";
 import { Buttons, ButtonsBox } from "../commonStyles";
 import { Fechamento } from "../../services/models/fechamentoModel";
 import { SolicitacaoBase } from "../../services/models/solicitacaoBaseModel";
 import FechamentoForm from "../../components/Form/fechamentoForm";
-import SolicitacaoAberturaForm from "../../components/Form/formfechamentoStore";
+import SolicitacaoAberturaForm from "../../components/Form/Stores/formfechamentoStore";
 import { Acatamento } from "../../services/models/acatamentoModel";
 
 interface EditModalProps {

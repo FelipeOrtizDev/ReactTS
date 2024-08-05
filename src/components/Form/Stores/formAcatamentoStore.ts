@@ -1,12 +1,12 @@
 // src/store/acatamentoStore.ts
 import create from "zustand";
-import { Acatamento } from "../../services/models/acatamentoModel";
 import {
   getAcatamentos,
   createAcatamento,
   updateAcatamento,
   deleteAcatamento,
-} from "../../services/api/acatamentoService";
+} from "../../../services/api/Acatamento/acatamentoService";
+import { Acatamento } from "../../../services/models/acatamentoModel";
 
 interface AcatamentoState {
   acatamentos: Record<number, Acatamento>;

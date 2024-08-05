@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Acatamento } from "../../services/models/acatamentoModel";
-import { useFormAcatamentoStore } from "./formfechamentoStore";
+import { useAcatamentoStore } from "./Stores/formfechamentoStore";
 import { Inputn } from "../../utils/commonStyles";
 import { FieldTwo, Formn, TextArean } from "../../utils/modals/modalUserStyles";
 import {
@@ -20,7 +20,7 @@ const AcatamentoForm: React.FC<AcatamentoFormProps> = ({
   enderecoId,
 }) => {
   const { register, handleSubmit, setValue, getValues } = useForm<Acatamento>();
-  const { acatamento, setAcatamento } = useFormAcatamentoStore();
+  const { acatamento, setAcatamento } = useAcatamentoStore();
 
   useEffect(() => {
     // Inicializando os valores do formulário com Zustand

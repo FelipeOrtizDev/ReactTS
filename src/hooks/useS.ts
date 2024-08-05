@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { SolicitacaoAbertura } from "../../src/services/models/solicitacaoAberturaModel";
 import { createSolicitacaoAbertura } from "../services/api/solicitacaoAberturaService";
-import { createAcatamentosAbertura } from "../services/api/acatamentosAberturaService";
 import { AcatamentosAbertura } from "../services/models/acatamentoAberturaModel";
+import { createAcatamentosAbertura } from "../services/api/Acatamento/acatamentosAberturaService";
 
 export const useSolicitacaoAberturaSubmit = () => {
   const [data, setData] = useState<SolicitacaoAbertura | null>(null);
