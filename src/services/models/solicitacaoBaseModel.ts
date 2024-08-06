@@ -1,5 +1,4 @@
 import { Endereco } from "./enderecoModel";
-import { Fechamento } from "./fechamentoModel";
 
 export interface SolicitacaoBase {
   id_SolicitacaoBase: number;
@@ -17,5 +16,4 @@ export interface SolicitacaoBase {
   SB_Responsavel: string;
   SB_Enderecos_id_Endereco: number;
   SB_Endereco: Endereco;
-  fechamento?: Fechamento;
 }

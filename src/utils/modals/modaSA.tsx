@@ -1,16 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import SolicitacaoBaseForm from "../../components/Form/SolicitacaoBaseForm";
-import AcatamentoForm from "../../components/Form/AcatamentoForm";
-import { useAcatamentoSubmit } from "../../hooks/useA";
-import { useFechamentoStore } from "../../components/Form/Stores/formfechamentoStore";
 import { ModalContainer, ModalContent, Title } from "./modalUserStyles";
 import { Buttons, ButtonsBox } from "../commonStyles";
 import { Fechamento } from "../../services/models/fechamentoModel";
 import { SolicitacaoBase } from "../../services/models/solicitacaoBaseModel";
 import FechamentoForm from "../../components/Form/fechamentoForm";
-import SolicitacaoAberturaForm from "../../components/Form/Stores/formfechamentoStore";
-import { Acatamento } from "../../services/models/acatamentoModel";
+import { useStore } from "../../components/Form/formfechamentoStore";
+import { axiosInstance } from "../../services/api/conexaoApi";
+import { useForm } from "react-hook-form";
 
 interface EditModalProps {
   solicitacao: SolicitacaoBase;
@@ -23,46 +21,67 @@ const EditModal: React.FC<EditModalProps> = ({
   onClose,
   onSave,
 }) => {
-  const { fechamentos } = useFechamentoStore();
-  const { acatamentos } = useAcatamentoStore();
+  /*  const { fechamento, setFechamento } = useStore();
 
-  const fechamento = fechamentos[solicitacao.id_SolicitacaoBase] || {
-    SB_SolicitacaoBase_id_SolicitacaoBase: solicitacao.id_SolicitacaoBase,
-  };
-
-  const acatamento = acatamentos[solicitacao.id_SolicitacaoBase] || {
-    SB_SolicitacaoBase_id_SolicitacaoBase: solicitacao.id_SolicitacaoBase,
-  };
   const handleSaveSolicitacao = (data: SolicitacaoBase) => {
-    onSave({ ...data, fechamento, acatamento });
+    onSave({ ...solicitacao, ...data });
   };
 
-  const handleSaveFechamento = (data: Fechamento) => {
-    onSave({ ...solicitacao, fechamento: data, acatamento });
-  };
+  const handleSaveFechamento = async (data: Fechamento) => {
+    try {
+      const response = await axiosInstance.post(
+        `/fechamentos/${solicitacao.id_SolicitacaoBase}`,
+        data
+      );
+      setFechamento(data);
+      console.log("Fechamento enviado com sucesso:", response.data);
+    } catch (error) {
+      console.error("Erro ao enviar fechamento:", error);
+    }
+  }; */
 
-  const handleSaveAcatamento = (data: Acatamento) => {
-    onSave({ ...solicitacao, fechamento, acatamento: data });
+  const { fechamento, setFechamento } = useStore();
+
+  const solicitacaoForm = useForm<SolicitacaoBase>({
+    defaultValues: solicitacao,
+  });
+  const fechamentoForm = useForm<Fechamento>({ defaultValues: fechamento });
+
+  const handleSave = async () => {
+    const solicitacaoData = solicitacaoForm.getValues();
+    const fechamentoData = fechamentoForm.getValues();
+    fechamentoData.SB_SolicitacaoBase_id_SolicitacaoBase =
+      solicitacao.id_SolicitacaoBase;
+
+    try {
+      /* await axiosInstance.put(
+        `/solicitacoes/${solicitacao.id_SolicitacaoBase}`,
+        solicitacaoData
+      ); */
+      const response = await axiosInstance.post(
+        `/fechamentos/${solicitacaoData.id_SolicitacaoBase}`,
+        fechamentoData
+      );
+      setFechamento(fechamentoData);
+      onSave({ ...solicitacaoData, fechamento: fechamentoData });
+      console.log("Fechamento enviado com sucesso:", response.data);
+      return response.data;
+    } catch (error) {
+      console.error("Erro ao enviar fechamento:", error);
+    }
   };
 
   return (
     <ModalContainer>
-      <ModalContent>
+      <ModalContent onSubmit={solicitacaoForm.handleSubmit(handleSave)}>
         <Title>Editar Solicitação e Acatamento</Title>
-        <SolicitacaoBaseForm
-          solicitacao={solicitacao}
-          onSubmit={handleSaveSolicitacao}
-        />
+        <SolicitacaoBaseForm form={solicitacaoForm} />
         {/* <AcatamentoForm
           solicitacaoBaseId={solicitacao.id_SolicitacaoBase}
           acatamento={acatamento}
           onSubmit={handleSaveAcatamento}
         /> */}
-        <FechamentoForm
-          solicitacaoBaseId={solicitacao.id_SolicitacaoBase}
-          fechamento={fechamento}
-          onSubmit={handleSaveFechamento}
-        />
+        <FechamentoForm form={fechamentoForm} />
         {/*  <SolicitacaoAberturaForm
           solicitacaoAbertura={solicitacaoAbertura}
           acatamentosAbertura={acatamentoAbertura}
@@ -76,7 +95,7 @@ const EditModal: React.FC<EditModalProps> = ({
           <Buttons type="button" onClick={onClose}>
             Fechar
           </Buttons>
-          <Buttons type="button" onClick={handleSubmitAll}>
+          <Buttons type="button" onClick={handleSave}>
             Salvar Tudo
           </Buttons>
         </ButtonsBox>
