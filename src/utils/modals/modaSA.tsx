@@ -50,21 +50,24 @@ const EditModal: React.FC<EditModalProps> = ({
   const handleSave = async () => {
     const solicitacaoData = solicitacaoForm.getValues();
     const fechamentoData = fechamentoForm.getValues();
+    fechamentoData.Sb_SolicitacaoBase = solicitacaoData;
+
     fechamentoData.SB_SolicitacaoBase_id_SolicitacaoBase =
-      solicitacao.id_SolicitacaoBase;
+      fechamentoData.Sb_SolicitacaoBase.id_SolicitacaoBase;
+
+    fechamentoData.SB_SolicitacaoBase_SB_Enderecos_id_Endereco =
+      fechamentoData.Sb_SolicitacaoBase.SB_Enderecos_id_Endereco;
+
+    fechamentoData.SB_ServicoAceito = true;
 
     try {
-      /* await axiosInstance.put(
-        `/solicitacoes/${solicitacao.id_SolicitacaoBase}`,
-        solicitacaoData
-      ); */
       const response = await axiosInstance.post(
-        `/fechamentos/${solicitacaoData.id_SolicitacaoBase}`,
+        `/fechamentos/${fechamentoData.Sb_SolicitacaoBase.id_SolicitacaoBase}`,
         fechamentoData
       );
       setFechamento(fechamentoData);
       onSave({ ...solicitacaoData, fechamento: fechamentoData });
-      console.log("Fechamento enviado com sucesso:", response.data);
+
       return response.data;
     } catch (error) {
       console.error("Erro ao enviar fechamento:", error);

@@ -1,3 +1,5 @@
+import { SolicitacaoBase } from "./solicitacaoBaseModel";
+
 export interface Fechamento {
   id_Fechamentos: number;
   SB_DataFechamento: string;
@@ -19,4 +21,6 @@ export interface Fechamento {
   SB_ManobraWFM: string;
   SB_OFechado: string;
   SB_SolicitacaoBase_id_SolicitacaoBase: number;
+  SB_SolicitacaoBase_SB_Enderecos_id_Endereco: number;
+  Sb_SolicitacaoBase: SolicitacaoBase;
 }
