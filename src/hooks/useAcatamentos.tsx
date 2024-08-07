@@ -5,7 +5,7 @@ import {
   createAcatamento,
   updateAcatamento,
   deleteAcatamento,
-} from "../services/api/acatamentoService";
+} from "../services/api/Acatamento/acatamentoService";
 import { Acatamento } from "../services/models/acatamentoModel";
 
 export const useAcatamentos = () => {

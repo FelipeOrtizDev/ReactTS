@@ -11,9 +11,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { createEnderecos } from "../../services/api/enderecoService";
-import {
-  createSolicitacaoBase
-} from "../../services/api/solicitacaoBase";
+import { createSolicitacaoBase } from "../../services/api/solicitacaoBase";
 import { BsSend, BsArrowBarRight, BsEraser } from "react-icons/bs";
 import {
   Buttons,

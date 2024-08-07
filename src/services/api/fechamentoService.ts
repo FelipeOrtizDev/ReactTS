@@ -3,7 +3,7 @@ import { axiosInstance } from "./conexaoApi";
 
 export const getFechamentos = async (): Promise<Fechamento[]> => {
   try {
-    const response = await axiosInstance.get("/fechamentos");
+    const response = await axiosInstance.get("/fechamentos/:solicitacaoId");
     return response.data;
   } catch (error) {
     throw new Error("Erro ao puxar todos os fechamentos" + error);
@@ -14,10 +14,13 @@ export const createFechamentos = async (
   fechamento: Fechamento
 ): Promise<Fechamento> => {
   try {
-    const response = await axiosInstance.post("/fechamentos", fechamento);
+    const response = await axiosInstance.post(
+      `/fechamentos/${fechamento.Sb_SolicitacaoBase.id_SolicitacaoBase}`,
+      fechamento
+    );
     return response.data;
   } catch (error) {
-    throw new Error("Error ao criar fehcmaneto" + error);
+    throw new Error("Erro ao criar fechamento: " + error);
   }
 };
 

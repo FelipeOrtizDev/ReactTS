@@ -5,8 +5,8 @@ import {
   createFechamentos,
   updateFechamento,
   deleteFechamento,
-  Fechamento,
 } from "../services/api/fechamentoService";
+import { Fechamento } from "../services/models/fechamentoModel";
 
 export const useFechamentos = () => {
   const [fechamentos, setFechamentos] = useState<Fechamento[]>([]);

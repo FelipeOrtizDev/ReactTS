@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { createAcatamento } from "../services/api/acatamentoService";
+import { createAcatamento } from "../services/api/Acatamento/acatamentoService";
 import { Acatamento } from "../services/models/acatamentoModel";
 
 export const useAcatamentoSubmit = () => {

@@ -1,8 +1,8 @@
 import { useState } from "react";
 import {
-  Fechamento,
   createFechamentos,
 } from "../services/api/fechamentoService";
+import { Fechamento } from "../services/models/fechamentoModel";
 
 export const useFechamentoSubmit = () => {
   const [data, setData] = useState<Fechamento | null>(null);

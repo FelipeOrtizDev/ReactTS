@@ -5,8 +5,8 @@ import {
   createUser,
   updateUser,
   deleteUser,
-  Usuario,
 } from "../services/api/usuarioService";
+import { Usuario } from "../services/models/usuarioModel";
 
 export const useUsuarios = () => {
   const [usuarios, setUsuarios] = useState<Usuario[]>([]);
