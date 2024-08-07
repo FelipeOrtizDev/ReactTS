@@ -7,7 +7,7 @@ import { Fechamento } from "../../services/models/fechamentoModel";
 import { SolicitacaoBase } from "../../services/models/solicitacaoBaseModel";
 import FechamentoForm from "../../components/Form/fechamentoForm";
 import { useStore } from "../../components/Form/formfechamentoStore";
-import { axiosInstance } from "../../services/api/conexaoApi";
+import { createFechamentos } from '../../services/api/fechamentoService';
 import { useForm } from "react-hook-form";
 
 interface EditModalProps {
@@ -59,21 +59,16 @@ const EditModal: React.FC<EditModalProps> = ({
       fechamentoData.Sb_SolicitacaoBase.SB_Enderecos_id_Endereco;
 
     fechamentoData.SB_ServicoAceito = true;
-
     try {
-      const response = await axiosInstance.post(
-        `/fechamentos/${fechamentoData.Sb_SolicitacaoBase.id_SolicitacaoBase}`,
-        fechamentoData
-      );
+      const responseData = await createFechamentos(fechamentoData);
       setFechamento(fechamentoData);
       onSave({ ...solicitacaoData, fechamento: fechamentoData });
 
-      return response.data;
+      return responseData;
     } catch (error) {
-      console.error("Erro ao enviar fechamento:", error);
+      console.error('Erro ao enviar fechamento:', error);
     }
   };
-
   return (
     <ModalContainer>
       <ModalContent onSubmit={solicitacaoForm.handleSubmit(handleSave)}>
