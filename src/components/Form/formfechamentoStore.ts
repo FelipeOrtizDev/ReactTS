@@ -22,7 +22,7 @@ interface Fechamento {
   SB_HoraFechamento: string;
   SB_Status: string;
   SB_Prioridade: string;
-  SB_ServicoAceito: boolean;
+  SB_ServicoAceito: number;
   SB_HouveFechamento: boolean;
   SB_Rede: string;
   SB_UltilizouMZ: string;

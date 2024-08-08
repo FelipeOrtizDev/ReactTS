@@ -1,9 +1,9 @@
 import { Fechamento } from "../models/fechamentoModel";
 import { axiosInstance } from "./conexaoApi";
 
-export const getFechamentos = async (): Promise<Fechamento[]> => {
+export const getFechamentos = async (id: number,): Promise<Fechamento[]> => {
   try {
-    const response = await axiosInstance.get("/fechamentos/:solicitacaoId");
+    const response = await axiosInstance.get(`/fechamentos/${id}`);
     return response.data;
   } catch (error) {
     throw new Error("Erro ao puxar todos os fechamentos" + error);

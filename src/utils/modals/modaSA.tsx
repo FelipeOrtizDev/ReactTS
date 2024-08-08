@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent } from "react";
 import SolicitacaoBaseForm from "../../components/Form/SolicitacaoBaseForm";
 import { ModalContainer, ModalContent, Title } from "./modalUserStyles";
 import { Buttons, ButtonsBox, Optionn, Selectn } from "../commonStyles";
@@ -13,21 +13,25 @@ import { useForm } from "react-hook-form";
 
 interface EditModalProps {
   solicitacao: SolicitacaoBase;
+  Ifechamento?: Fechamento;
+  isLoading: boolean;
   onClose: () => void;
   onSave: (data: any) => void;
 }
 
 const EditModal: React.FC<EditModalProps> = ({
   solicitacao,
+  Ifechamento,
+  isLoading,
   onClose,
   onSave,
 }) => {
-  const [hasFValue, setHasFValue] = useState<Number | null>(null);
 
-  // Função para lidar com a mudança de seleção
   const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    setHasFValue(Number(event.target.value));
+    const value = Number(event.target.value);
+    fechamentoForm.setValue("SB_ServicoAceito", value);
   };
+ 
   /*  const { fechamento, setFechamento } = useStore();
 
   const handleSaveSolicitacao = (data: SolicitacaoBase) => {
@@ -52,7 +56,9 @@ const EditModal: React.FC<EditModalProps> = ({
   const solicitacaoForm = useForm<SolicitacaoBase>({
     defaultValues: solicitacao,
   });
-  const fechamentoForm = useForm<Fechamento>({ defaultValues: fechamento });
+  const fechamentoForm = useForm<Fechamento>({
+    defaultValues: Ifechamento || fechamento,
+  });
 
   const handleSave = async () => {
     const solicitacaoData = solicitacaoForm.getValues();
@@ -64,8 +70,11 @@ const EditModal: React.FC<EditModalProps> = ({
 
     fechamentoData.SB_SolicitacaoBase_SB_Enderecos_id_Endereco =
       fechamentoData.Sb_SolicitacaoBase.SB_Enderecos_id_Endereco;
+    // Ensure the value is number before sending to backend
+    fechamentoData.SB_ServicoAceito = 
+      fechamentoForm.getValues("SB_ServicoAceito");
 
-    fechamentoData.SB_ServicoAceito = true;
+
     try {
       const responseData = await createFechamentos(fechamentoData);
       setFechamento(fechamentoData);
@@ -76,8 +85,12 @@ const EditModal: React.FC<EditModalProps> = ({
       console.error('Erro ao enviar fechamento:', error);
     }
   };
+
   return (
     <ModalContainer>
+      {isLoading ? (
+        <div>Carregando...</div>
+      ): (
       <ModalContent onSubmit={solicitacaoForm.handleSubmit(handleSave)}>
         <Title>Editar Solicitação e Acatamento</Title>
         <SolicitacaoBaseForm form={solicitacaoForm} />
@@ -87,13 +100,17 @@ const EditModal: React.FC<EditModalProps> = ({
         /> */}
         <SectionBox>
       <SectionTitle>Serviço foi aceito?</SectionTitle>
-      <Selectn onChange={handleSelectChange}>
+      <Selectn     
+      {...fechamentoForm.register("SB_ServicoAceito", { valueAsNumber: true })}
+      onChange={handleSelectChange}
+      value={fechamentoForm.watch("SB_ServicoAceito")}
+      >
           <Optionn value="">Selecione...</Optionn>
           <Optionn value={1}>Sim</Optionn>
           <Optionn value={0}>Não</Optionn>
         </Selectn>
       </SectionBox>
-      {hasFValue === 1 &&( <>
+      {fechamentoForm.watch("SB_ServicoAceito") === 1 &&( <>
         <FechamentoForm form={fechamentoForm} />
         </>)}
 
@@ -110,7 +127,8 @@ const EditModal: React.FC<EditModalProps> = ({
           onSubmit={(data) => {
             console.log("Dados do formulário de Solicitação de Abertura enviados:", data);
           }}
-        /> */}
+        /> */} 
+
         <ButtonsBox>
           <Buttons type="button" onClick={onClose}>
             Fechar
@@ -120,6 +138,7 @@ const EditModal: React.FC<EditModalProps> = ({
           </Buttons>
         </ButtonsBox>
       </ModalContent>
+      )}
     </ModalContainer>
   );
 };
