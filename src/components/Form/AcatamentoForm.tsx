@@ -1,6 +1,6 @@
 import React from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { Acatamento } from "../../services/api/acatamentoService";
+import { UseFormReturn } from "react-hook-form";
+import { Acatamento } from "../../services/models/acatamentoModel";
 import { Inputn } from "../../utils/commonStyles";
 import { FieldTwo, Formn, TextArean } from "../../utils/modals/modalUserStyles";
 import {
@@ -11,28 +11,13 @@ import {
 } from "../../pages/Fechamento/styles";
 
 interface AcatamentoFormProps {
-  acatamento: Acatamento;
-  onSubmit: (data: Acatamento) => void;
+  form: UseFormReturn<Acatamento>;
 }
-
-const AcatamentoForm: React.FC<AcatamentoFormProps> = ({
-  acatamento,
-  onSubmit,
-}) => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<Acatamento>({
-    defaultValues: acatamento,
-  });
-
-  const handleFormSubmit: SubmitHandler<Acatamento> = (data) => {
-    onSubmit(data);
-  };
+const AcatamentoForm: React.FC<AcatamentoFormProps> = ({ form }) => {
+  const { register } = form;
 
   return (
-    <Formn onSubmit={handleSubmit(handleFormSubmit)}>
+    <Formn>
       <SectionBox>
         <SectionTitle>Acatamento</SectionTitle>
         <FieldTwo>
@@ -40,27 +25,30 @@ const AcatamentoForm: React.FC<AcatamentoFormProps> = ({
             <Labeln>Data</Labeln>
             <Inputn
               type="date"
-              {...register("SB_DataAcatamento", {
-                required: "Data Abertura é obrigatória",
-              })}
+              {...register("SB_DataAcatamento", { required: true })}
             />
-            {errors.SB_DataAcatamento && (
-              <span>{errors.SB_DataAcatamento.message}</span>
-            )}
           </InfoBox>
           <InfoBox>
             <Labeln>Passado Para</Labeln>
-            <Inputn type="text" />
+            <Inputn
+              type="text"
+              {...register("SB_EquipeResponsavel", { required: true })}
+            />
           </InfoBox>
         </FieldTwo>
         <FieldTwo>
           <InfoBox>
             <Labeln>Previsão (h)</Labeln>
-            <Inputn type="time" />
+            <Inputn
+              type="time"
+              {...register("SB_PrevisaoAcatamento", { required: true })}
+            />
           </InfoBox>
           <InfoBox>
             <Labeln>Observações</Labeln>
-            <TextArean />
+            <TextArean
+              {...register("SB_ObservacaoAcatamento", { required: true })}
+            />
           </InfoBox>
         </FieldTwo>
       </SectionBox>

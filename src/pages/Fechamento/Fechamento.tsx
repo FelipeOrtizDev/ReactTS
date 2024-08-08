@@ -10,11 +10,8 @@ import {
 } from "./styles";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { createEnderecos, Endereco } from "../../services/api/enderecoService";
-import {
-  createSolicitacaoBase,
-  SolicitacaoBase,
-} from "../../services/api/solicitacaoBase";
+import { createEnderecos } from "../../services/api/enderecoService";
+import { createSolicitacaoBase } from "../../services/api/solicitacaoBase";
 import { BsSend, BsArrowBarRight, BsEraser } from "react-icons/bs";
 import {
   Buttons,
@@ -26,6 +23,8 @@ import {
   Title,
 } from "../../utils/commonStyles";
 import { Link } from "react-router-dom";
+import { SolicitacaoBase } from "../../services/models/solicitacaoBaseModel";
+import { Endereco } from "../../services/models/enderecoModel";
 
 const Fechamentos: React.FC = () => {
   const { register, handleSubmit, reset, watch, setValue } = useForm();
@@ -78,13 +77,13 @@ const Fechamentos: React.FC = () => {
   };
 
   useEffect(() => {
-    if (mzValue === '1') {
+    if (mzValue === "1") {
       setIsMZEnabled(true);
     } else {
       setIsMZEnabled(false);
     }
   }, [mzValue]);
-  
+
   useEffect(() => {
     setValue("municipio", "");
     setValue("setorAbastecimento", "");
@@ -122,6 +121,7 @@ const Fechamentos: React.FC = () => {
 
       // Criar a solicitação base associando corretamente o id_Endereco
       const solicitacaoBase: SolicitacaoBase = {
+        id_SolicitacaoBase: data.id,
         SB_DataSolicitacao: data.dataSolicitacao,
         SB_HoraSolicitacao: data.horaSolicitacao,
         SB_NumeroOS: data.numeroOS,
@@ -314,8 +314,11 @@ const Fechamentos: React.FC = () => {
               </InfoBox>
               <InfoBox>
                 <Labeln>Numero MZ</Labeln>
-                <Inputn type="number" {...register("numeroMZ")} disabled={!isMZEnabled}/>
-                
+                <Inputn
+                  type="number"
+                  {...register("numeroMZ")}
+                  disabled={!isMZEnabled}
+                />
               </InfoBox>
               <InfoBox>
                 <Labeln>Motivo</Labeln>

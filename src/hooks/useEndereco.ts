@@ -5,8 +5,8 @@ import {
   createEnderecos,
   updateEnderecos,
   deleteEnderecos,
-  Endereco,
 } from "../services/api/enderecoService";
+import { Endereco } from "../services/models/enderecoModel";
 
 export const useEndereco = () => {
   const [enderecos, setEnderecos] = useState<Endereco[]>([]);

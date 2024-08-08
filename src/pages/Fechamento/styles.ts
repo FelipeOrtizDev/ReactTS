@@ -87,4 +87,6 @@ export const TextArean = styled.textarea`
   border-radius: 0.375rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   resize: none;
+  height: 100px; 
+  width: 200%;
 `;

@@ -5,8 +5,8 @@ import {
   createSolicitacaoBase,
   updateSolicitacaoBase,
   deleteSolicitacaoBase,
-  SolicitacaoBase,
 } from "../services/api/solicitacaoBase";
+import { SolicitacaoBase } from "../services/models/solicitacaoBaseModel";
 
 export const useSolicitacaoBase = () => {
   const [solicitacoesBase, setSolicitacoesBase] = useState<SolicitacaoBase[]>(

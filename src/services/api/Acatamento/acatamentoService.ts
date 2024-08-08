@@ -1,14 +1,5 @@
-import { axiosInstance } from "./conexaoApi";
-
-export interface Acatamento {
-  id_Acatamentos?: number;
-  SB_DataAcatamento?: string;
-  SB_PrvisãoAcatamento: string;
-  SB_EquipeResponsavel: string;
-  SB_ObservacaoAcatamento: string;
-  SB_SolicitacaoBase_id_SolicitacaoBase: number;
-  SB_SolicitacaoBase_SB_Enderecos_id_Endereco: number;
-}
+import { Acatamento } from "../../models/acatamentoModel";
+import { axiosInstance } from "../conexaoApi";
 
 export const getAcatamentos = async (): Promise<Acatamento[]> => {
   try {
@@ -23,7 +14,10 @@ export const createAcatamento = async (
   acatamento: Acatamento
 ): Promise<Acatamento> => {
   try {
-    const response = await axiosInstance.post("/acatamentos", acatamento);
+    const response = await axiosInstance.post(
+      `/acatamentos/${acatamento.SB_SolcitacaoBase.id_SolicitacaoBase}`,
+      acatamento
+    );
     return response.data;
   } catch (error) {
     throw new Error("Erro ao criar acatamento: " + error);
