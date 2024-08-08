@@ -40,6 +40,8 @@ export const TitleHeadLineTable = styled.tr`
 
 export const BodyTable = styled.tbody`
   width: 100%;
+  height: 15vh;
+  cursor: pointer;
 `;
 
 export const LineTable = styled.tr`
@@ -53,20 +55,20 @@ export const CellTable = styled.td`
 `;
 
 export const Buttons = styled.button`
-    display: inline-flex;
-    align-items: center;
-    justify-content: space-evenly;
-    height: 3rem;
-    width: 6rem;
-    border: none;
-    outline: none;
-    color: #fff;
-    border-radius: 5px;
-    background-color: #00a3e2;
-    cursor: pointer;
-    margin: 0.5rem;
-    font-size: 1.3rem;
-    font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-evenly;
+  height: 3rem;
+  width: 6rem;
+  border: none;
+  outline: none;
+  color: #fff;
+  border-radius: 5px;
+  background-color: #00a3e2;
+  cursor: pointer;
+  margin: 0.5rem;
+  font-size: 1.3rem;
+  font-weight: 600;
 
   svg {
     stroke-width: 1;

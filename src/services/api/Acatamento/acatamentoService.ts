@@ -1,9 +1,9 @@
 import { Acatamento } from "../../models/acatamentoModel";
 import { axiosInstance } from "../conexaoApi";
 
-export const getAcatamentos = async (): Promise<Acatamento[]> => {
+export const getAcatamentos = async (id: number): Promise<Acatamento> => {
   try {
-    const response = await axiosInstance.get("/acatamentos");
+    const response = await axiosInstance.get(`/acatamentos/${id}`);
     return response.data;
   } catch (error) {
     throw new Error("Erro ao buscar acatamentos:" + error);

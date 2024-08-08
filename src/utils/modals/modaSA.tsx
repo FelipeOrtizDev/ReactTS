@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { ChangeEvent, useState } from "react";
 import SolicitacaoBaseForm from "../../components/Form/SolicitacaoBaseForm";
@@ -27,36 +28,21 @@ const EditModal: React.FC<EditModalProps> = ({
 }) => {
   const [hasFValue, setHasFValue] = useState<Number | null>(null);
 
-  // Função para lidar com a mudança de seleção
   const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
     setHasFValue(Number(event.target.value));
   };
-  /*  const { fechamento, setFechamento } = useStore();
-
-  const handleSaveSolicitacao = (data: SolicitacaoBase) => {
-    onSave({ ...solicitacao, ...data });
-  };
-
-  const handleSaveFechamento = async (data: Fechamento) => {
-    try {
-      const response = await axiosInstance.post(
-        `/fechamentos/${solicitacao.id_SolicitacaoBase}`,
-        data
-      );
-      setFechamento(data);
-      console.log("Fechamento enviado com sucesso:", response.data);
-    } catch (error) {
-      console.error("Erro ao enviar fechamento:", error);
-    }
-  }; */
 
   const { fechamento, setFechamento, acatamento, setAcatamento } = useStore();
 
   const solicitacaoForm = useForm<SolicitacaoBase>({
     defaultValues: solicitacao,
   });
-  const fechamentoForm = useForm<Fechamento>({ defaultValues: fechamento });
-  const acatamentoForm = useForm<Acatamento>({ defaultValues: acatamento });
+  const fechamentoForm = useForm<Fechamento>({
+    defaultValues: fechamento,
+  });
+  const acatamentoForm = useForm<Acatamento>({
+    defaultValues: acatamento,
+  });
 
   const handleSave = async () => {
     const solicitacaoData = solicitacaoForm.getValues();
@@ -79,17 +65,22 @@ const EditModal: React.FC<EditModalProps> = ({
     fechamentoData.SB_SolicitacaoBase_SB_Enderecos_id_Endereco =
       fechamentoData.Sb_SolicitacaoBase.SB_Enderecos_id_Endereco;
 
-    fechamentoData.SB_ServicoAceito = true;
+    fechamentoData.SB_ServicoAceito = false;
+    fechamentoData.SB_HouveFechamento = false;
     try {
       const responseData = await createFechamentos(fechamentoData);
       const acatamentoResponse = await createAcatamento(acatamentoData);
+
       setFechamento(fechamentoData);
       setAcatamento(acatamentoData);
+
       onSave({
         ...solicitacaoData,
         fechamento: fechamentoData,
         acatamento: acatamentoData,
       });
+
+      window.location.reload();
 
       return { responseData, acatamentoResponse };
     } catch (error) {
@@ -116,20 +107,6 @@ const EditModal: React.FC<EditModalProps> = ({
           </>
         )}
 
-        {/* <SolicitacaoAberturaForm
-          acatamento={acatamento}
-          onSubmit={handleSaveAcatamento}
-        />  */}
-
-        {/*  <SolicitacaoAberturaForm
-          solicitacaoAbertura={solicitacaoAbertura}
-          acatamentosAbertura={acatamentoAbertura}
-          solicitacaoBaseId={solicitacao.id_SolicitacaoBase}
-          enderecoId={solicitacao.SB_Enderecos_id_Endereco}
-          onSubmit={(data) => {
-            console.log("Dados do formulário de Solicitação de Abertura enviados:", data);
-          }}
-        /> */}
         <ButtonsBox>
           <Buttons type="button" onClick={onClose}>
             Fechar
