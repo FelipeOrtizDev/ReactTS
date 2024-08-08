@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import React from "react";
+import { UseFormReturn } from "react-hook-form";
 import { Acatamento } from "../../services/models/acatamentoModel";
-import { useAcatamentoStore } from "./Stores/formfechamentoStore";
 import { Inputn } from "../../utils/commonStyles";
 import { FieldTwo, Formn, TextArean } from "../../utils/modals/modalUserStyles";
 import {
@@ -12,47 +11,13 @@ import {
 } from "../../pages/Fechamento/styles";
 
 interface AcatamentoFormProps {
-  solicitacaoBaseId: number;
-  enderecoId: number;
+  form: UseFormReturn<Acatamento>;
 }
-const AcatamentoForm: React.FC<AcatamentoFormProps> = ({
-  solicitacaoBaseId,
-  enderecoId,
-}) => {
-  const { register, handleSubmit, setValue, getValues } = useForm<Acatamento>();
-  const { acatamento, setAcatamento } = useAcatamentoStore();
+const AcatamentoForm: React.FC<AcatamentoFormProps> = ({ form }) => {
+  const { register } = form;
 
-  useEffect(() => {
-    // Inicializando os valores do formulário com Zustand
-    setValue("SB_DataAcatamento", acatamento.SB_DataAcatamento || "");
-    setValue("SB_EquipeResponsavel", acatamento.SB_EquipeResponsavel || "");
-    setValue("SB_PrevisaoAcatamento", acatamento.SB_PrevisaoAcatamento || "");
-    setValue(
-      "SB_ObservacaoAcatamento",
-      acatamento.SB_ObservacaoAcatamento || ""
-    );
-
-    console.log("Valores iniciais do formulário:", getValues());
-  }, [acatamento, setValue, getValues]);
-
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setAcatamento({ [name]: value });
-  };
-
-  const handleFormSubmit = (data: Acatamento) => {
-    console.log("Dados do formulário submetidos:", data);
-
-    setAcatamento({
-      ...data,
-      SB_SolicitacaoBase_id_SolicitacaoBase: solicitacaoBaseId,
-      SB_SolicitacaoBase_SB_Enderecos_id_Endereco: enderecoId,
-    });
-  };
   return (
-    <Formn onSubmit={handleSubmit(handleFormSubmit)}>
+    <Formn>
       <SectionBox>
         <SectionTitle>Acatamento</SectionTitle>
         <FieldTwo>
@@ -61,7 +26,6 @@ const AcatamentoForm: React.FC<AcatamentoFormProps> = ({
             <Inputn
               type="date"
               {...register("SB_DataAcatamento", { required: true })}
-              onChange={handleInputChange}
             />
           </InfoBox>
           <InfoBox>
@@ -69,7 +33,6 @@ const AcatamentoForm: React.FC<AcatamentoFormProps> = ({
             <Inputn
               type="text"
               {...register("SB_EquipeResponsavel", { required: true })}
-              onChange={handleInputChange}
             />
           </InfoBox>
         </FieldTwo>
@@ -79,14 +42,12 @@ const AcatamentoForm: React.FC<AcatamentoFormProps> = ({
             <Inputn
               type="time"
               {...register("SB_PrevisaoAcatamento", { required: true })}
-              onChange={handleInputChange}
             />
           </InfoBox>
           <InfoBox>
             <Labeln>Observações</Labeln>
             <TextArean
               {...register("SB_ObservacaoAcatamento", { required: true })}
-              onChange={handleInputChange}
             />
           </InfoBox>
         </FieldTwo>

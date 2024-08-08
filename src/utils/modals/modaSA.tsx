@@ -8,8 +8,11 @@ import { SolicitacaoBase } from "../../services/models/solicitacaoBaseModel";
 import FechamentoForm from "../../components/Form/fechamentoForm";
 import { SectionBox, SectionTitle } from "../../pages/Fechamento/styles";
 import { useStore } from "../../components/Form/formfechamentoStore";
-import { createFechamentos } from '../../services/api/fechamentoService';
+import { createFechamentos } from "../../services/api/fechamentoService";
 import { useForm } from "react-hook-form";
+import { createAcatamento } from "../../services/api/Acatamento/acatamentoService";
+import { Acatamento } from "../../services/models/acatamentoModel";
+import AcatamentoForm from "../../components/Form/AcatamentoForm";
 
 interface EditModalProps {
   solicitacao: SolicitacaoBase;
@@ -47,16 +50,27 @@ const EditModal: React.FC<EditModalProps> = ({
     }
   }; */
 
-  const { fechamento, setFechamento } = useStore();
+  const { fechamento, setFechamento, acatamento, setAcatamento } = useStore();
 
   const solicitacaoForm = useForm<SolicitacaoBase>({
     defaultValues: solicitacao,
   });
   const fechamentoForm = useForm<Fechamento>({ defaultValues: fechamento });
+  const acatamentoForm = useForm<Acatamento>({ defaultValues: acatamento });
 
   const handleSave = async () => {
     const solicitacaoData = solicitacaoForm.getValues();
     const fechamentoData = fechamentoForm.getValues();
+    const acatamentoData = acatamentoForm.getValues();
+
+    acatamentoData.SB_SolcitacaoBase = solicitacaoData;
+
+    acatamentoData.SB_SolicitacaoBase_id_SolicitacaoBase =
+      acatamentoData.SB_SolcitacaoBase.id_SolicitacaoBase;
+
+    acatamentoData.SB_SolicitacaoBase_SB_Enderecos_id_Endereco =
+      acatamentoData.SB_SolcitacaoBase.SB_Enderecos_id_Endereco;
+
     fechamentoData.Sb_SolicitacaoBase = solicitacaoData;
 
     fechamentoData.SB_SolicitacaoBase_id_SolicitacaoBase =
@@ -68,12 +82,18 @@ const EditModal: React.FC<EditModalProps> = ({
     fechamentoData.SB_ServicoAceito = true;
     try {
       const responseData = await createFechamentos(fechamentoData);
+      const acatamentoResponse = await createAcatamento(acatamentoData);
       setFechamento(fechamentoData);
-      onSave({ ...solicitacaoData, fechamento: fechamentoData });
+      setAcatamento(acatamentoData);
+      onSave({
+        ...solicitacaoData,
+        fechamento: fechamentoData,
+        acatamento: acatamentoData,
+      });
 
-      return responseData;
+      return { responseData, acatamentoResponse };
     } catch (error) {
-      console.error('Erro ao enviar fechamento:', error);
+      console.error("Erro ao enviar fechamento:", error);
     }
   };
   return (
@@ -81,27 +101,26 @@ const EditModal: React.FC<EditModalProps> = ({
       <ModalContent onSubmit={solicitacaoForm.handleSubmit(handleSave)}>
         <Title>Editar Solicitação e Acatamento</Title>
         <SolicitacaoBaseForm form={solicitacaoForm} />
-         {/* <AcatamentoForm
-          solicitacaoBaseId={solicitacao.id_SolicitacaoBase}
-          enderecoId={solicitacao.SB_Enderecos_id_Endereco}
-        /> */}
+        <AcatamentoForm form={acatamentoForm} />
         <SectionBox>
-      <SectionTitle>Serviço foi aceito?</SectionTitle>
-      <Selectn onChange={handleSelectChange}>
-          <Optionn value="">Selecione...</Optionn>
-          <Optionn value={1}>Sim</Optionn>
-          <Optionn value={0}>Não</Optionn>
-        </Selectn>
-      </SectionBox>
-      {hasFValue === 1 &&( <>
-        <FechamentoForm form={fechamentoForm} />
-        </>)}
+          <SectionTitle>Serviço foi aceito?</SectionTitle>
+          <Selectn onChange={handleSelectChange}>
+            <Optionn value="">Selecione...</Optionn>
+            <Optionn value={1}>Sim</Optionn>
+            <Optionn value={0}>Não</Optionn>
+          </Selectn>
+        </SectionBox>
+        {hasFValue === 1 && (
+          <>
+            <FechamentoForm form={fechamentoForm} />
+          </>
+        )}
 
         {/* <SolicitacaoAberturaForm
           acatamento={acatamento}
           onSubmit={handleSaveAcatamento}
         />  */}
-        
+
         {/*  <SolicitacaoAberturaForm
           solicitacaoAbertura={solicitacaoAbertura}
           acatamentosAbertura={acatamentoAbertura}

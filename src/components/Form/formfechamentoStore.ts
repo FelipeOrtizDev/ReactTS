@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { Endereco } from "../../services/models/enderecoModel";
+import { Acatamento } from "../../services/models/acatamentoModel";
 
 interface SolicitacaoBase {
   id_SolicitacaoBase: number;
@@ -42,8 +43,10 @@ interface Fechamento {
 interface StoreState {
   solicitacaoBase: SolicitacaoBase | null;
   fechamento: Fechamento;
+  acatamento: Acatamento;
   setSolicitacaoBase: (solicitacaoBase: SolicitacaoBase) => void;
   setFechamento: (fechamento: Fechamento) => void;
+  setAcatamento: (acatamento: Acatamento) => void;
 }
 
 export const useStore = create<StoreState>((set) => ({

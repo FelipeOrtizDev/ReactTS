@@ -1,6 +1,5 @@
-import { Acatamento } from "../models/acatamentoModel";
-import { axiosInstance } from "./conexaoApi";
-
+import { Acatamento } from "../../models/acatamentoModel";
+import { axiosInstance } from "../conexaoApi";
 
 export const getAcatamentos = async (): Promise<Acatamento[]> => {
   try {
@@ -15,7 +14,10 @@ export const createAcatamento = async (
   acatamento: Acatamento
 ): Promise<Acatamento> => {
   try {
-    const response = await axiosInstance.post("/acatamentos", acatamento);
+    const response = await axiosInstance.post(
+      `/acatamentos/${acatamento.SB_SolcitacaoBase.id_SolicitacaoBase}`,
+      acatamento
+    );
     return response.data;
   } catch (error) {
     throw new Error("Erro ao criar acatamento: " + error);
