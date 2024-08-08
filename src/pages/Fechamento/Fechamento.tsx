@@ -10,7 +10,12 @@ import {
 } from "./styles";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { createEnderecos } from "../../services/api/enderecoService";
+import {
+  createEnderecos,
+  getMunicipiosByPolo,
+  getPolos,
+  getSetoresByMunicipio,
+} from "../../services/api/enderecoService";
 import { createSolicitacaoBase } from "../../services/api/solicitacaoBase";
 import { BsSend, BsArrowBarRight, BsEraser } from "react-icons/bs";
 import {
@@ -25,15 +30,63 @@ import {
 import { Link } from "react-router-dom";
 import { SolicitacaoBase } from "../../services/models/solicitacaoBaseModel";
 import { Endereco } from "../../services/models/enderecoModel";
+import { getTipoServicos } from "../../services/api/tipoServicoService";
 
 const Fechamentos: React.FC = () => {
   const { register, handleSubmit, reset, watch, setValue } = useForm();
-  const selectedPolo = watch("polo");
-  const selectedMunicipio = watch("municipio");
+
   const mzValue = watch("microzona");
   const [isMZEnabled, setIsMZEnabled] = useState(false);
+  const [tipoServicos, setTipoServicos] = useState<
+    { id_TipoServico: number; SB_Descricao: string }[]
+  >([]);
 
-  const municipioOptions: {
+  const selectedPolo = watch("polo");
+  const selectedMunicipio = watch("municipio");
+
+  const [polos, setPolos] = useState<any[]>([]);
+  const [municipios, setMunicipios] = useState<any[]>([]);
+  const [setores, setSetores] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchPolos = async () => {
+      const data = await getPolos();
+      setPolos(data);
+    };
+    fetchPolos();
+  }, []);
+
+  useEffect(() => {
+    if (selectedPolo) {
+      const fetchMunicipios = async () => {
+        const data = await getMunicipiosByPolo(selectedPolo);
+        setMunicipios(data);
+        setSetores([]); // Reset setores when polo changes
+      };
+      fetchMunicipios();
+    }
+  }, [selectedPolo]);
+
+  useEffect(() => {
+    if (selectedMunicipio) {
+      const fetchSetores = async () => {
+        const data = await getSetoresByMunicipio(selectedMunicipio);
+        setSetores(data);
+      };
+      fetchSetores();
+    }
+  }, [selectedMunicipio]);
+
+  useEffect(() => {
+    const fetchTipoServicos = async () => {
+      const data = await getTipoServicos();
+      setTipoServicos(data);
+    };
+
+    fetchTipoServicos();
+  }, []);
+
+  /* const municipioOptions: {
     [key: string]: {
       [key: string]: string[];
     };
@@ -74,7 +127,7 @@ const Fechamentos: React.FC = () => {
       Salesopolis: ["Salesopolis-Centro", "V. Dos Remedios"],
       MogiDasCruzes: ["REC. Monica"],
     },
-  };
+  }; */
 
   useEffect(() => {
     if (mzValue === "1") {
@@ -172,9 +225,11 @@ const Fechamentos: React.FC = () => {
                 <Labeln>Polo</Labeln>
                 <Selectn {...register("polo")}>
                   <Optionn value="">Selecione...</Optionn>
-                  <Optionn value="Itaquera">ITAQUERA</Optionn>
-                  <Optionn value="Penha">PENHA/ SÃO MIGUEL</Optionn>
-                  <Optionn value="Suzano">SUZANO/ ITAQUA</Optionn>
+                  {polos.map((polo) => (
+                    <Optionn key={polo.id_Polo} value={polo.id_Polo}>
+                      {polo.SB_Polo}
+                    </Optionn>
+                  ))}
                 </Selectn>
               </InfoBox>
               <InfoBox>
@@ -194,18 +249,14 @@ const Fechamentos: React.FC = () => {
                 <Labeln>Município</Labeln>
                 <Selectn {...register("municipio")}>
                   <Optionn value="">Selecione...</Optionn>
-                  {selectedPolo &&
-                    municipioOptions[selectedPolo] &&
-                    Object.keys(municipioOptions[selectedPolo]).map(
-                      (municipio) => (
-                        <Optionn key={municipio} value={municipio}>
-                          {municipio
-                            .replace(/([A-Z])/g, " $1")
-                            .trim()
-                            .toUpperCase()}
-                        </Optionn>
-                      )
-                    )}
+                  {municipios.map((municipio) => (
+                    <Optionn
+                      key={municipio.id_Municipio}
+                      value={municipio.id_Municipio}
+                    >
+                      {municipio.SB_Municipio}
+                    </Optionn>
+                  ))}
                 </Selectn>
               </InfoBox>
 
@@ -248,44 +299,28 @@ const Fechamentos: React.FC = () => {
                 <Labeln>Tipo de Serviço</Labeln>
                 <Selectn {...register("tipoServico")}>
                   <Optionn value="">Selecione...</Optionn>
-                  <Optionn value="Arrebentado de Rede">
-                    Arrebentado de Rede
-                  </Optionn>
-                  <Optionn value="Caps Fora">Caps Fora</Optionn>
-                  <Optionn value="Troca de Registro">Troca de Registro</Optionn>
-                  <Optionn value="Vazamento">Vazamento</Optionn>
-                  <Optionn value="Instalação de Registro">
-                    Instalação de Registro
-                  </Optionn>
-                  <Optionn value="Interligação de Rede">
-                    Interligação de Rede
-                  </Optionn>
-                  <Optionn value="Prolongamento">Prolongamento</Optionn>
-                  <Optionn value="Remanejamento de Rede">
-                    Remanejamento de Rede
-                  </Optionn>
-                  <Optionn value="Teste de Estanqueidade">
-                    Teste de Estanqueidade
-                  </Optionn>
-                  <Optionn value="Manutenção de VRP">Manutenção de VRP</Optionn>
-                  <Optionn value="Outros">Outros</Optionn>
+                  {tipoServicos.map((tipo) => (
+                    <Optionn
+                      key={tipo.id_TipoServico}
+                      value={tipo.SB_Descricao}
+                    >
+                      {tipo.SB_Descricao}
+                    </Optionn>
+                  ))}
                 </Selectn>
               </InfoBox>
               <InfoBox>
                 <Labeln>Setor de Abastecimento</Labeln>
                 <Selectn {...register("setorAbastecimento")}>
                   <Optionn value="">Selecione...</Optionn>
-                  {selectedPolo &&
-                    selectedMunicipio &&
-                    municipioOptions[selectedPolo] &&
-                    municipioOptions[selectedPolo][selectedMunicipio] &&
-                    municipioOptions[selectedPolo][selectedMunicipio].map(
-                      (setor) => (
-                        <Optionn key={setor} value={setor}>
-                          {setor.toUpperCase()}
-                        </Optionn>
-                      )
-                    )}
+                  {setores.map((setor) => (
+                    <Optionn
+                      key={setor.id_SetorAbastecimento}
+                      value={setor.id_SetorAbastecimento}
+                    >
+                      {setor.SB_SetorAbastecimento}
+                    </Optionn>
+                  ))}
                 </Selectn>
               </InfoBox>
               <InfoBox>

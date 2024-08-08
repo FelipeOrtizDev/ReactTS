@@ -1,7 +1,7 @@
 import { Fechamento } from "../models/fechamentoModel";
 import { axiosInstance } from "./conexaoApi";
 
-export const getFechamentos = async (id: number,): Promise<Fechamento[]> => {
+export const getFechamentos = async (id: number): Promise<Fechamento> => {
   try {
     const response = await axiosInstance.get(`/fechamentos/${id}`);
     return response.data;

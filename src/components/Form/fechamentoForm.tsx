@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { Fechamento } from "../../services/models/fechamentoModel";
-
 import { Inputn, Optionn, Selectn } from "../../utils/commonStyles";
 import {
   InfoBox,
@@ -37,6 +37,7 @@ const FechamentoForm: React.FC<FechamentoProps> = ({ form }) => {
         <SectionTitle>Houve fechamento?</SectionTitle>
         <Selectn
           {...register("SB_HouveFechamento", { valueAsNumber: true })}
+          onChange={handleSelectChange}
           onChange={handleSelectChange}
         >
           <Optionn value="">Selecione...</Optionn>

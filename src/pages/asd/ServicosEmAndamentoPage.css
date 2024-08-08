@@ -40,6 +40,24 @@ html {
   align-items: center;
 }
 
+.green-dot {
+  height: 10px;
+  width: 10px;
+  background-color: green;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.red-dot {
+  height: 10px;
+  width: 10px;
+  background-color: red;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 5px;
+}
+
 .titulo-container h3 {
   margin: 0;
   font-size:x-large;
@@ -169,3 +187,4 @@ form .row {
     width: 95%;
   }
 }
+
