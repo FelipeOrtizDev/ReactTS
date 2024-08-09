@@ -25,12 +25,18 @@ export const useEndereco = () => {
     fetchEnderecos();
   }, []);
 
-  const addEndereco = async (endereco: Endereco) => {
+  const createEndereco = async (data: Endereco): Promise<number | null> => {
+    setError(null);
     try {
-      const newEndereco = await createEnderecos(endereco);
-      setEnderecos([...enderecos, newEndereco]);
-    } catch (error: any) {
-      setError(error);
+      const createdEndereco = await createEnderecos(data);
+      if (createdEndereco && createdEndereco.id_Endereco) {
+        return createdEndereco.id_Endereco;
+      } else {
+        throw new Error("ID do endereço não retornado");
+      }
+    } catch (err: any) {
+      setError(err.message);
+      return null;
     }
   };
 
@@ -57,7 +63,7 @@ export const useEndereco = () => {
   return {
     enderecos,
     error,
-    addEndereco,
+    createEndereco,
     editEndereco,
     removeEndereco,
   };

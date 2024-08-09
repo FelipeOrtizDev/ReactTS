@@ -27,12 +27,14 @@ export const useSolicitacaoBase = () => {
     fetchSolicitacoesBase();
   }, []);
 
-  const addSolicitacaoBase = async (solicitacaoBase: SolicitacaoBase) => {
+  const createSolicitacao = async (data: SolicitacaoBase): Promise<boolean> => {
+    setError(null);
     try {
-      const newSolicitacaoBase = await createSolicitacaoBase(solicitacaoBase);
-      setSolicitacoesBase([...solicitacoesBase, newSolicitacaoBase]);
-    } catch (error: any) {
-      setError(error.message);
+      await createSolicitacaoBase(data);
+      return true;
+    } catch (err: any) {
+      setError(err.message);
+      return false;
     }
   };
 
@@ -69,7 +71,7 @@ export const useSolicitacaoBase = () => {
   return {
     solicitacoesBase,
     error,
-    addSolicitacaoBase,
+    createSolicitacao,
     editSolicitacaoBase,
     removeSolicitacaoBase,
   };
