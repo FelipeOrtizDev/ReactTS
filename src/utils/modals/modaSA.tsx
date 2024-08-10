@@ -18,16 +18,21 @@ interface ModalSAProps {
   solicitacaoBaseId: number;
 }
 
-const EditModal: React.FC<ModalSAProps> = ({ isOpen, onClose, solicitacaoBaseId }) => {
+const EditModal: React.FC<ModalSAProps> = ({
+  isOpen,
+  onClose,
+  solicitacaoBaseId,
+}) => {
   const solicitacaoBase = useStore((state) => state.solicitacaoBase);
   const fechamento = useStore((state) => state.fechamento);
-  const loadFechamento = useStore((state) => state.loadFechamento);
+
   const setSolicitacaoBase = useStore((state) => state.setSolicitacaoBase);
   const setFechamento = useStore((state) => state.setFechamento);
 
-  const formSolicitacaoBase: UseFormReturn<SolicitacaoBase> = useForm<SolicitacaoBase>({
-    defaultValues: solicitacaoBase,
-  });
+  const formSolicitacaoBase: UseFormReturn<SolicitacaoBase> =
+    useForm<SolicitacaoBase>({
+      defaultValues: solicitacaoBase,
+    });
 
   const formFechamento: UseFormReturn<Fechamento> = useForm<Fechamento>({
     defaultValues: fechamento,
@@ -35,9 +40,10 @@ const EditModal: React.FC<ModalSAProps> = ({ isOpen, onClose, solicitacaoBaseId 
   // Carrega os dados de fechamento e solicitação base quando o modal é aberto
   useEffect(() => {
     if (isOpen && solicitacaoBaseId) {
-      loadFechamento(solicitacaoBaseId);
-      // Sincroniza o formulário de solicitação base com o Zustand
-      setSolicitacaoBase({ ...solicitacaoBase, id_SolicitacaoBase: solicitacaoBaseId });
+      setSolicitacaoBase({
+        ...solicitacaoBase,
+        id_SolicitacaoBase: solicitacaoBaseId,
+      });
     }
   }, [isOpen, solicitacaoBaseId, setSolicitacaoBase]);
 
@@ -49,18 +55,22 @@ const EditModal: React.FC<ModalSAProps> = ({ isOpen, onClose, solicitacaoBaseId 
       const updatedFechamento = formFechamento.getValues();
 
       updatedFechamento.SB_ServicoAceito = 1;
-      updatedFechamento.SB_SolicitacaoBase_SB_Enderecos_id_Endereco = updatedSolicitacao.SB_Enderecos_id_Endereco;
-  
+      updatedFechamento.SB_SolicitacaoBase_id_Endereco =
+        updatedSolicitacao.SB_Enderecos_id_Endereco;
+
       // Certifique-se de que o ID da solicitação base está presente
       const solicitacaoBaseId = updatedSolicitacao.id_SolicitacaoBase;
-  
+
       // Atualize ou crie o fechamento no backend utilizando o solicitacaoBaseId
-      const savedFechamento = await saveOrUpdateFechamento(solicitacaoBaseId, updatedFechamento);
-  
+      const savedFechamento = await saveOrUpdateFechamento(
+        solicitacaoBaseId,
+        updatedFechamento
+      );
+
       // Sincronize o estado do Zustand
       setSolicitacaoBase(updatedSolicitacao);
       setFechamento(savedFechamento);
-  
+
       // Feche o modal
       onClose();
     } catch (error) {
@@ -71,15 +81,15 @@ const EditModal: React.FC<ModalSAProps> = ({ isOpen, onClose, solicitacaoBaseId 
   const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
     Number(event.target.value);
   };
-  console.log("solicitaçao: ", solicitacaoBase.id_SolicitacaoBase)
-  console.log("fechamento: ", fechamento.id_Fechamentos)
+  console.log("solicitaçao: ", solicitacaoBase.id_SolicitacaoBase);
+  console.log("fechamento: ", fechamento.id_Fechamentos);
   console.log("Current state:", useStore.getState());
   return (
     <ModalContainer>
       {/* {isLoading ? (
         <div>Carregando...</div>
       ): ( */}
-      <ModalContent onSubmit={(handleSave)}>
+      <ModalContent onSubmit={handleSave}>
         <Title>Editar Solicitação e Acatamento</Title>
         <SolicitacaoBaseForm form={formSolicitacaoBase} />
         {/* <AcatamentoForm form={acatamentoForm} /> */}

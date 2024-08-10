@@ -1,7 +1,7 @@
-import { create } from 'zustand';
-import { SolicitacaoBase } from '../../services/models/solicitacaoBaseModel';
-import { Fechamento } from '../../services/models/fechamentoModel';
-import { getFechamentos } from '../../services/api/fechamentoService';
+import { create } from "zustand";
+import { SolicitacaoBase } from "../../services/models/solicitacaoBaseModel";
+import { Fechamento } from "../../services/models/fechamentoModel";
+import { getFechamentos } from "../../services/api/fechamentoService";
 
 // // Default values for Endereco
 // const defaultEndereco: Endereco = {
@@ -122,38 +122,16 @@ import { getFechamentos } from '../../services/api/fechamentoService';
 //   resetSolicitacaoBase: () => set({ solicitacaoBase: defaultSolicitacaoBase }), // Reset ao estado inicial
 // }));
 
-
 interface FormDataState {
   solicitacaoBase: SolicitacaoBase;
   fechamento: Fechamento;
   setSolicitacaoBase: (data: SolicitacaoBase) => void;
   setFechamento: (data: Fechamento) => void;
-  loadFechamento: (solicitacaoBaseId: number) => Promise<void>;
- }
+}
 
 export const useStore = create<FormDataState>((set) => ({
   solicitacaoBase: {} as SolicitacaoBase,
   fechamento: {} as Fechamento,
   setSolicitacaoBase: (data) => set({ solicitacaoBase: data }),
   setFechamento: (data) => set({ fechamento: data }),
-  loadFechamento: async (solicitacaoBaseId) => {
-    try {
-      const fechamentos = await getFechamentos(solicitacaoBaseId);
-      
-      if (fechamentos && fechamentos.length > 0) {
-
-        // Verifique se fechamento está completo, caso contrário, defina valores padrão
-        set({ fechamento: fechamentos[0] });
-      } else {
-        // Nenhum fechamento encontrado, defina um objeto vazio
-        console.warn("Nenhum fechamento encontrado para essa solicitação.");
-        set({ fechamento: {} as Fechamento });
-      }
-  
-      console.log("fechamentoZUSTAND", fechamentos);
-    } catch (error) {
-      console.error("Erro ao carregar fechamento:", error);
-      set({ fechamento: {} as Fechamento }); // Em caso de erro, defina um valor padrão
-    }
-  },
 }));

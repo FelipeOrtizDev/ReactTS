@@ -1,19 +1,23 @@
 import { Fechamento } from "../models/fechamentoModel";
 import { axiosInstance } from "./conexaoApi";
 
-export const getFechamentos = async (solicitacaoBaseId: number): Promise<Fechamento[]> => {
+export const getFechamentos = async (
+  solicitacaoBaseId: number
+): Promise<Fechamento> => {
   try {
-      const response = await axiosInstance.get<Fechamento[]>(`/fechamentos/${solicitacaoBaseId}`);
-      console.log("get response:",response.data);
-      return response.data;
+    const response = await axiosInstance.get<Fechamento>(
+      `/fechamentos/${solicitacaoBaseId}`
+    );
+    console.log("get response:", response.data);
+    return response.data;
   } catch (error) {
-      console.error("Erro ao buscar fechamentos", error);
-      throw error;
+    console.error("Erro ao buscar fechamentos", error);
+    throw error;
   }
 };
 
 export const createFechamento = async (
-  solicitacaoBaseId: number, 
+  solicitacaoBaseId: number,
   fechamentoData: Fechamento
 ): Promise<Fechamento> => {
   try {
@@ -28,16 +32,20 @@ export const createFechamento = async (
   }
 };
 
-export const updateFechamento = async (fechamento: Fechamento): Promise<Fechamento> => {
+export const updateFechamento = async (
+  fechamento: Fechamento
+): Promise<Fechamento> => {
   try {
-      const response = await axiosInstance.put<Fechamento>(`/fechamentos/${fechamento.id_Fechamentos}`, fechamento);
-      return response.data;
+    const response = await axiosInstance.put<Fechamento>(
+      `/fechamentos/${fechamento.id_Fechamentos}`,
+      fechamento
+    );
+    return response.data;
   } catch (error) {
-      console.error("Erro ao atualizar fechamento", error);
-      throw error;
+    console.error("Erro ao atualizar fechamento", error);
+    throw error;
   }
 };
-
 
 export const deleteFechamento = async (id: number): Promise<void> => {
   try {
@@ -49,7 +57,10 @@ export const deleteFechamento = async (id: number): Promise<void> => {
 
 // Função para salvar ou atualizar um fechamento
 // Essa função deve usar o solicitacaoBaseId ao criar ou atualizar o fechamento
-export const saveOrUpdateFechamento = async (solicitacaoBaseId: number, fechamentoData: Fechamento): Promise<Fechamento> => {
+export const saveOrUpdateFechamento = async (
+  solicitacaoBaseId: number,
+  fechamentoData: Fechamento
+): Promise<Fechamento> => {
   if (fechamentoData.id_Fechamentos) {
     // Se o fechamento já existe, você pode usar um método de atualização, como PUT
     // Implementar o método de atualização conforme necessário

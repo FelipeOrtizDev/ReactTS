@@ -18,19 +18,9 @@ interface FechamentoFormProps {
 const FechamentoForm: React.FC<FechamentoFormProps> = ({ form }) => {
   const { register, setValue } = form;
 
-  const solicitacaoBaseId = useStore((state) => state.solicitacaoBase.id_SolicitacaoBase);
   const fechamento = useStore((state) => state.fechamento);
   const setFechamento = useStore((state) => state.setFechamento);
-  const loadFechamento = useStore((state) => state.loadFechamento);
 
-  // Carrega os dados de fechamento usando o ID de solicitacaoBase
-  useEffect(() => {
-    if (solicitacaoBaseId) {
-      loadFechamento(solicitacaoBaseId);
-    }
-  }, [solicitacaoBaseId]);
-
-  // Popula os campos do formulário com os dados carregados
   useEffect(() => {
     if (fechamento) {
       Object.keys(fechamento).forEach((key) => {
@@ -43,7 +33,6 @@ const FechamentoForm: React.FC<FechamentoFormProps> = ({ form }) => {
     setFechamento({ ...fechamento, [field]: value });
   };
 
-  
   const [disabledInputs] = useState(false);
 
   return (
@@ -51,32 +40,32 @@ const FechamentoForm: React.FC<FechamentoFormProps> = ({ form }) => {
       <SectionBox>
         <SectionTitle>Houve fechamento?</SectionTitle>
 
-        <Selectn
-          {...register("SB_HouveFechamento", { valueAsNumber: true })}
-        >
+        <Selectn {...register("SB_HouveFechamento", { valueAsNumber: true })}>
           <Optionn value="">Selecione...</Optionn>
           <Optionn value={1}>Sim</Optionn>
           <Optionn value={0}>Não</Optionn>
         </Selectn>
 
         <ObsArea
-                  {...register("SB_HFSObservacaoFechamento")}
-              onChange={(e) => handleInputChange("SB_HFSObservacaoFechamento", e.target.value)}
-              defaultValue={fechamento.SB_HFSObservacaoFechamento}
-            />
+          {...register("SB_HFSObservacaoFechamento")}
+          onChange={(e) =>
+            handleInputChange("SB_HFSObservacaoFechamento", e.target.value)
+          }
+          defaultValue={fechamento.SB_HFSObservacaoFechamento}
+        />
         <InfoBox>
-                <Labeln>Fechado Por</Labeln>
-                <Inputn
-                  type="text"
-                  disabled={disabledInputs}
-                  {...register("SB_FechadoPor", {
-                    required: "Fechado por é obrigatório",
-                  })}
-                  onChange={(e) => handleInputChange("SB_FechadoPor", e.target.value)}
-                  defaultValue={fechamento.SB_FechadoPor || ""}
-                />
-              </InfoBox>
-       {/* {hasFValue === 1 && (
+          <Labeln>Fechado Por</Labeln>
+          <Inputn
+            type="text"
+            disabled={disabledInputs}
+            {...register("SB_FechadoPor", {
+              required: "Fechado por é obrigatório",
+            })}
+            onChange={(e) => handleInputChange("SB_FechadoPor", e.target.value)}
+            defaultValue={fechamento.SB_FechadoPor || ""}
+          />
+        </InfoBox>
+        {/* {hasFValue === 1 && (
           <>
             <Field>
               <InfoBox>

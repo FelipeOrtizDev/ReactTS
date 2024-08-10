@@ -182,7 +182,7 @@ const Fechamentos: React.FC = () => {
         SB_Observacoes: data.observacoes,
         SB_Microzona: Number(data.microzona),
         SB_Solicitante: data.solicitante,
-        SB_Enderecos_id_Endereco: createdEndereco.id_Endereco,
+        SB_SolicitacaoBase_id_Endereco: createdEndereco.id_Endereco,
         SB_Endereco: createdEndereco,
         SB_Motivo: data.motivo,
         SB_NumeroMZ: data.numeroMZ,
