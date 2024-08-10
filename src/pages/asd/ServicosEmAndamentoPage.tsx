@@ -1,6 +1,5 @@
 // src/pages/ServicosEmAndamentoPage.tsx
 import React, { useEffect, useState } from "react";
-
 import "./ServicosEmAndamentoPage.css";
 import { getSolicitacoesBase } from "../../services/api/solicitacaoBase";
 import { SolicitacaoBase } from "../../services/models/solicitacaoBaseModel";
@@ -109,6 +108,7 @@ const ServicosEmAndamentoPage: React.FC = () => {
       .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
   };
 
+  
   return (
     <>
       <TitleContainer>Fechamentos</TitleContainer>
