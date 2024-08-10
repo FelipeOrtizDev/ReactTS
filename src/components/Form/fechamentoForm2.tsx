@@ -10,6 +10,7 @@ import {
 } from "../../pages/Fechamento/styles";
 import { Field, Formn, ObsArea } from "../../utils/modals/modalUserStyles";
 import { useStore } from "./formsStore";
+import { createFechamento, updateFechamento } from "../../services/api/fechamentoService";
 
 interface FechamentoFormProps {
   form: UseFormReturn<Fechamento>;
@@ -20,6 +21,32 @@ const FechamentoForm: React.FC<FechamentoFormProps> = ({ form }) => {
 
   const fechamento = useStore((state) => state.fechamento);
   const setFechamento = useStore((state) => state.setFechamento);
+
+  const allFieldsFilled = () => {
+    return (
+      fechamento.SB_HouveFechamento !== undefined &&
+      fechamento.SB_FechadoPor !== "" &&
+      // Adicione mais validações conforme necessário
+      true
+    );
+  };
+
+  useEffect(() => {
+    if (allFieldsFilled()) {
+      (async () => {
+        try {
+          if (fechamento.id_Fechamentos) {
+            await updateFechamento(fechamento);
+          } else {
+            await createFechamento(fechamento.SB_SolicitacaoBase_id_SolicitacaoBase, fechamento);
+          }
+          console.log("Fechamento enviado com sucesso");
+        } catch (error) {
+          console.error("Erro ao enviar fechamento:", error);
+        }
+      })();
+    }
+  }, [fechamento]);
 
   useEffect(() => {
     if (fechamento) {
