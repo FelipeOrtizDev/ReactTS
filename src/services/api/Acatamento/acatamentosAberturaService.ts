@@ -1,5 +1,6 @@
-import { AcatamentosAbertura } from "../models/acatamentoAberturaModel";
-import { axiosInstance } from "./conexaoApi";
+
+import { AcatamentosAbertura } from "../../models/acatamentoAberturaModel";
+import { axiosInstance } from "../conexaoApi";
 
 // Interface para AcatamentosAbertura
 

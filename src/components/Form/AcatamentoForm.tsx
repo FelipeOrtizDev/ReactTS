@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { Acatamento } from "../../services/models/acatamentoModel";
 import { Inputn } from "../../utils/commonStyles";
@@ -9,12 +9,40 @@ import {
   SectionBox,
   SectionTitle,
 } from "../../pages/Fechamento/styles";
+import { useStore } from "./formsStore";
+import { createAcatamento, updateAcatamento } from "../../services/api/Acatamento/acatamentoService";
 
 interface AcatamentoFormProps {
   form: UseFormReturn<Acatamento>;
 }
 const AcatamentoForm: React.FC<AcatamentoFormProps> = ({ form }) => {
   const { register } = form;
+
+  const acatamento = useStore((state) => state.acatamento);
+
+  const allFieldsFilled = () => {
+    return(
+      acatamento.SB_DataAcatamento !== undefined &&
+      true
+    )
+  };
+
+  useEffect(() => {
+    if (allFieldsFilled()) {
+      (async () => {
+        try {
+          if (acatamento.id_Acatamentos) {
+            await updateAcatamento(acatamento.id_Acatamentos, acatamento);
+          } else {
+            await createAcatamento(acatamento);
+          }
+          console.log("acatamento enviado com sucesso");
+        } catch (error) {
+          console.error("Erro ao enviar acatamento:", error);
+        }
+      })();
+    }
+  }, [acatamento]);
 
   return (
     <Formn>
