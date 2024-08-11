@@ -1,31 +1,23 @@
 import React from "react";
 import { UseFormReturn } from "react-hook-form";
 import { SolicitacaoAbertura } from "../../services/models/solicitacaoAberturaModel";
-import { AcatamentosAbertura } from "../../services/models/acatamentoAberturaModel";
-import { Inputn, Optionn, Selectn, Title } from "../../utils/commonStyles";
+import { Inputn, Title } from "../../utils/commonStyles";
 import {
   Field,
   InfoBox,
   Labeln,
   SectionBox,
-  SectionTitle,
-  TextArean,
 } from "../../pages/Fechamento/styles";
-import { FieldTwo, Formn, ObsArea } from "../../utils/modals/modalUserStyles";
-
-type CombinedFormData = SolicitacaoAbertura & AcatamentosAbertura;
+import { Formn } from "../../utils/modals/modalUserStyles";
 
 interface SolicitacaoAberturaFormProps {
-  form: UseFormReturn<CombinedFormData>;
+  form: UseFormReturn<SolicitacaoAbertura>;
 }
 
 const SolicitacaoAberturaForm: React.FC<SolicitacaoAberturaFormProps> = ({
   form,
 }) => {
-  const { register, watch } = form;
-
-  const servAceitoValue = watch("SB_ServicoAceito");
-  const hasAberturaValue = watch("SB_HAbertura");
+  const { register} = form;
 
   return (
     <Formn>
@@ -39,7 +31,7 @@ const SolicitacaoAberturaForm: React.FC<SolicitacaoAberturaFormProps> = ({
               {...register("SB_DataAbertura", {
                 required: "Data Abertura é obrigatória",
               })}
-              /* onChange={handleInputChange} */
+
             />
           </InfoBox>
           <InfoBox>
@@ -49,7 +41,7 @@ const SolicitacaoAberturaForm: React.FC<SolicitacaoAberturaFormProps> = ({
               {...register("SB_HoraAbertura", {
                 required: "Hora é obrigatória",
               })}
-              /* onChange={handleInputChange} */
+
             />
           </InfoBox>
           <InfoBox>
@@ -59,11 +51,12 @@ const SolicitacaoAberturaForm: React.FC<SolicitacaoAberturaFormProps> = ({
               {...register("SB_Solicitante", {
                 required: "Solicitante é obrigatório",
               })}
-              /* onChange={handleInputChange} */
+
             />
           </InfoBox>
         </Field>
-        <SectionTitle>Acatamento Abertura</SectionTitle>
+        </SectionBox>
+        {/* <SectionTitle>Acatamento Abertura</SectionTitle>
         <FieldTwo>
           <InfoBox>
             <Labeln>Data Acatamento</Labeln>
@@ -72,7 +65,7 @@ const SolicitacaoAberturaForm: React.FC<SolicitacaoAberturaFormProps> = ({
               {...register("SB_DataAcatamentoAbertura", {
                 required: "Data Acatamento é obrigatória",
               })}
-              /* onChange={handleInputChange} */
+
             />
           </InfoBox>
           <InfoBox>
@@ -82,7 +75,7 @@ const SolicitacaoAberturaForm: React.FC<SolicitacaoAberturaFormProps> = ({
               {...register("SB_EquipeResponsavelAbertura", {
                 required: "Responsável é obrigatório",
               })}
-              /* onChange={handleInputChange} */
+
             />
           </InfoBox>
         </FieldTwo>
@@ -94,14 +87,14 @@ const SolicitacaoAberturaForm: React.FC<SolicitacaoAberturaFormProps> = ({
               {...register("SB_PrevisaoAcatamentoAbertura", {
                 required: "Previsão é obrigatória",
               })}
-              /* onChange={handleInputChange} */
+
             />
           </InfoBox>
           <InfoBox>
             <Labeln>Observações</Labeln>
             <ObsArea
               {...register("SB_ObservacaoAcatamentoAbertura")}
-              /* onChange={handleInputChange} */
+
             />
           </InfoBox>
         </FieldTwo>
@@ -109,8 +102,7 @@ const SolicitacaoAberturaForm: React.FC<SolicitacaoAberturaFormProps> = ({
       <SectionBox>
         <SectionTitle>O Serviço de Abertura foi aceito?</SectionTitle>
         <Selectn
-          {...register("SB_ServicoAceito", { valueAsNumber: true })}
-          /* onChange={handleInputChange} */
+          {...register("SB_ServicoAceito", { valueAsNumber: true })
         >
           <Optionn value="">Selecione...</Optionn>
           <Optionn value={1}>Sim</Optionn>
@@ -122,7 +114,6 @@ const SolicitacaoAberturaForm: React.FC<SolicitacaoAberturaFormProps> = ({
           <SectionTitle>Houve Abertura?</SectionTitle>
           <Selectn
             {...register("SB_HAbertura", { valueAsNumber: true })}
-            /* onChange={handleInputChange} */
           >
             <Optionn value="">Selecione...</Optionn>
             <Optionn value={1}>Sim</Optionn>
@@ -134,7 +125,7 @@ const SolicitacaoAberturaForm: React.FC<SolicitacaoAberturaFormProps> = ({
               <Inputn
                 type="date"
                 {...register("SB_HSData")}
-                /* onChange={handleInputChange} */
+  
               />
             </InfoBox>
           )}
@@ -146,7 +137,7 @@ const SolicitacaoAberturaForm: React.FC<SolicitacaoAberturaFormProps> = ({
                   type="text"
                   placeholder="Digite o motivo da não abertura aqui"
                   {...register("SB_HNMotivo")}
-                  /* onChange={handleInputChange} */
+    
                 />
               </InfoBox>
               <InfoBox>
@@ -154,13 +145,13 @@ const SolicitacaoAberturaForm: React.FC<SolicitacaoAberturaFormProps> = ({
                 <TextArean
                   placeholder="Digite as observações aqui"
                   {...register("SB_HNObservacoes")}
-                  /* onChange={handleInputChange} */
+    
                 />
               </InfoBox>
             </FieldTwo>
           )}
         </SectionBox>
-      )}
+      )} */}
     </Formn>
   );
 };

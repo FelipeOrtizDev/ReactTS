@@ -1,16 +1,22 @@
 /* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useEffect} from "react";
+import React, { useEffect } from "react";
 import { useForm, UseFormReturn } from "react-hook-form";
 import { SolicitacaoBase } from "../../services/models/solicitacaoBaseModel";
 import { Fechamento } from "../../services/models/fechamentoModel";
-import { ModalContainer, ModalContent, Title } from "./modalUserStyles";
-import { SectionBox, SectionTitle } from "../../pages/Fechamento/styles";
-import { Selectn, Optionn, ButtonsBox, Buttons } from "../commonStyles";
+import { FieldTwo, ModalContainer, ModalContent, Title } from "./modalUserStyles";
+import { InfoBox, Labeln, SectionBox, SectionTitle, TextArean } from "../../pages/Fechamento/styles";
+import { Selectn, Optionn, ButtonsBox, Buttons, Inputn } from "../commonStyles";
 import { useStore } from "../../components/Form/formsStore";
 import SolicitacaoBaseForm from "../../components/Form/SolicitacaoBaseForm";
-import FechamentoForm from "../../components/Form/fechamentoForm2";
+import FechamentoForm from "../../components/Form/fechamentoForm";
 import { saveOrUpdateFechamento } from "../../services/api/fechamentoService";
+import AcatamentoForm from "../../components/Form/AcatamentoForm";
+import { Acatamento } from "../../services/models/acatamentoModel";
+import { AcatamentosAbertura } from "../../services/models/acatamentoAberturaModel";
+import { SolicitacaoAbertura } from "../../services/models/solicitacaoAberturaModel";
+import SolicitacaoAberturaForm from "../../components/Form/solicitacaoAberturaForm";
+import AcatamentoAberturaForm from "../../components/Form/acatamentoAberturaForm";
 
 interface ModalSAProps {
   isOpen: boolean;
@@ -25,9 +31,15 @@ const EditModal: React.FC<ModalSAProps> = ({
 }) => {
   const solicitacaoBase = useStore((state) => state.solicitacaoBase);
   const fechamento = useStore((state) => state.fechamento);
+  const acatamento = useStore((state) => state.acatamento);
+  const acatamentoAbertura = useStore((state) => state.acatamentoAbertura);
+  const solicitacaoAbertura = useStore((state) => state.solicitacaoAbertura);
 
   const setSolicitacaoBase = useStore((state) => state.setSolicitacaoBase);
   const setFechamento = useStore((state) => state.setFechamento);
+  const setAcatamento = useStore((state) => state.setAcatamento);
+  const setAcatamentoAbertura = useStore((state) => state.setAcatamentoAbertura);
+  const seSolicitacaotAbertura = useStore((state) => state.setSolicitacaoAbertura);
 
   const formSolicitacaoBase: UseFormReturn<SolicitacaoBase> =
     useForm<SolicitacaoBase>({
@@ -36,6 +48,17 @@ const EditModal: React.FC<ModalSAProps> = ({
 
   const formFechamento: UseFormReturn<Fechamento> = useForm<Fechamento>({
     defaultValues: fechamento,
+  });
+  const formAcatamento: UseFormReturn<Acatamento> = useForm<Acatamento>({
+    defaultValues: acatamento,
+  });
+
+  const formAcatamentoAbertura: UseFormReturn<AcatamentosAbertura> = useForm<AcatamentosAbertura>({
+    defaultValues: acatamentoAbertura,
+  });
+
+  const formSolicitacaoAbertura: UseFormReturn<SolicitacaoAbertura> = useForm<SolicitacaoAbertura>({
+    defaultValues: solicitacaoAbertura,
   });
   // Carrega os dados de fechamento e solicitação base quando o modal é aberto
   useEffect(() => {
@@ -68,7 +91,7 @@ const EditModal: React.FC<ModalSAProps> = ({
       // Certifique-se de que o ID da solicitação base está presente
       const solicitacaoBaseId = updatedSolicitacao.id_SolicitacaoBase;
       updatedFechamento.SB_SolicitacaoBase_id_Endereco = updatedSolicitacao.SB_Endereco_id_Endereco;
-      console.log("Fechamento",updatedFechamento)
+      console.log("Fechamento", updatedFechamento)
 
       // Atualize ou crie o fechamento no backend utilizando o solicitacaoBaseId
       const savedFechamento = await saveOrUpdateFechamento(
@@ -86,13 +109,13 @@ const EditModal: React.FC<ModalSAProps> = ({
       console.error("Erro ao salvar solicitação e fechamento:", error);
     }
   };
-  
+
   return (
     <ModalContainer>
       <ModalContent onSubmit={handleSave}>
         <Title>Editar Solicitação e Acatamento</Title>
         <SolicitacaoBaseForm form={formSolicitacaoBase} />
-        {/* <AcatamentoForm form={acatamentoForm} /> */}
+        <AcatamentoForm form={formAcatamento} />
         <SectionBox>
           <SectionTitle>Serviço foi aceito?</SectionTitle>
           <Selectn  {...formFechamento.register("SB_ServicoAceito", { valueAsNumber: true })}>
@@ -108,20 +131,62 @@ const EditModal: React.FC<ModalSAProps> = ({
           </>
         )}
 
-        {/* <SolicitacaoAberturaForm
-          acatamento={acatamento}
-          onSubmit={handleSaveAcatamento}
-        />  */}
-        
-        {/*  <SolicitacaoAberturaForm
-          solicitacaoAbertura={solicitacaoAbertura}
-          acatamentosAbertura={acatamentoAbertura}
-          solicitacaoBaseId={solicitacao.id_SolicitacaoBase}
-          enderecoId={solicitacao.SB_Enderecos_id_Endereco}
-          onSubmit={(data) => {
-            console.log("Dados do formulário de Solicitação de Abertura enviados:", data);
-          }}
-        /> */}
+        <SolicitacaoAberturaForm form={formSolicitacaoAbertura} />
+
+        <AcatamentoAberturaForm form={formAcatamentoAbertura} />
+
+        {/* <SectionBox>
+          <SectionTitle>O Serviço de Abertura foi aceito?</SectionTitle>
+          <Selectn
+            {...formSolicitacaoAbertura.register("SB_ServicoAceito", { valueAsNumber: true })}
+          >
+            <Optionn value="">Selecione...</Optionn>
+            <Optionn value={1}>Sim</Optionn>
+            <Optionn value={0}>Não</Optionn>
+          </Selectn>
+        </SectionBox>
+        {servAceitoValue === 1 && (
+          <SectionBox>
+            <SectionTitle>Houve Abertura?</SectionTitle>
+            <Selectn
+              {...formSolicitacaoAbertura.register("SB_HAbertura", { valueAsNumber: true })}
+
+            >
+              <Optionn value="">Selecione...</Optionn>
+              <Optionn value={1}>Sim</Optionn>
+              <Optionn value={0}>Não</Optionn>
+            </Selectn>
+            {hasAberturaValue === 1 && (
+              <InfoBox>
+                <Labeln>Data</Labeln>
+                <Inputn
+                  type="date"
+                  {...formSolicitacaoAbertura.register("SB_HSData")}
+
+                />
+              </InfoBox>
+            )}
+            {hasAberturaValue === 0 && (
+              <FieldTwo>
+                <InfoBox>
+                  <Labeln>Motivo</Labeln>
+                  <Inputn
+                    type="text"
+                    placeholder="Digite o motivo da não abertura aqui"
+                    {...formSolicitacaoAbertura.register("SB_HNMotivo")}
+                  />
+                </InfoBox>
+                <InfoBox>
+                  <Labeln>Observações da Não Abertura</Labeln>
+                  <TextArean
+                    placeholder="Digite as observações aqui"
+                    {...formSolicitacaoAbertura.register("SB_HNObservacoes")}
+                  />
+                </InfoBox>
+              </FieldTwo>
+            )}
+          </SectionBox>
+        )} */}
 
         <ButtonsBox>
           <Buttons type="button" onClick={onClose}>

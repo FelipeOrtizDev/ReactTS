@@ -86,49 +86,6 @@ const Fechamentos: React.FC = () => {
     fetchTipoServicos();
   }, []);
 
-  /* const municipioOptions: {
-    [key: string]: {
-      [key: string]: string[];
-    };
-  } = {
-    Itaquera: {
-      SãoPaulo: [
-        "Artur Alvin",
-        "Carmo",
-        "CID. Tiradentes",
-        "Guaianazes",
-        "Itaquera",
-        "Savoy",
-        "STA. Etelvina",
-      ],
-    },
-    Penha: {
-      SãoPaulo: [
-        "Cangaiba",
-        "Ermelino Matarazoo",
-        "Itam PTA.",
-        "JD. Popular",
-        "Penha",
-        "Sao Miguel PTA.",
-      ],
-    },
-    Suzano: {
-      Itaquecetuba: [
-        "Itaqua-Centro",
-        "Pinheirinho",
-        "REC. Monica",
-        "V. Industrial",
-      ],
-      FerrazDeVasconselos: ["Ferraz De Vasconcelos"],
-      Aruja: ["Aruja"],
-      Suzano: ["Suzano"],
-      Poa: ["Poa"],
-      BiritibaMirim: ["Cruz Das Almas", "Hiroy", "Takebe", "Vista Alegre"],
-      Salesopolis: ["Salesopolis-Centro", "V. Dos Remedios"],
-      MogiDasCruzes: ["REC. Monica"],
-    },
-  }; */
-
   useEffect(() => {
     if (mzValue === "1") {
       setIsMZEnabled(true);
