@@ -5,7 +5,7 @@ import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Fechamentos from "./pages/Fechamento/Fechamento.tsx";
 import Home from "./pages/home/home.tsx";
-import ServicosEmAndamentoPage from "./pages/asd/SAPage2.tsx";
+import ServicosEmAndamentoPage from "./pages/asd/ServicosEmAndamentoPage.tsx";
 import ListaUsuario from "./pages/usuarios/usuario.tsx";
 
 const router = createBrowserRouter([

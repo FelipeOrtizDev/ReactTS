@@ -8,7 +8,7 @@ import {
   SectionBox,
   SectionTitle,
 } from "../../pages/Fechamento/styles";
-import { Field, Formn, ObsArea } from "../../utils/modals/modalUserStyles";
+import { Field, FieldTwo, Formn, ObsArea } from "../../utils/modals/modalUserStyles";
 import { useStore } from "./formsStore";
 import { createFechamento, updateFechamento } from "../../services/api/fechamentoService";
 
@@ -17,11 +17,10 @@ interface FechamentoFormProps {
 }
 
 const FechamentoForm: React.FC<FechamentoFormProps> = ({ form }) => {
-  const { register, setValue } = form;
+  const { register, watch } = form;
 
   const fechamento = useStore((state) => state.fechamento);
-  const setFechamento = useStore((state) => state.setFechamento);
-
+ 
   const allFieldsFilled = () => {
     return (
       fechamento.SB_HouveFechamento !== undefined &&
@@ -48,18 +47,7 @@ const FechamentoForm: React.FC<FechamentoFormProps> = ({ form }) => {
     }
   }, [fechamento]);
 
-  // useEffect(() => {
-  //   if (fechamento) {
-  //     Object.keys(fechamento).forEach((key) => {
-  //       setValue(key as keyof Fechamento, fechamento[key]);
-  //     });
-  //   }
-  // }, [fechamento, setValue]);
-
-  const handleInputChange = (field: keyof Fechamento, value: any) => {
-    setFechamento({ ...fechamento, [field]: value });
-  };
-
+  const hasFValue = watch("SB_HouveFechamento");
   const [disabledInputs] = useState(false);
 
   return (
@@ -68,31 +56,12 @@ const FechamentoForm: React.FC<FechamentoFormProps> = ({ form }) => {
         <SectionTitle>Houve fechamento?</SectionTitle>
 
         <Selectn {...register("SB_HouveFechamento", { valueAsNumber: true })}>
-          <Optionn value="">Selecione...</Optionn>
+          <Optionn value="null">Selecione...</Optionn>
           <Optionn value={1}>Sim</Optionn>
           <Optionn value={0}>Não</Optionn>
         </Selectn>
 
-        <ObsArea
-          {...register("SB_HFSObservacaoFechamento")}
-          onChange={(e) =>
-            handleInputChange("SB_HFSObservacaoFechamento", e.target.value)
-          }
-          defaultValue={fechamento.SB_HFSObservacaoFechamento}
-        />
-        <InfoBox>
-          <Labeln>Fechado Por</Labeln>
-          <Inputn
-            type="text"
-            disabled={disabledInputs}
-            {...register("SB_FechadoPor", {
-              required: "Fechado por é obrigatório",
-            })}
-            onChange={(e) => handleInputChange("SB_FechadoPor", e.target.value)}
-            defaultValue={fechamento.SB_FechadoPor || ""}
-          />
-        </InfoBox>
-        {/* {hasFValue === 1 && (
+        {hasFValue === 1 && (
           <>
             <Field>
               <InfoBox>
@@ -275,7 +244,16 @@ const FechamentoForm: React.FC<FechamentoFormProps> = ({ form }) => {
               </InfoBox>
               <InfoBox>
                 <Labeln>Observações Fechamento</Labeln>
-                
+                <ObsArea
+          {...register("SB_HFSObservacaoFechamento")}
+          onChange={(e) =>
+            useStore.getState().setFechamento({
+              ...fechamento,
+              SB_HFSObservacaoFechamento: e.target.value,
+            })
+          }
+          defaultValue={fechamento.SB_HFSObservacaoFechamento}
+        />
               </InfoBox>
             </Field>
           </>
@@ -313,7 +291,7 @@ const FechamentoForm: React.FC<FechamentoFormProps> = ({ form }) => {
             </FieldTwo>
           </>
         )}
-        {hasFValue === null && <></>} */}
+        {hasFValue === null && <></>}
       </SectionBox>
     </Formn>
   );

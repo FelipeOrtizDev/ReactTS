@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { ChangeEvent, useEffect } from "react";
+import React, { useEffect} from "react";
 import { useForm, UseFormReturn } from "react-hook-form";
 import { SolicitacaoBase } from "../../services/models/solicitacaoBaseModel";
 import { Fechamento } from "../../services/models/fechamentoModel";
@@ -47,6 +47,17 @@ const EditModal: React.FC<ModalSAProps> = ({
     }
   }, [isOpen, solicitacaoBaseId, setSolicitacaoBase]);
 
+
+  // UseEffect para monitorar mudanças em SB_ServicoAceito
+  useEffect(() => {
+    const subscription = formFechamento.watch((value, { name }) => {
+      if (name === "SB_ServicoAceito") {
+        setFechamento({ ...fechamento, SB_ServicoAceito: value.SB_ServicoAceito });
+      }
+    });
+    return () => subscription.unsubscribe();
+  }, [formFechamento, setFechamento, fechamento]);
+
   // Função para salvar os dados ao fechar o modal
   const handleSave = async () => {
     try {
@@ -54,11 +65,10 @@ const EditModal: React.FC<ModalSAProps> = ({
       const updatedSolicitacao = formSolicitacaoBase.getValues();
       const updatedFechamento = formFechamento.getValues();
 
-      updatedFechamento.SB_ServicoAceito = 1;
-      updatedFechamento.SB_SolicitacaoBase_id_Endereco = updatedSolicitacao.SB_SolicitacaoBase_id_Endereco;
-
       // Certifique-se de que o ID da solicitação base está presente
       const solicitacaoBaseId = updatedSolicitacao.id_SolicitacaoBase;
+      updatedFechamento.SB_SolicitacaoBase_id_Endereco = updatedSolicitacao.SB_Endereco_id_Endereco;
+      console.log("Fechamento",updatedFechamento)
 
       // Atualize ou crie o fechamento no backend utilizando o solicitacaoBaseId
       const savedFechamento = await saveOrUpdateFechamento(
@@ -76,37 +86,42 @@ const EditModal: React.FC<ModalSAProps> = ({
       console.error("Erro ao salvar solicitação e fechamento:", error);
     }
   };
-  // Função para lidar com a mudança de seleção
-  const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    Number(event.target.value);
-  };
-  console.log("solicitaçao: ", solicitacaoBase.id_SolicitacaoBase);
-  console.log("fechamento: ", fechamento.id_Fechamentos);
-  console.log("Current state:", useStore.getState());
+  
   return (
     <ModalContainer>
-      {/* {isLoading ? (
-        <div>Carregando...</div>
-      ): ( */}
       <ModalContent onSubmit={handleSave}>
         <Title>Editar Solicitação e Acatamento</Title>
         <SolicitacaoBaseForm form={formSolicitacaoBase} />
         {/* <AcatamentoForm form={acatamentoForm} /> */}
         <SectionBox>
           <SectionTitle>Serviço foi aceito?</SectionTitle>
-          <Selectn onChange={handleSelectChange}>
-            <Optionn value={1}>Selecione...</Optionn>
+          <Selectn  {...formFechamento.register("SB_ServicoAceito", { valueAsNumber: true })}>
+            <Optionn value="null">Selecione...</Optionn>
             <Optionn value={1}>Sim</Optionn>
             <Optionn value={0}>Não</Optionn>
           </Selectn>
         </SectionBox>
 
-        <FechamentoForm form={formFechamento} />
-        {/* {fechamento.SB_ServicoAceito === 1 && (
+        {fechamento.SB_ServicoAceito === 1 && (
           <>
-            <FechamentoForm form={fechamentoForm} />
+            <FechamentoForm form={formFechamento} />
           </>
-        )} */}
+        )}
+
+        {/* <SolicitacaoAberturaForm
+          acatamento={acatamento}
+          onSubmit={handleSaveAcatamento}
+        />  */}
+        
+        {/*  <SolicitacaoAberturaForm
+          solicitacaoAbertura={solicitacaoAbertura}
+          acatamentosAbertura={acatamentoAbertura}
+          solicitacaoBaseId={solicitacao.id_SolicitacaoBase}
+          enderecoId={solicitacao.SB_Enderecos_id_Endereco}
+          onSubmit={(data) => {
+            console.log("Dados do formulário de Solicitação de Abertura enviados:", data);
+          }}
+        /> */}
 
         <ButtonsBox>
           <Buttons type="button" onClick={onClose}>
@@ -117,7 +132,6 @@ const EditModal: React.FC<ModalSAProps> = ({
           </Buttons>
         </ButtonsBox>
       </ModalContent>
-      {/* )} */}
     </ModalContainer>
   );
 };
