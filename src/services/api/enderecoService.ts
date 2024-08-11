@@ -40,3 +40,30 @@ export const deleteEnderecos = async (id: number): Promise<void> => {
     throw new Error("Erro ao deletar endereço: " + error);
   }
 };
+
+export const getPolos = async () => {
+  try {
+    const response = await axiosInstance.get("/polos");
+    return response.data;
+  } catch (error) {
+    throw new Error("Erro ao buscar Municipios: " + error);
+  }
+};
+
+export const getMunicipiosByPolo = async (id_polo: number) => {
+  try {
+    const response = await axiosInstance.get(`/municipios/${id_polo}`);
+    return response.data;
+  } catch (error) {
+    throw new Error("Erro ao buscar Municipios: " + error);
+  }
+};
+
+export const getSetoresByMunicipio = async (id_Municipio: number) => {
+  try {
+    const response = await axiosInstance.get(`/setores/${id_Municipio}`);
+    return response.data;
+  } catch (error) {
+    throw new Error("Erro ao buscar Municipios: " + error);
+  }
+};

@@ -9,6 +9,7 @@ import {
   SectionTitle,
 } from "../../pages/Fechamento/styles";
 import { Field, TextArean } from "../../utils/modals/modalUserStyles";
+import { useStore } from "./formsStore";
 
 interface SolicitacaoBaseFormProps {
   form: UseFormReturn<SolicitacaoBase>;
@@ -16,6 +17,15 @@ interface SolicitacaoBaseFormProps {
 
 const SolicitacaoBaseForm: React.FC<SolicitacaoBaseFormProps> = ({ form }) => {
   const { register } = form;
+
+  // Recupera o estado inicial vazio do Zustand store
+  const solicitacaoBase = useStore((state) => state.solicitacaoBase);
+  const setSolicitacaoBase = useStore((state) => state.setSolicitacaoBase);
+
+  // Função para lidar com as mudanças nos inputs e atualizar o estado no Zustand
+  const handleInputChange = (field: keyof SolicitacaoBase, value: any) => {
+    setSolicitacaoBase({ ...solicitacaoBase, [field]: value });
+  };
 
   return (
     <form>
@@ -27,9 +37,9 @@ const SolicitacaoBaseForm: React.FC<SolicitacaoBaseFormProps> = ({ form }) => {
             <Inputn
               type="date"
               {...register("SB_DataSolicitacao", {
-                required: "Data é obrigatório",
+                required: "Data é obrigatória",
               })}
-              /*  defaultValue={solicitacao.SB_DataSolicitacao} */
+              onChange={(e) => handleInputChange("SB_DataSolicitacao", e.target.value)}
             />
           </InfoBox>
           <InfoBox>
@@ -234,6 +244,7 @@ const SolicitacaoBaseForm: React.FC<SolicitacaoBaseFormProps> = ({ form }) => {
         <Labeln>Observações</Labeln>
         <TextArean
           {...register("SB_Observacoes")}
+          onChange={(e) => handleInputChange("SB_Observacoes", e.target.value)}
           /* defaultValue={solicitacao.SB_Observacoes} */
         />
       </SectionBox>

@@ -1,3 +1,4 @@
+import { Acatamento } from "./acatamentoModel";
 import { Endereco } from "./enderecoModel";
 
 export interface SolicitacaoBase {
@@ -14,6 +15,12 @@ export interface SolicitacaoBase {
   SB_Motivo: number;
   SB_Status: string;
   SB_Responsavel: string;
-  SB_Enderecos_id_Endereco: number;
+  SB_Endereco_id_Endereco: number;
   SB_Endereco: Endereco;
+  SB_Acatamento: Acatamento;
+}
+
+export interface TipoServico {
+  id_TipoServico: number;
+  SB_Descricao: string;
 }

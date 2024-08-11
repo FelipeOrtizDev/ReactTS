@@ -1,3 +1,4 @@
+// src/pages/ServicosEmAndamentoPage.tsx
 import React, { useEffect, useState } from "react";
 import "./ServicosEmAndamentoPage.css";
 import { getSolicitacoesBase } from "../../services/api/solicitacaoBase";
@@ -13,23 +14,17 @@ import {
   CellTable,
   TitleHeadLineTable,
 } from "./styles";
-import { useStore } from "../../components/Form/formsStore"; // Importando Zustand Store
 import { getFechamentos } from "../../services/api/fechamentoService";
 import { Fechamento } from "../../services/models/fechamentoModel";
 
 const ServicosEmAndamentoPage: React.FC = () => {
   const [solicitacoes, setSolicitacoes] = useState<SolicitacaoBase[]>([]);
-  const [isModalOpen, setModalOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [timeLeft, setTimeLeft] = useState<Record<number, number>>({});
-
-  // Nova variável de estado para armazenar a solicitação selecionada
   const [selectedSolicitacao, setSelectedSolicitacao] =
     useState<SolicitacaoBase | null>(null);
-
-  const setSolicitacaoBase = useStore((state) => state.setSolicitacaoBase);
-  const setFechamento = useStore((state) => state.setFechamento);
-  // const loadFechamento = useStore((state) => state.loadFechamento);
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [selectedFechamento, setSelectedFechamento] = useState<Fechamento | undefined>();
+  const [isLoading, setIsLoading] = useState(false);
+  const [timeLeft, setTimeLeft] = useState<Record<number, number>>({});
 
   useEffect(() => {
     const fetchSolicitacoes = async () => {
@@ -37,6 +32,7 @@ const ServicosEmAndamentoPage: React.FC = () => {
         const data = await getSolicitacoesBase();
         setSolicitacoes(data);
 
+        // Set initial countdown times
         const initialTimeLeft = data.reduce((acc, solicitacao) => {
           const previsao =
             solicitacao.SB_Acatamento?.SB_PrevisaoAcatamento || "00:00:00";
@@ -61,7 +57,7 @@ const ServicosEmAndamentoPage: React.FC = () => {
     const timer = setInterval(() => {
       setTimeLeft((prevTimeLeft) => {
         const newTimeLeft = { ...prevTimeLeft };
-        Object.keys(newTimeLeft).forEach((key: any) => {
+        Object.keys(newTimeLeft).forEach((key) => {
           newTimeLeft[key] = newTimeLeft[key] > 0 ? newTimeLeft[key] - 1000 : 0;
         });
         return newTimeLeft;
@@ -73,20 +69,13 @@ const ServicosEmAndamentoPage: React.FC = () => {
 
   const handleEditClick = async (solicitacao: SolicitacaoBase) => {
     setIsLoading(true);
-    console.log("Tentando abrir modal para solicitação:", solicitacao);
-
     try {
-      const fechamento = await getFechamentos(solicitacao.id_SolicitacaoBase);
-      setFechamento(fechamento);
-      setSolicitacaoBase(solicitacao);
+      const fechamentos = await getFechamentos(solicitacao.id_SolicitacaoBase);
+      setSelectedFechamento(fechamentos[0] || null); // Supondo que há um único fechamento relacionado à solicitação
       setSelectedSolicitacao(solicitacao);
       setModalOpen(true);
     } catch (error) {
-      setFechamento({} as Fechamento);
-      setSolicitacaoBase(solicitacao);
-      setSelectedSolicitacao(solicitacao);
-      setModalOpen(true);
-      console.error("Erro ao buscar ou criar fechamento:", error);
+      console.error("Erro ao buscar fechamento:", error);
     } finally {
       setIsLoading(false);
     }
@@ -94,7 +83,19 @@ const ServicosEmAndamentoPage: React.FC = () => {
 
   const handleCloseModal = () => {
     setModalOpen(false);
-    setSelectedSolicitacao(null); // Reseta a solicitação selecionada
+    setSelectedFechamento(undefined);
+    setSelectedSolicitacao(null);
+  };
+
+  const handleSave = (updatedSolicitacao: SolicitacaoBase) => {
+    setSolicitacoes((prev) =>
+      prev.map((sol) =>
+        sol.id_SolicitacaoBase === updatedSolicitacao.id_SolicitacaoBase
+          ? updatedSolicitacao
+          : sol
+      )
+    );
+    handleCloseModal();
   };
 
   const formatTime = (milliseconds: number) => {
@@ -107,6 +108,7 @@ const ServicosEmAndamentoPage: React.FC = () => {
       .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
   };
 
+  
   return (
     <>
       <TitleContainer>Fechamentos</TitleContainer>
@@ -142,6 +144,7 @@ const ServicosEmAndamentoPage: React.FC = () => {
                     {solicitacao.SB_Endereco?.SB_Logradouro}
                   </CellTable>
                   <CellTable>{solicitacao.SB_Status}</CellTable>
+
                   <CellTable>
                     <span className={isTimeUp ? "red-dot" : "green-dot"} />
                     {formatTime(timeLeftForSolicitacao)}
@@ -149,16 +152,30 @@ const ServicosEmAndamentoPage: React.FC = () => {
                 </LineTable>
               );
             })}
+            {solicitacoes.map((solicitacao) => (
+              <LineTable key={solicitacao.id_SolicitacaoBase}>
+                <CellTable>{solicitacao.SB_DataSolicitacao}</CellTable>
+                <CellTable>{solicitacao.SB_HoraSolicitacao}</CellTable>
+                <CellTable>{solicitacao.SB_Endereco?.SB_Polo}</CellTable>
+                <CellTable>{solicitacao.SB_Endereco?.SB_Municipio}</CellTable>
+                <CellTable>{solicitacao.SB_Endereco?.SB_Logradouro}</CellTable>
+                <CellTable>{solicitacao.SB_Status}</CellTable>
+                <CellTable>{solicitacao.SB_TipoServico}</CellTable>
+                <CellTable>
+                </CellTable>
+              </LineTable>
+            ))}
           </BodyTable>
         </ListContainer>
         {isModalOpen && selectedSolicitacao && (
           <EditModal
-            isOpen={isModalOpen}
-            onClose={handleCloseModal}
-            solicitacaoBaseId={selectedSolicitacao.id_SolicitacaoBase}
+            solicitacao={selectedSolicitacao}
+            Ifechamento={selectedFechamento}
+            onClose={() => setModalOpen(false)}
+            onSave={handleSave}
+            isLoading={isLoading}
           />
         )}
-
         <div className="pesquisas-e-ocorrencias">
           <div className="pesquisas-container">
             <div className="titulo-container borda-verde">

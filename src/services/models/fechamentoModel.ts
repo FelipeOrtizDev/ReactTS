@@ -6,8 +6,8 @@ export interface Fechamento {
   SB_HoraFechamento: string;
   SB_Status: string;
   SB_Prioridade: string;
-  SB_ServicoAceito: boolean;
-  SB_HouveFechamento: boolean;
+  SB_ServicoAceito: number;
+  SB_HouveFechamento: number;
   SB_Rede: string;
   SB_UltilizouMZ: string;
   SB_QTDELigacoes: number;
@@ -21,6 +21,6 @@ export interface Fechamento {
   SB_ManobraWFM: string;
   SB_OFechado: string;
   SB_SolicitacaoBase_id_SolicitacaoBase: number;
-  SB_SolicitacaoBase_SB_Enderecos_id_Endereco: number;
-  Sb_SolicitacaoBase: SolicitacaoBase;
+  SB_SolicitacaoBase_id_Endereco: number;
+  SB_SolicitacaoBase: SolicitacaoBase;
 }

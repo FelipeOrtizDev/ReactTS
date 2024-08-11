@@ -3,7 +3,6 @@ import { axiosInstance } from "./conexaoApi";
 
 // Interface para SolicitacaoAbertura
 
-
 // Funções de serviço para SolicitacaoAbertura
 export const getSolicitacoesAbertura = async (): Promise<
   SolicitacaoAbertura[]
@@ -21,7 +20,7 @@ export const createSolicitacaoAbertura = async (
 ): Promise<SolicitacaoAbertura> => {
   try {
     const response = await axiosInstance.post(
-      "/solicitacoes-abertura",
+      `/solicitacaoAbertura/${solicitacaoAbertura.SB_SolicitacaoBase_id_SolicitacaoBase}`,
       solicitacaoAbertura
     );
     return response.data;

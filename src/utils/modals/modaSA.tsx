@@ -1,118 +1,110 @@
+/* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { ChangeEvent, useState } from "react";
-import SolicitacaoBaseForm from "../../components/Form/SolicitacaoBaseForm";
-import { ModalContainer, ModalContent, Title } from "./modalUserStyles";
-import { Buttons, ButtonsBox, Optionn, Selectn } from "../commonStyles";
-import { Fechamento } from "../../services/models/fechamentoModel";
+import React, { useEffect} from "react";
+import { useForm, UseFormReturn } from "react-hook-form";
 import { SolicitacaoBase } from "../../services/models/solicitacaoBaseModel";
-import FechamentoForm from "../../components/Form/fechamentoForm";
+import { Fechamento } from "../../services/models/fechamentoModel";
+import { ModalContainer, ModalContent, Title } from "./modalUserStyles";
 import { SectionBox, SectionTitle } from "../../pages/Fechamento/styles";
-import { useStore } from "../../components/Form/formfechamentoStore";
-import { createFechamentos } from "../../services/api/fechamentoService";
-import { useForm } from "react-hook-form";
-import { createAcatamento } from "../../services/api/Acatamento/acatamentoService";
-import { Acatamento } from "../../services/models/acatamentoModel";
-import AcatamentoForm from "../../components/Form/AcatamentoForm";
+import { Selectn, Optionn, ButtonsBox, Buttons } from "../commonStyles";
+import { useStore } from "../../components/Form/formsStore";
+import SolicitacaoBaseForm from "../../components/Form/SolicitacaoBaseForm";
+import FechamentoForm from "../../components/Form/fechamentoForm2";
+import { saveOrUpdateFechamento } from "../../services/api/fechamentoService";
 
-interface EditModalProps {
-  solicitacao: SolicitacaoBase;
+interface ModalSAProps {
+  isOpen: boolean;
   onClose: () => void;
-  onSave: (data: any) => void;
+  solicitacaoBaseId: number;
 }
 
-const EditModal: React.FC<EditModalProps> = ({
-  solicitacao,
+const EditModal: React.FC<ModalSAProps> = ({
+  isOpen,
   onClose,
-  onSave,
+  solicitacaoBaseId,
 }) => {
-  const [hasFValue, setHasFValue] = useState<Number | null>(null);
+  const solicitacaoBase = useStore((state) => state.solicitacaoBase);
+  const fechamento = useStore((state) => state.fechamento);
 
-  // Função para lidar com a mudança de seleção
-  const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    setHasFValue(Number(event.target.value));
-  };
-  /*  const { fechamento, setFechamento } = useStore();
+  const setSolicitacaoBase = useStore((state) => state.setSolicitacaoBase);
+  const setFechamento = useStore((state) => state.setFechamento);
 
-  const handleSaveSolicitacao = (data: SolicitacaoBase) => {
-    onSave({ ...solicitacao, ...data });
-  };
+  const formSolicitacaoBase: UseFormReturn<SolicitacaoBase> =
+    useForm<SolicitacaoBase>({
+      defaultValues: solicitacaoBase,
+    });
 
-  const handleSaveFechamento = async (data: Fechamento) => {
-    try {
-      const response = await axiosInstance.post(
-        `/fechamentos/${solicitacao.id_SolicitacaoBase}`,
-        data
-      );
-      setFechamento(data);
-      console.log("Fechamento enviado com sucesso:", response.data);
-    } catch (error) {
-      console.error("Erro ao enviar fechamento:", error);
-    }
-  }; */
-
-  const { fechamento, setFechamento, acatamento, setAcatamento } = useStore();
-
-  const solicitacaoForm = useForm<SolicitacaoBase>({
-    defaultValues: solicitacao,
+  const formFechamento: UseFormReturn<Fechamento> = useForm<Fechamento>({
+    defaultValues: fechamento,
   });
-  const fechamentoForm = useForm<Fechamento>({ defaultValues: fechamento });
-  const acatamentoForm = useForm<Acatamento>({ defaultValues: acatamento });
-
-  const handleSave = async () => {
-    const solicitacaoData = solicitacaoForm.getValues();
-    const fechamentoData = fechamentoForm.getValues();
-    const acatamentoData = acatamentoForm.getValues();
-
-    acatamentoData.SB_SolcitacaoBase = solicitacaoData;
-
-    acatamentoData.SB_SolicitacaoBase_id_SolicitacaoBase =
-      acatamentoData.SB_SolcitacaoBase.id_SolicitacaoBase;
-
-    acatamentoData.SB_SolicitacaoBase_SB_Enderecos_id_Endereco =
-      acatamentoData.SB_SolcitacaoBase.SB_Enderecos_id_Endereco;
-
-    fechamentoData.Sb_SolicitacaoBase = solicitacaoData;
-
-    fechamentoData.SB_SolicitacaoBase_id_SolicitacaoBase =
-      fechamentoData.Sb_SolicitacaoBase.id_SolicitacaoBase;
-
-    fechamentoData.SB_SolicitacaoBase_SB_Enderecos_id_Endereco =
-      fechamentoData.Sb_SolicitacaoBase.SB_Enderecos_id_Endereco;
-
-    fechamentoData.SB_ServicoAceito = true;
-    try {
-      const responseData = await createFechamentos(fechamentoData);
-      const acatamentoResponse = await createAcatamento(acatamentoData);
-      setFechamento(fechamentoData);
-      setAcatamento(acatamentoData);
-      onSave({
-        ...solicitacaoData,
-        fechamento: fechamentoData,
-        acatamento: acatamentoData,
+  // Carrega os dados de fechamento e solicitação base quando o modal é aberto
+  useEffect(() => {
+    if (isOpen && solicitacaoBaseId) {
+      setSolicitacaoBase({
+        ...solicitacaoBase,
+        id_SolicitacaoBase: solicitacaoBaseId,
       });
+    }
+  }, [isOpen, solicitacaoBaseId, setSolicitacaoBase]);
 
-      return { responseData, acatamentoResponse };
+
+  // UseEffect para monitorar mudanças em SB_ServicoAceito
+  useEffect(() => {
+    const subscription = formFechamento.watch((value, { name }) => {
+      if (name === "SB_ServicoAceito") {
+        setFechamento({ ...fechamento, SB_ServicoAceito: value.SB_ServicoAceito });
+      }
+    });
+    return () => subscription.unsubscribe();
+  }, [formFechamento, setFechamento, fechamento]);
+
+  // Função para salvar os dados ao fechar o modal
+  const handleSave = async () => {
+    try {
+      // Obtenha os valores atualizados do formulário
+      const updatedSolicitacao = formSolicitacaoBase.getValues();
+      const updatedFechamento = formFechamento.getValues();
+
+      // Certifique-se de que o ID da solicitação base está presente
+      const solicitacaoBaseId = updatedSolicitacao.id_SolicitacaoBase;
+      updatedFechamento.SB_SolicitacaoBase_id_Endereco = updatedSolicitacao.SB_Endereco_id_Endereco;
+      console.log("Fechamento",updatedFechamento)
+
+      // Atualize ou crie o fechamento no backend utilizando o solicitacaoBaseId
+      const savedFechamento = await saveOrUpdateFechamento(
+        solicitacaoBaseId,
+        updatedFechamento
+      );
+
+      // Sincronize o estado do Zustand
+      setSolicitacaoBase(updatedSolicitacao);
+      setFechamento(savedFechamento);
+
+      // Feche o modal
+      onClose();
     } catch (error) {
-      console.error("Erro ao enviar fechamento:", error);
+      console.error("Erro ao salvar solicitação e fechamento:", error);
     }
   };
+  
   return (
     <ModalContainer>
-      <ModalContent onSubmit={solicitacaoForm.handleSubmit(handleSave)}>
+      <ModalContent onSubmit={handleSave}>
         <Title>Editar Solicitação e Acatamento</Title>
-        <SolicitacaoBaseForm form={solicitacaoForm} />
-        <AcatamentoForm form={acatamentoForm} />
+        <SolicitacaoBaseForm form={formSolicitacaoBase} />
+        {/* <AcatamentoForm form={acatamentoForm} /> */}
         <SectionBox>
           <SectionTitle>Serviço foi aceito?</SectionTitle>
-          <Selectn onChange={handleSelectChange}>
-            <Optionn value="">Selecione...</Optionn>
+          <Selectn  {...formFechamento.register("SB_ServicoAceito", { valueAsNumber: true })}>
+            <Optionn value="null">Selecione...</Optionn>
             <Optionn value={1}>Sim</Optionn>
             <Optionn value={0}>Não</Optionn>
           </Selectn>
         </SectionBox>
-        {hasFValue === 1 && (
+
+        {fechamento.SB_ServicoAceito === 1 && (
           <>
-            <FechamentoForm form={fechamentoForm} />
+            <FechamentoForm form={formFechamento} />
           </>
         )}
 
@@ -120,7 +112,7 @@ const EditModal: React.FC<EditModalProps> = ({
           acatamento={acatamento}
           onSubmit={handleSaveAcatamento}
         />  */}
-
+        
         {/*  <SolicitacaoAberturaForm
           solicitacaoAbertura={solicitacaoAbertura}
           acatamentosAbertura={acatamentoAbertura}
@@ -130,6 +122,7 @@ const EditModal: React.FC<EditModalProps> = ({
             console.log("Dados do formulário de Solicitação de Abertura enviados:", data);
           }}
         /> */}
+
         <ButtonsBox>
           <Buttons type="button" onClick={onClose}>
             Fechar
