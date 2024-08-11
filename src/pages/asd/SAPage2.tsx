@@ -15,6 +15,7 @@ import {
 } from "./styles";
 import { useStore } from "../../components/Form/formsStore"; // Importando Zustand Store
 import { getFechamentos } from "../../services/api/fechamentoService";
+import { Fechamento } from "../../services/models/fechamentoModel";
 
 const ServicosEmAndamentoPage: React.FC = () => {
   const [solicitacoes, setSolicitacoes] = useState<SolicitacaoBase[]>([]);
@@ -75,17 +76,16 @@ const ServicosEmAndamentoPage: React.FC = () => {
     console.log("Tentando abrir modal para solicitação:", solicitacao);
 
     try {
-      const testeFechamento = await getFechamentos(
-        solicitacao.id_SolicitacaoBase
-      );
-
-      console.log("LOAD Fechamento carregado:", testeFechamento);
-
-      setFechamento(testeFechamento);
+      const fechamento = await getFechamentos(solicitacao.id_SolicitacaoBase);
+      setFechamento(fechamento);
       setSolicitacaoBase(solicitacao);
       setSelectedSolicitacao(solicitacao);
       setModalOpen(true);
     } catch (error) {
+      setFechamento({} as Fechamento);
+      setSolicitacaoBase(solicitacao);
+      setSelectedSolicitacao(solicitacao);
+      setModalOpen(true);
       console.error("Erro ao buscar ou criar fechamento:", error);
     } finally {
       setIsLoading(false);

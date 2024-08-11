@@ -48,13 +48,13 @@ const FechamentoForm: React.FC<FechamentoFormProps> = ({ form }) => {
     }
   }, [fechamento]);
 
-  useEffect(() => {
-    if (fechamento) {
-      Object.keys(fechamento).forEach((key) => {
-        setValue(key as keyof Fechamento, fechamento[key]);
-      });
-    }
-  }, [fechamento, setValue]);
+  // useEffect(() => {
+  //   if (fechamento) {
+  //     Object.keys(fechamento).forEach((key) => {
+  //       setValue(key as keyof Fechamento, fechamento[key]);
+  //     });
+  //   }
+  // }, [fechamento, setValue]);
 
   const handleInputChange = (field: keyof Fechamento, value: any) => {
     setFechamento({ ...fechamento, [field]: value });

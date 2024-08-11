@@ -55,8 +55,7 @@ const EditModal: React.FC<ModalSAProps> = ({
       const updatedFechamento = formFechamento.getValues();
 
       updatedFechamento.SB_ServicoAceito = 1;
-      updatedFechamento.SB_SolicitacaoBase_id_Endereco =
-        updatedSolicitacao.SB_Enderecos_id_Endereco;
+      updatedFechamento.SB_SolicitacaoBase_id_Endereco = updatedSolicitacao.SB_SolicitacaoBase_id_Endereco;
 
       // Certifique-se de que o ID da solicitação base está presente
       const solicitacaoBaseId = updatedSolicitacao.id_SolicitacaoBase;
