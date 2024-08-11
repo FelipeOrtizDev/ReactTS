@@ -39,7 +39,7 @@ const EditModal: React.FC<ModalSAProps> = ({
   const setFechamento = useStore((state) => state.setFechamento);
   const setAcatamento = useStore((state) => state.setAcatamento);
   const setAcatamentoAbertura = useStore((state) => state.setAcatamentoAbertura);
-  const seSolicitacaotAbertura = useStore((state) => state.setSolicitacaoAbertura);
+  const setSolicitacaoAbertura = useStore((state) => state.setSolicitacaoAbertura);
 
   const formSolicitacaoBase: UseFormReturn<SolicitacaoBase> =
     useForm<SolicitacaoBase>({
@@ -60,6 +60,9 @@ const EditModal: React.FC<ModalSAProps> = ({
   const formSolicitacaoAbertura: UseFormReturn<SolicitacaoAbertura> = useForm<SolicitacaoAbertura>({
     defaultValues: solicitacaoAbertura,
   });
+
+  const servAceitoValue = formSolicitacaoAbertura.watch("SB_ServicoAceito");
+  const hasAberturaValue = formSolicitacaoAbertura.watch("SB_HAbertura");
   // Carrega os dados de fechamento e solicitação base quando o modal é aberto
   useEffect(() => {
     if (isOpen && solicitacaoBaseId) {
@@ -87,6 +90,9 @@ const EditModal: React.FC<ModalSAProps> = ({
       // Obtenha os valores atualizados do formulário
       const updatedSolicitacao = formSolicitacaoBase.getValues();
       const updatedFechamento = formFechamento.getValues();
+      const updatedAcatamento = formAcatamento.getValues();
+      const updatedAcatamentoAbertura = formAcatamentoAbertura.getValues();
+      const updatedSolicitacaoAbertura = formSolicitacaoAbertura.getValues();
 
       // Certifique-se de que o ID da solicitação base está presente
       const solicitacaoBaseId = updatedSolicitacao.id_SolicitacaoBase;
@@ -102,6 +108,9 @@ const EditModal: React.FC<ModalSAProps> = ({
       // Sincronize o estado do Zustand
       setSolicitacaoBase(updatedSolicitacao);
       setFechamento(savedFechamento);
+      setAcatamento(updatedAcatamento);
+      setAcatamentoAbertura(updatedAcatamentoAbertura);
+      setSolicitacaoAbertura(updatedSolicitacaoAbertura);
 
       // Feche o modal
       onClose();
@@ -135,7 +144,7 @@ const EditModal: React.FC<ModalSAProps> = ({
 
         <AcatamentoAberturaForm form={formAcatamentoAbertura} />
 
-        {/* <SectionBox>
+        <SectionBox>
           <SectionTitle>O Serviço de Abertura foi aceito?</SectionTitle>
           <Selectn
             {...formSolicitacaoAbertura.register("SB_ServicoAceito", { valueAsNumber: true })}
@@ -186,7 +195,7 @@ const EditModal: React.FC<ModalSAProps> = ({
               </FieldTwo>
             )}
           </SectionBox>
-        )} */}
+        )}
 
         <ButtonsBox>
           <Buttons type="button" onClick={onClose}>

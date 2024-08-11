@@ -17,7 +17,7 @@ interface SolicitacaoAberturaFormProps {
 const SolicitacaoAberturaForm: React.FC<SolicitacaoAberturaFormProps> = ({
   form,
 }) => {
-  const { register} = form;
+  const { register, watch} = form;
 
   return (
     <Formn>
