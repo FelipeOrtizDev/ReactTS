@@ -54,6 +54,12 @@ const AcatamentoForm: React.FC<AcatamentoFormProps> = ({ form }) => {
             <Inputn
               type="date"
               {...register("SB_DataAcatamento", { required: true })}
+              onChange={(e) =>
+                useStore.getState().setAcatamento({
+                  ...acatamento,
+                  SB_DataAcatamento: e.target.value,
+                })
+              }
             />
           </InfoBox>
           <InfoBox>
@@ -76,12 +82,24 @@ const AcatamentoForm: React.FC<AcatamentoFormProps> = ({ form }) => {
             <Inputn
               type="time"
               {...register("SB_PrevisaoAcatamento", { required: true })}
+              onChange={(e) =>
+                useStore.getState().setAcatamento({
+                  ...acatamento,
+                  SB_PrevisaoAcatamento: e.target.value,
+                })
+              }
             />
           </InfoBox>
           <InfoBox>
             <Labeln>Observações</Labeln>
             <TextArean
               {...register("SB_ObservacaoAcatamento", { required: true })}
+              onChange={(e) =>
+                useStore.getState().setAcatamento({
+                  ...acatamento,
+                  SB_ObservacaoAcatamento: e.target.value,
+                })
+              }
             />
           </InfoBox>
         </FieldTwo>

@@ -112,6 +112,7 @@ const EditModal: React.FC<ModalSAProps> = ({
       
       const solicitacaoBaseIdAcatamento = updatedSolicitacao.id_SolicitacaoBase;
       updatedAcatamento.SB_SolicitacaoBase_id_Endereco = updatedSolicitacao.SB_Endereco_id_Endereco;
+      updatedAcatamento.SB_SolicitacaoBase_id_SolicitacaoBase = updatedSolicitacao.id_SolicitacaoBase;
 
       const solicitacaoBaseIdSolAbertura = updatedSolicitacao.id_SolicitacaoBase;
       updatedSolicitacaoAbertura.SB_SolicitacaoBase_id_Endereco = updatedSolicitacao.SB_Endereco_id_Endereco;

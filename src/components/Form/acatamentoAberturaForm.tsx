@@ -1,11 +1,11 @@
 import { useEffect } from "react";
-import { InfoBox, Labeln, SectionBox, SectionTitle } from "../../pages/Fechamento/styles";
 import { AcatamentosAbertura } from "../../services/models/acatamentoAberturaModel";
 import { Inputn } from "../../utils/commonStyles";
 import { FieldTwo, Formn, ObsArea } from "../../utils/modals/modalUserStyles";
 import { useStore } from "./formsStore";
 import { UseFormReturn } from "react-hook-form";
 import { createAcatamentosAbertura, updateAcatamentosAbertura } from "../../services/api/Acatamento/acatamentosAberturaService";
+import { SectionBox, SectionTitle, InfoBox, Labeln } from "../../pages/Fechamento/styles";
 
 interface AcatamentoAberturaFormProps {
     form: UseFormReturn<AcatamentosAbertura>;
@@ -29,9 +29,9 @@ const AcamentoAberturaForm: React.FC<AcatamentoAberturaFormProps> = ({ form }) =
           (async () => {
             try {
               if (acatamentoAbertura.id_AcatamentosAbertura) {
-                await updateAcatamentosAbertura(acatamentoAbertura.id_AcatamentosAbertura, acatamentoAbertura);
+                await updateAcatamentosAbertura(acatamentoAbertura);
               } else {
-                await createAcatamentosAbertura(acatamentoAbertura);
+                await createAcatamentosAbertura(acatamentoAbertura.SB_SolicitacaoAbertura_id_SolicitacaoAbertura, acatamentoAbertura);
               }
               console.log("acatamentoAbertura enviado com sucesso");
             } catch (error) {
@@ -53,7 +53,12 @@ const AcamentoAberturaForm: React.FC<AcatamentoAberturaFormProps> = ({ form }) =
                             {...register("SB_DataAcatamentoAbertura", {
                                 required: "Data Acatamento é obrigatória",
                             })}
-                        /* onChange={handleInputChange} */
+                        onChange={(e) =>
+                    useStore.getState().setAcatamentoAbertura({
+                      ...acatamentoAbertura,
+                      SB_DataAcatamentoAbertura: e.target.value,
+                    })
+                  }
                         />
                     </InfoBox>
                     <InfoBox>
@@ -63,7 +68,12 @@ const AcamentoAberturaForm: React.FC<AcatamentoAberturaFormProps> = ({ form }) =
                             {...register("SB_EquipeResponsavelAbertura", {
                                 required: "Responsável é obrigatório",
                             })}
-                        /* onChange={handleInputChange} */
+                        onChange={(e) =>
+                    useStore.getState().setAcatamentoAbertura({
+                      ...acatamentoAbertura,
+                      SB_EquipeResponsavelAbertura: e.target.value,
+                    })
+                  }
                         />
                     </InfoBox>
                 </FieldTwo>
@@ -75,14 +85,24 @@ const AcamentoAberturaForm: React.FC<AcatamentoAberturaFormProps> = ({ form }) =
                             {...register("SB_PrevisaoAcatamentoAbertura", {
                                 required: "Previsão é obrigatória",
                             })}
-                        /* onChange={handleInputChange} */
+                        onChange={(e) =>
+                    useStore.getState().setAcatamentoAbertura({
+                      ...acatamentoAbertura,
+                      SB_PrevisaoAcatamentoAbertura: e.target.value,
+                    })
+                  }
                         />
                     </InfoBox>
                     <InfoBox>
                         <Labeln>Observações</Labeln>
                         <ObsArea
                             {...register("SB_ObservacaoAcatamentoAbertura")}
-                        /* onChange={handleInputChange} */
+                        onChange={(e) =>
+                    useStore.getState().setAcatamentoAbertura({
+                      ...acatamentoAbertura,
+                      SB_ObservacaoAcatamentoAbertura: e.target.value,
+                    })
+                  }
                         />
                     </InfoBox>
                 </FieldTwo>

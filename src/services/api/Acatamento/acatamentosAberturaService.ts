@@ -15,6 +15,7 @@ export const getAcatamentosAbertura = async (
   }
 };
 
+
 export const createAcatamentosAbertura = async (
   solicitacaoAberturaId: number,
   acatamentoAberturaData: AcatamentosAbertura

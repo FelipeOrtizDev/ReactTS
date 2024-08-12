@@ -16,6 +16,12 @@ import {
 import { useStore } from "../../components/Form/formsStore"; // Importando Zustand Store
 import { getFechamentos } from "../../services/api/fechamentoService";
 import { Fechamento } from "../../services/models/fechamentoModel";
+import { getAcatamentos } from "../../services/api/Acatamento/acatamentoService";
+import { getSolicitacoesAbertura } from "../../services/api/solicitacaoAberturaService";
+import { getAcatamentosAbertura } from "../../services/api/Acatamento/acatamentosAberturaService";
+import { Acatamento } from "../../services/models/acatamentoModel";
+import { AcatamentosAbertura } from "../../services/models/acatamentoAberturaModel";
+import { SolicitacaoAbertura } from "../../services/models/solicitacaoAberturaModel";
 
 const ServicosEmAndamentoPage: React.FC = () => {
   const [solicitacoes, setSolicitacoes] = useState<SolicitacaoBase[]>([]);
@@ -29,8 +35,9 @@ const ServicosEmAndamentoPage: React.FC = () => {
 
   const setSolicitacaoBase = useStore((state) => state.setSolicitacaoBase);
   const setFechamento = useStore((state) => state.setFechamento);
-  const setAcatamento = useStore((state) => state.setAcatamento)
-  // const loadFechamento = useStore((state) => state.loadFechamento);
+  const setAcatamento = useStore((state) => state.setAcatamento);
+  const setAcatamentoAbertura = useStore((state) => state.setAcatamentoAbertura);
+  const setSolicitacaoAbertura = useStore ((state) => state.setSolicitacaoAbertura);
 
   useEffect(() => {
     const fetchSolicitacoes = async () => {
@@ -78,12 +85,21 @@ const ServicosEmAndamentoPage: React.FC = () => {
 
     try {
       const fechamento = await getFechamentos(solicitacao.id_SolicitacaoBase);
+      const acatamento = await getAcatamentos(solicitacao.id_SolicitacaoBase);
+      const solicitacaoAbertura = await getSolicitacoesAbertura(solicitacao.id_SolicitacaoBase);
+      const acatamentoAbertura = await getAcatamentosAbertura(solicitacaoAbertura.id_SolicitacaoAbertura);
       setFechamento(fechamento);
+      setAcatamento(acatamento);
+      setSolicitacaoAbertura(solicitacaoAbertura);
+      setAcatamentoAbertura(acatamentoAbertura);
       setSolicitacaoBase(solicitacao);
       setSelectedSolicitacao(solicitacao);
       setModalOpen(true);
     } catch (error) {
       setFechamento({} as Fechamento);
+      setAcatamento({} as Acatamento);
+      setAcatamentoAbertura({} as AcatamentosAbertura);
+      setSolicitacaoAbertura({} as SolicitacaoAbertura)
       setSolicitacaoBase(solicitacao);
       setSelectedSolicitacao(solicitacao);
       setModalOpen(true);
