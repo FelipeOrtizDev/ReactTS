@@ -62,7 +62,7 @@ export const saveOrUpdateFechamento = async (
   fechamentoData: Fechamento
 ): Promise<Fechamento> => {
   if (fechamentoData.id_Fechamentos) {
-    // Se o fechamento já existe, você pode usar um método de atualização, como PUT
+    // Se já existe, você pode usar um método de atualização, como PUT
     // Implementar o método de atualização conforme necessário
   } else {
     // Caso contrário, crie um novo fechamento

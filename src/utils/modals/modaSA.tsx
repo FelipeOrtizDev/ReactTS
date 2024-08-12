@@ -18,6 +18,8 @@ import { SolicitacaoAbertura } from "../../services/models/solicitacaoAberturaMo
 import SolicitacaoAberturaForm from "../../components/Form/solicitacaoAberturaForm";
 import AcatamentoAberturaForm from "../../components/Form/acatamentoAberturaForm";
 import { saveOrUpdateAcatamento } from "../../services/api/Acatamento/acatamentoService";
+import { saveOrUpdateSolicitacaoAbertura } from "../../services/api/solicitacaoAberturaService";
+import { saveOrUpdateAcatamentoAbertura } from "../../services/api/Acatamento/acatamentosAberturaService";
 
 interface ModalSAProps {
   isOpen: boolean;
@@ -85,6 +87,15 @@ const EditModal: React.FC<ModalSAProps> = ({
     return () => subscription.unsubscribe();
   }, [formFechamento, setFechamento, fechamento]);
 
+  useEffect(() => {
+    const subscription = formSolicitacaoAbertura.watch((value, { name }) => {
+      if (name === "SB_ServicoAceito") {
+        setSolicitacaoAbertura({ ...solicitacaoAbertura, SB_ServicoAceito: value.SB_ServicoAceito });
+      }
+    });
+    return () => subscription.unsubscribe();
+  }, [formSolicitacaoAbertura, setSolicitacaoAbertura, solicitacaoAbertura]);
+
   // Função para salvar os dados ao fechar o modal
   const handleSave = async () => {
     try {
@@ -98,10 +109,14 @@ const EditModal: React.FC<ModalSAProps> = ({
       // Certifique-se de que o ID da solicitação base está presente
       const solicitacaoBaseId = updatedSolicitacao.id_SolicitacaoBase;
       updatedFechamento.SB_SolicitacaoBase_id_Endereco = updatedSolicitacao.SB_Endereco_id_Endereco;
-      console.log("Fechamento", updatedFechamento)
-
+      
       const solicitacaoBaseIdAcatamento = updatedSolicitacao.id_SolicitacaoBase;
       updatedAcatamento.SB_SolicitacaoBase_id_Endereco = updatedSolicitacao.SB_Endereco_id_Endereco;
+
+      const solicitacaoBaseIdSolAbertura = updatedSolicitacao.id_SolicitacaoBase;
+      updatedSolicitacaoAbertura.SB_SolicitacaoBase_id_Endereco = updatedSolicitacao.SB_Endereco_id_Endereco;
+
+      const solicitacaoAberturaId = updatedSolicitacaoAbertura.id_SolicitacaoAbertura;
       // Atualize ou crie o fechamento no backend utilizando o solicitacaoBaseId
       const savedFechamento = await saveOrUpdateFechamento(
         solicitacaoBaseId,
@@ -113,21 +128,28 @@ const EditModal: React.FC<ModalSAProps> = ({
         updatedAcatamento
       );
 
+      const savedSolicitacaoAbertura = await saveOrUpdateSolicitacaoAbertura(
+        solicitacaoBaseIdSolAbertura,
+        updatedSolicitacaoAbertura
+      )
+
+      const savedAcatamentoAbertura = await saveOrUpdateAcatamentoAbertura(
+        solicitacaoAberturaId,
+        updatedAcatamentoAbertura
+      )
       // Sincronize o estado do Zustand
       setSolicitacaoBase(updatedSolicitacao);
       setFechamento(savedFechamento);
       setAcatamento(savedAcatamento);
-      setAcatamentoAbertura(updatedAcatamentoAbertura);
-      setSolicitacaoAbertura(updatedSolicitacaoAbertura);
-      console.log("Acatamento", updatedAcatamento);
+      setAcatamentoAbertura(savedAcatamentoAbertura);
+      setSolicitacaoAbertura(savedSolicitacaoAbertura);
+      // console.log("Solicitação Abertura", updatedSolicitacaoAbertura);
       
 
       // Feche o modal
-      window.location.reload();
       onClose();
     } catch (error) {
       console.error("Erro ao salvar solicitação e fechamento:", error);
-      window.location.reload();
       onClose();
     }
   };

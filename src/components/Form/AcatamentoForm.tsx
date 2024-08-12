@@ -61,6 +61,12 @@ const AcatamentoForm: React.FC<AcatamentoFormProps> = ({ form }) => {
             <Inputn
               type="text"
               {...register("SB_EquipeResponsavel", { required: true })}
+              onChange={(e) =>
+                useStore.getState().setAcatamento({
+                  ...acatamento,
+                  SB_EquipeResponsavel: e.target.value,
+                })
+              }
             />
           </InfoBox>
         </FieldTwo>

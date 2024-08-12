@@ -29,6 +29,7 @@ const ServicosEmAndamentoPage: React.FC = () => {
 
   const setSolicitacaoBase = useStore((state) => state.setSolicitacaoBase);
   const setFechamento = useStore((state) => state.setFechamento);
+  const setAcatamento = useStore((state) => state.setAcatamento)
   // const loadFechamento = useStore((state) => state.loadFechamento);
 
   useEffect(() => {
