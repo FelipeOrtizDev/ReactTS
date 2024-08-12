@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { SolicitacaoAbertura } from "../../services/models/solicitacaoAberturaModel";
 import { Inputn, Title } from "../../utils/commonStyles";
@@ -9,15 +9,42 @@ import {
   SectionBox,
 } from "../../pages/Fechamento/styles";
 import { Formn } from "../../utils/modals/modalUserStyles";
+import {
+  createSolicitacaoAbertura,
+  updateSolicitacaoAbertura,
+} from "../../services/api/solicitacaoAberturaService";
+import { useStore } from "./formsStore";
 
 interface SolicitacaoAberturaFormProps {
   form: UseFormReturn<SolicitacaoAbertura>;
+  solicitacaoBaseId: number;
 }
 
 const SolicitacaoAberturaForm: React.FC<SolicitacaoAberturaFormProps> = ({
   form,
+  solicitacaoBaseId,
 }) => {
-  const { register, watch} = form;
+  const { register } = form;
+  const solicitacaoAbertura = useStore((state) => state.solicitacaoAbertura);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        if (solicitacaoAbertura.id_SolicitacaoAbertura) {
+          await updateSolicitacaoAbertura(solicitacaoAbertura);
+        } else {
+          await createSolicitacaoAbertura(
+            (solicitacaoAbertura.SB_SolicitacaoBase_id_SolicitacaoBase =
+              solicitacaoBaseId),
+            solicitacaoAbertura
+          );
+        }
+        console.log("solicitacaoAbertura enviado com sucesso");
+      } catch (error) {
+        console.error("Erro ao enviar solicitacaoAbertura:", error);
+      }
+    })();
+  }, [solicitacaoAbertura]);
 
   return (
     <Formn>
@@ -31,7 +58,12 @@ const SolicitacaoAberturaForm: React.FC<SolicitacaoAberturaFormProps> = ({
               {...register("SB_DataAbertura", {
                 required: "Data Abertura é obrigatória",
               })}
-
+              onChange={(e) =>
+                useStore.getState().setSolicitacaoAbertura({
+                  ...solicitacaoAbertura,
+                  SB_DataAbertura: e.target.value,
+                })
+              }
             />
           </InfoBox>
           <InfoBox>
@@ -41,7 +73,12 @@ const SolicitacaoAberturaForm: React.FC<SolicitacaoAberturaFormProps> = ({
               {...register("SB_HoraAbertura", {
                 required: "Hora é obrigatória",
               })}
-
+              onChange={(e) =>
+                useStore.getState().setSolicitacaoAbertura({
+                  ...solicitacaoAbertura,
+                  SB_HoraAbertura: e.target.value,
+                })
+              }
             />
           </InfoBox>
           <InfoBox>
@@ -51,107 +88,16 @@ const SolicitacaoAberturaForm: React.FC<SolicitacaoAberturaFormProps> = ({
               {...register("SB_Solicitante", {
                 required: "Solicitante é obrigatório",
               })}
-
+              onChange={(e) =>
+                useStore.getState().setSolicitacaoAbertura({
+                  ...solicitacaoAbertura,
+                  SB_Solicitante: e.target.value,
+                })
+              }
             />
           </InfoBox>
         </Field>
-        </SectionBox>
-        {/* <SectionTitle>Acatamento Abertura</SectionTitle>
-        <FieldTwo>
-          <InfoBox>
-            <Labeln>Data Acatamento</Labeln>
-            <Inputn
-              type="date"
-              {...register("SB_DataAcatamentoAbertura", {
-                required: "Data Acatamento é obrigatória",
-              })}
-
-            />
-          </InfoBox>
-          <InfoBox>
-            <Labeln>Passado Para</Labeln>
-            <Inputn
-              type="text"
-              {...register("SB_EquipeResponsavelAbertura", {
-                required: "Responsável é obrigatório",
-              })}
-
-            />
-          </InfoBox>
-        </FieldTwo>
-        <FieldTwo>
-          <InfoBox>
-            <Labeln>Previsão</Labeln>
-            <Inputn
-              type="time"
-              {...register("SB_PrevisaoAcatamentoAbertura", {
-                required: "Previsão é obrigatória",
-              })}
-
-            />
-          </InfoBox>
-          <InfoBox>
-            <Labeln>Observações</Labeln>
-            <ObsArea
-              {...register("SB_ObservacaoAcatamentoAbertura")}
-
-            />
-          </InfoBox>
-        </FieldTwo>
       </SectionBox>
-      <SectionBox>
-        <SectionTitle>O Serviço de Abertura foi aceito?</SectionTitle>
-        <Selectn
-          {...register("SB_ServicoAceito", { valueAsNumber: true })
-        >
-          <Optionn value="">Selecione...</Optionn>
-          <Optionn value={1}>Sim</Optionn>
-          <Optionn value={0}>Não</Optionn>
-        </Selectn>
-      </SectionBox>
-      {servAceitoValue === 1 && (
-        <SectionBox>
-          <SectionTitle>Houve Abertura?</SectionTitle>
-          <Selectn
-            {...register("SB_HAbertura", { valueAsNumber: true })}
-          >
-            <Optionn value="">Selecione...</Optionn>
-            <Optionn value={1}>Sim</Optionn>
-            <Optionn value={0}>Não</Optionn>
-          </Selectn>
-          {hasAberturaValue === 1 && (
-            <InfoBox>
-              <Labeln>Data</Labeln>
-              <Inputn
-                type="date"
-                {...register("SB_HSData")}
-  
-              />
-            </InfoBox>
-          )}
-          {hasAberturaValue === 0 && (
-            <FieldTwo>
-              <InfoBox>
-                <Labeln>Motivo</Labeln>
-                <Inputn
-                  type="text"
-                  placeholder="Digite o motivo da não abertura aqui"
-                  {...register("SB_HNMotivo")}
-    
-                />
-              </InfoBox>
-              <InfoBox>
-                <Labeln>Observações da Não Abertura</Labeln>
-                <TextArean
-                  placeholder="Digite as observações aqui"
-                  {...register("SB_HNObservacoes")}
-    
-                />
-              </InfoBox>
-            </FieldTwo>
-          )}
-        </SectionBox>
-      )} */}
     </Formn>
   );
 };

@@ -16,6 +16,12 @@ import {
 import { useStore } from "../../components/Form/formsStore"; // Importando Zustand Store
 import { getFechamentos } from "../../services/api/fechamentoService";
 import { Fechamento } from "../../services/models/fechamentoModel";
+import { getAcatamentos } from "../../services/api/Acatamento/acatamentoService";
+import { Acatamento } from "../../services/models/acatamentoModel";
+import { getSolicitacoesAbertura } from "../../services/api/solicitacaoAberturaService";
+import { SolicitacaoAbertura } from "../../services/models/solicitacaoAberturaModel";
+import { getAcatamentosAbertura } from "../../services/api/Acatamento/acatamentosAberturaService";
+import { AcatamentosAbertura } from "../../services/models/acatamentoAberturaModel";
 
 const ServicosEmAndamentoPage: React.FC = () => {
   const [solicitacoes, setSolicitacoes] = useState<SolicitacaoBase[]>([]);
@@ -29,7 +35,13 @@ const ServicosEmAndamentoPage: React.FC = () => {
 
   const setSolicitacaoBase = useStore((state) => state.setSolicitacaoBase);
   const setFechamento = useStore((state) => state.setFechamento);
-  const setAcatamento = useStore((state) => state.setAcatamento)
+  const setAcatamento = useStore((state) => state.setAcatamento);
+  const setSolicitacaoAbertura = useStore(
+    (state) => state.setSolicitacaoAbertura
+  );
+  const setAcatamentoAbertura = useStore(
+    (state) => state.setAcatamentoAbertura
+  );
   // const loadFechamento = useStore((state) => state.loadFechamento);
 
   useEffect(() => {
@@ -39,11 +51,9 @@ const ServicosEmAndamentoPage: React.FC = () => {
         setSolicitacoes(data);
 
         const initialTimeLeft = data.reduce((acc, solicitacao) => {
-          const previsao =
-            solicitacao.SB_Acatamento?.SB_PrevisaoAcatamento || "00:00:00";
-          const previsaoDate = new Date(`1970-01-01T${previsao}Z`).getTime();
+          const timer = Number(solicitacao.SB_Timer || 0); // Pega o valor de SB_Timer ou 0 se não estiver presente
           const now = Date.now();
-          const timeDifference = previsaoDate - now;
+          const timeDifference = timer - now;
           acc[solicitacao.id_SolicitacaoBase] =
             timeDifference > 0 ? timeDifference : 0;
           return acc;
@@ -79,18 +89,37 @@ const ServicosEmAndamentoPage: React.FC = () => {
     try {
       const fechamento = await getFechamentos(solicitacao.id_SolicitacaoBase);
       setFechamento(fechamento);
-      setSolicitacaoBase(solicitacao);
-      setSelectedSolicitacao(solicitacao);
-      setModalOpen(true);
     } catch (error) {
       setFechamento({} as Fechamento);
-      setSolicitacaoBase(solicitacao);
-      setSelectedSolicitacao(solicitacao);
-      setModalOpen(true);
-      console.error("Erro ao buscar ou criar fechamento:", error);
-    } finally {
-      setIsLoading(false);
     }
+
+    try {
+      const acatamento = await getAcatamentos(solicitacao.id_SolicitacaoBase);
+      setAcatamento(acatamento);
+    } catch (error) {
+      setAcatamento({} as Acatamento);
+    }
+    try {
+      const solicitacaoAbertura = await getSolicitacoesAbertura(
+        solicitacao.id_SolicitacaoBase
+      );
+      setSolicitacaoAbertura(solicitacaoAbertura);
+    } catch (error) {
+      setSolicitacaoAbertura({} as SolicitacaoAbertura);
+    }
+    try {
+      const acatamentoAbertura = await getAcatamentosAbertura(
+        solicitacao.id_SolicitacaoBase
+      );
+      setAcatamentoAbertura(acatamentoAbertura);
+    } catch (error) {
+      setAcatamentoAbertura({} as AcatamentosAbertura);
+    }
+
+    setSolicitacaoBase(solicitacao);
+    setSelectedSolicitacao(solicitacao);
+    setModalOpen(true);
+    setIsLoading(false);
   };
 
   const handleCloseModal = () => {

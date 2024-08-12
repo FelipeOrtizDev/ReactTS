@@ -9,6 +9,7 @@ export const getFechamentos = async (
       `/fechamentos/${solicitacaoBaseId}`
     );
     console.log("get response:", response.data);
+
     return response.data;
   } catch (error) {
     console.error("Erro ao buscar fechamentos", error);

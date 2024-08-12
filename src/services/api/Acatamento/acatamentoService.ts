@@ -6,7 +6,7 @@ export const getAcatamentos = async (
 ): Promise<Acatamento> => {
   try {
     const response = await axiosInstance.get(
-      `/acatamentos/${solicitacaoBaseID}`
+      `/acatamento/${solicitacaoBaseID}`
     );
     return response.data;
   } catch (error) {
@@ -33,7 +33,10 @@ export const updateAcatamento = async (
   acatamento: Partial<Acatamento>
 ): Promise<Acatamento> => {
   try {
-    const response = await axiosInstance.put(`/acatamentos/${acatamento.id_Acatamentos}`, acatamento);
+    const response = await axiosInstance.put(
+      `/acatamentos/${acatamento.id_Acatamentos}`,
+      acatamento
+    );
     return response.data;
   } catch (error) {
     throw new Error("Erro ao atualizar o acatamento : " + error);
@@ -50,7 +53,7 @@ export const deleteAcatamento = async (id: number): Promise<void> => {
 
 // Função para salvar ou atualizar um fechamento
 // Essa função deve usar o solicitacaoBaseId ao criar ou atualizar o fechamento
-export const saveOrUpdateAcatamento= async (
+export const saveOrUpdateAcatamento = async (
   solicitacaoBaseId: number,
   acatamentoData: Acatamento
 ): Promise<Acatamento> => {

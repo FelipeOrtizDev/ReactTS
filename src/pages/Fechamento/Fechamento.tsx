@@ -103,19 +103,43 @@ const Fechamentos: React.FC = () => {
     setValue("setorAbastecimento", "");
   }, [selectedMunicipio, setValue]);
 
+  const handlePoloChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedPolo = polos.find(
+      (p) => p.id_Polo === Number(e.target.value)
+    );
+    setValue("poloDescricao", selectedPolo?.SB_Polo || "");
+    setValue("polo", e.target.value);
+  };
+
+  const handleMunicipioChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedMunicipio = municipios.find(
+      (m) => m.id_Municipio === Number(e.target.value)
+    );
+    setValue("municipioDescricao", selectedMunicipio?.SB_Municipio || "");
+    setValue("municipio", e.target.value);
+  };
+
+  const handleSetorChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedSetor = setores.find(
+      (s) => s.id_SetorAbastecimento === Number(e.target.value)
+    );
+    setValue("setorDescricao", selectedSetor?.SB_SetorAbastecimento || "");
+    setValue("setorAbastecimento", e.target.value);
+  };
+
   const onSubmit = async (data: any) => {
     const endereco: Endereco = {
       id_Endereco: 0, // Inicializamos com 0, pois será definido pela API
-      SB_Municipio: data.municipio,
+      SB_Municipio: data.municipioDescricao,
       SB_Logradouro: data.logradouro,
-      SB_Numero: Number(data.numero),
+      SB_Numero: data.numero,
       SB_Complemento: data.complemento,
       SB_Bairro: data.bairro,
       SB_ZonaPressao: data.zonaPressao,
-      SB_Polo: data.polo,
+      SB_Polo: data.poloDescricao,
       SB_Referencia: data.referencia,
       SB_Cruzamento: data.cruzamento,
-      SB_SetorAbastecimento: data.setorAbastecimento,
+      SB_SetorAbastecimento: data.setorDescricao,
     };
 
     try {
@@ -145,6 +169,7 @@ const Fechamentos: React.FC = () => {
         SB_NumeroMZ: data.numeroMZ,
         SB_Prioridade: data.prioridade,
         SB_Responsavel: data.responsavel,
+        SB_Timer: "02:00",
         SB_Status: "Solicitado",
       };
 
@@ -180,7 +205,7 @@ const Fechamentos: React.FC = () => {
               </InfoBox>
               <InfoBox>
                 <Labeln>Polo</Labeln>
-                <Selectn {...register("polo")}>
+                <Selectn {...register("polo")} onChange={handlePoloChange}>
                   <Optionn value="">Selecione...</Optionn>
                   {polos.map((polo) => (
                     <Optionn key={polo.id_Polo} value={polo.id_Polo}>
@@ -204,7 +229,10 @@ const Fechamentos: React.FC = () => {
             <Field>
               <InfoBox>
                 <Labeln>Município</Labeln>
-                <Selectn {...register("municipio")}>
+                <Selectn
+                  {...register("municipio")}
+                  onChange={handleMunicipioChange}
+                >
                   <Optionn value="">Selecione...</Optionn>
                   {municipios.map((municipio) => (
                     <Optionn
@@ -268,7 +296,10 @@ const Fechamentos: React.FC = () => {
               </InfoBox>
               <InfoBox>
                 <Labeln>Setor de Abastecimento</Labeln>
-                <Selectn {...register("setorAbastecimento")}>
+                <Selectn
+                  {...register("setorAbastecimento")}
+                  onChange={handleSetorChange}
+                >
                   <Optionn value="">Selecione...</Optionn>
                   {setores.map((setor) => (
                     <Optionn
@@ -285,6 +316,8 @@ const Fechamentos: React.FC = () => {
                 <Selectn {...register("zonaPressao")}>
                   <Optionn value="">Selecione...</Optionn>
                   <Optionn value="Alta">Alta</Optionn>
+                  <Optionn value="Media">Media</Optionn>
+                  <Optionn value="Baixa">Baixa</Optionn>
                 </Selectn>
               </InfoBox>
               <InfoBox>
@@ -314,8 +347,8 @@ const Fechamentos: React.FC = () => {
               </InfoBox>
               <InfoBox>
                 <Labeln>Motivo</Labeln>
-                <Selectn {...register("motivo")}>
-                  <Optionn value="">Selecione...</Optionn>
+                <Selectn {...register("motivo")} disabled={isMZEnabled}>
+                  <Optionn value={0}>Selecione...</Optionn>
                   <Optionn value={1}>Rede Primária</Optionn>
                   <Optionn value={0}>Não Implantada</Optionn>
                 </Selectn>

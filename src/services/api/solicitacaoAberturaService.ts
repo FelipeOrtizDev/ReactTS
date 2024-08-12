@@ -9,7 +9,7 @@ export const getSolicitacoesAbertura = async (
 ): Promise<SolicitacaoAbertura> => {
   try {
     const response = await axiosInstance.get<SolicitacaoAbertura>(
-      `/solicitacoes-abertura/${solicitacaoBaseId}`
+      `/solicitacoesAbertura/${solicitacaoBaseId}`
     );
     return response.data;
   } catch (error) {
@@ -23,7 +23,7 @@ export const createSolicitacaoAbertura = async (
 ): Promise<SolicitacaoAbertura> => {
   try {
     const response = await axiosInstance.post<SolicitacaoAbertura>(
-      `/solicitacaoAbertura/${solicitacaoBaseId}`,
+      `/solicitacoeAbertura/${solicitacaoBaseId}`,
       solicitacaoAbertura
     );
     return response.data;

@@ -5,10 +5,12 @@ import { axiosInstance } from "../conexaoApi";
 
 // Funções de serviço para AcatamentosAbertura
 export const getAcatamentosAbertura = async (
-  solicitacaoAberturaId: number
+  solicitacaoBaseId: number
 ): Promise<AcatamentosAbertura> => {
   try {
-    const response = await axiosInstance.get<AcatamentosAbertura>(`/acatamentos-abertura/${solicitacaoAberturaId}`);
+    const response = await axiosInstance.get<AcatamentosAbertura>(
+      `/acatamentosAbertura/${solicitacaoBaseId}`
+    );
     return response.data;
   } catch (error) {
     throw new Error("Erro ao buscar acatamentos de abertura: " + error);
@@ -16,12 +18,12 @@ export const getAcatamentosAbertura = async (
 };
 
 export const createAcatamentosAbertura = async (
-  solicitacaoAberturaId: number,
+  solicitacaoBaseId: number,
   acatamentoAberturaData: AcatamentosAbertura
 ): Promise<AcatamentosAbertura> => {
   try {
     const response = await axiosInstance.post(
-      `/acatamentos-abertura/${solicitacaoAberturaId}`,
+      `/acatamentosAbertura/${solicitacaoBaseId}`,
       acatamentoAberturaData
     );
     return response.data;
@@ -55,7 +57,7 @@ export const deleteAcatamentosAbertura = async (id: number): Promise<void> => {
 // Função para salvar ou atualizar um fechamento
 // Essa função deve usar o solicitacaoBaseId ao criar ou atualizar o fechamento
 export const saveOrUpdateAcatamentoAbertura = async (
-  solicitacaoAberturaId: number,
+  solicitacaoBaseId: number,
   acatamentoAberturaData: AcatamentosAbertura
 ): Promise<AcatamentosAbertura> => {
   if (acatamentoAberturaData.id_AcatamentosAbertura) {
@@ -63,6 +65,9 @@ export const saveOrUpdateAcatamentoAbertura = async (
     // Implementar o método de atualização conforme necessário
   } else {
     // Caso contrário, crie um novo fechamento
-    return await createAcatamentosAbertura(solicitacaoAberturaId, acatamentoAberturaData);
+    return await createAcatamentosAbertura(
+      solicitacaoBaseId,
+      acatamentoAberturaData
+    );
   }
 };
