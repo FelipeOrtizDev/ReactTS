@@ -17,6 +17,7 @@ import { AcatamentosAbertura } from "../../services/models/acatamentoAberturaMod
 import { SolicitacaoAbertura } from "../../services/models/solicitacaoAberturaModel";
 import SolicitacaoAberturaForm from "../../components/Form/solicitacaoAberturaForm";
 import AcatamentoAberturaForm from "../../components/Form/acatamentoAberturaForm";
+import { saveOrUpdateAcatamento } from "../../services/api/Acatamento/acatamentoService";
 
 interface ModalSAProps {
   isOpen: boolean;
@@ -99,23 +100,35 @@ const EditModal: React.FC<ModalSAProps> = ({
       updatedFechamento.SB_SolicitacaoBase_id_Endereco = updatedSolicitacao.SB_Endereco_id_Endereco;
       console.log("Fechamento", updatedFechamento)
 
+      const solicitacaoBaseIdAcatamento = updatedSolicitacao.id_SolicitacaoBase;
+      updatedAcatamento.SB_SolicitacaoBase_id_Endereco = updatedSolicitacao.SB_Endereco_id_Endereco;
       // Atualize ou crie o fechamento no backend utilizando o solicitacaoBaseId
       const savedFechamento = await saveOrUpdateFechamento(
         solicitacaoBaseId,
         updatedFechamento
       );
 
+      const savedAcatamento = await saveOrUpdateAcatamento(
+        solicitacaoBaseIdAcatamento,
+        updatedAcatamento
+      );
+
       // Sincronize o estado do Zustand
       setSolicitacaoBase(updatedSolicitacao);
       setFechamento(savedFechamento);
-      setAcatamento(updatedAcatamento);
+      setAcatamento(savedAcatamento);
       setAcatamentoAbertura(updatedAcatamentoAbertura);
       setSolicitacaoAbertura(updatedSolicitacaoAbertura);
+      console.log("Acatamento", updatedAcatamento);
+      
 
       // Feche o modal
+      window.location.reload();
       onClose();
     } catch (error) {
       console.error("Erro ao salvar solicitação e fechamento:", error);
+      window.location.reload();
+      onClose();
     }
   };
 

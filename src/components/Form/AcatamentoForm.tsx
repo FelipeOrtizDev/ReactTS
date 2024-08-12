@@ -32,9 +32,9 @@ const AcatamentoForm: React.FC<AcatamentoFormProps> = ({ form }) => {
       (async () => {
         try {
           if (acatamento.id_Acatamentos) {
-            await updateAcatamento(acatamento.id_Acatamentos, acatamento);
+            await updateAcatamento(acatamento);
           } else {
-            await createAcatamento(acatamento);
+            await createAcatamento(acatamento.SB_SolicitacaoBase_id_SolicitacaoBase, acatamento);
           }
           console.log("acatamento enviado com sucesso");
         } catch (error) {
