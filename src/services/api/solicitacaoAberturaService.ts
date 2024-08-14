@@ -1,8 +1,6 @@
 import { SolicitacaoAbertura } from "../models/solicitacaoAberturaModel";
 import { axiosInstance } from "./conexaoApi";
 
-// Interface para SolicitacaoAbertura
-
 // Funções de serviço para SolicitacaoAbertura
 export const getSolicitacoesAbertura = async (
   solicitacaoBaseId: number
@@ -61,8 +59,7 @@ export const saveOrUpdateSolicitacaoAbertura = async (
   solicitacaoAberturaData: SolicitacaoAbertura
 ): Promise<SolicitacaoAbertura> => {
   if (solicitacaoAberturaData.id_SolicitacaoAbertura) {
-    // Se o fechamento já existe, você pode usar um método de atualização, como PUT
-    // Implementar o método de atualização conforme necessário
+      return await updateSolicitacaoAbertura(solicitacaoAberturaData)
   } else {
     // Caso contrário, crie um novo fechamento
     return await createSolicitacaoAbertura(

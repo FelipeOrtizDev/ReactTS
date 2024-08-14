@@ -59,8 +59,7 @@ export const saveOrUpdateAcatamentoAbertura = async (
   acatamentoAberturaData: AcatamentosAbertura
 ): Promise<AcatamentosAbertura> => {
   if (acatamentoAberturaData.id_AcatamentosAbertura) {
-    // Se já existe, você pode usar um método de atualização, como PUT
-    // Implementar o método de atualização conforme necessário
+    updateAcatamentosAbertura(acatamentoAberturaData);
   } else {
     // Caso contrário, crie um novo fechamento
     return await createAcatamentosAbertura(

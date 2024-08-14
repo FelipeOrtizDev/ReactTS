@@ -71,7 +71,7 @@ const SolicitacaoAberturaForm: React.FC<SolicitacaoAberturaFormProps> = ({ form 
               <Labeln>Hora</Labeln>
               <Inputn
                 type="time"
-                {...register("SB_HoraAbertura")}
+                {...register("SB_HSHoraAbertura")}
               />
             </InfoBox>
             <InfoBox>
@@ -109,7 +109,7 @@ const SolicitacaoAberturaForm: React.FC<SolicitacaoAberturaFormProps> = ({ form 
               <Inputn
                 type="text"
                  placeholder="Digite o motivo da abertura aqui"
-                {...register("SB_HSNMotivo")}
+                {...register("SB_HSMotivo")}
               />
             </InfoBox>
             <InfoBox>
