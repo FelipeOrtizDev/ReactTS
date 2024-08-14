@@ -6,8 +6,6 @@ import { SolicitacaoBase } from "../../services/models/solicitacaoBaseModel";
 import { Fechamento } from "../../services/models/fechamentoModel";
 import {
   Field,
-  Field1,
-  FieldTwo,
   ModalContainer,
   ModalContent,
   Title,
@@ -17,7 +15,6 @@ import {
   Labeln,
   SectionBox,
   SectionTitle,
-  TextArean,
 } from "../../pages/Fechamento/styles";
 import { Selectn, Optionn, ButtonsBox, Buttons, Inputn } from "../commonStyles";
 import { useStore } from "../../components/Form/formsStore";
@@ -83,8 +80,6 @@ const EditModal: React.FC<ModalSAProps> = ({
       defaultValues: solicitacaoAbertura,
     });
 
-  const servAceitoValue = formSolicitacaoAbertura.watch("SB_ServicoAceito");
-  const hasAberturaValue = formSolicitacaoAbertura.watch("SB_HAbertura");
   // Carrega os dados de fechamento e solicitação base quando o modal é aberto
   useEffect(() => {
     if (isOpen && solicitacaoBaseId) {
@@ -250,17 +245,65 @@ const EditModal: React.FC<ModalSAProps> = ({
             <FechamentoForm form={formFechamento} />
           </>
         )}
+        {fechamento.SB_ServicoAceito === 0 && (
+          <>
+            <h5>O serviço de Solicitação Abertura não foi aceito.</h5>
+          </>
+        )}
 
-        <SolicitacaoAberturaForm
-          form={formSolicitacaoAbertura}
-          solicitacaoBaseId={solicitacaoBaseId}
-        />
+        <SectionBox>
+        <Title>Solicitação de Abertura</Title>
+        <Field>
+          <InfoBox>
+            <Labeln>Data Abertura</Labeln>
+            <Inputn
+              type="date"
+              {...formSolicitacaoAbertura.register("SB_DataAbertura", {
+                required: "Data Abertura é obrigatória",
+              })}
+              onChange={(e) =>
+                useStore.getState().setSolicitacaoAbertura({
+                  ...solicitacaoAbertura,
+                  SB_DataAbertura: e.target.value,
+                })
+              }
+            />
+          </InfoBox>
+          <InfoBox>
+            <Labeln>Hora</Labeln>
+            <Inputn
+              type="time"
+              {...formSolicitacaoAbertura.register("SB_HoraAbertura", {
+                required: "Hora é obrigatória",
+              })}
+              onChange={(e) =>
+                useStore.getState().setSolicitacaoAbertura({
+                  ...solicitacaoAbertura,
+                  SB_HoraAbertura: e.target.value,
+                })
+              }
+            />
+          </InfoBox>
+          <InfoBox>
+            <Labeln>Solicitante</Labeln>
+            <Inputn
+              type="text"
+              {...formSolicitacaoAbertura.register("SB_Solicitante", {
+                required: "Solicitante é obrigatório",
+              })}
+              onChange={(e) =>
+                useStore.getState().setSolicitacaoAbertura({
+                  ...solicitacaoAbertura,
+                  SB_Solicitante: e.target.value,
+                })
+              }
+            />
+          </InfoBox>
+        </Field>
+        </SectionBox>
 
-        <AcatamentoAberturaForm
-          form={formAcatamentoAbertura}
-          solicitacaoBaseId={solicitacaoBaseId}
-        />
-
+        <AcatamentoAberturaForm form={formAcatamentoAbertura}/>
+       
         <SectionBox>
           <SectionTitle>O Serviço de Abertura foi aceito?</SectionTitle>
           <Selectn
@@ -268,127 +311,21 @@ const EditModal: React.FC<ModalSAProps> = ({
               valueAsNumber: true,
             })}
           >
-            <Optionn value={0}>Selecione...</Optionn>
+            <Optionn value="null">Selecione...</Optionn>
             <Optionn value={1}>Sim</Optionn>
             <Optionn value={0}>Não</Optionn>
           </Selectn>
         </SectionBox>
-        {servAceitoValue === 1 && (
-          <SectionBox>
-            <SectionTitle>Houve Abertura?</SectionTitle>
-            <Selectn
-              {...formSolicitacaoAbertura.register("SB_HAbertura", {
-                valueAsNumber: true,
-              })}
-            >
-              <Optionn value={0}>Selecione...</Optionn>
-              <Optionn value={1}>Sim</Optionn>
-              <Optionn value={0}>Não</Optionn>
-            </Selectn>
-            {hasAberturaValue === 1 && (
-              <InfoBox>
-                <Labeln>Data</Labeln>
-                <Inputn
-                  type="date"
-                  {...formSolicitacaoAbertura.register("SB_HSData")}
-                />
-                {/*   <Labeln>Data</Labeln>
-                <Inputn
-                  type="text"
-                  placeholder="Digite o motivo da não abertura aqui"
-                  {...formSolicitacaoAbertura.register("SB_HSData")}
-                />
-                <Labeln>Hora</Labeln>
-                <Inputn
-                  type="text"
-                  placeholder="Digite o motivo da não abertura aqui"
-                  {...formSolicitacaoAbertura.register("SB_HoraAbertura")}
-                />
-                <Labeln>Aberto Por</Labeln>
-                <Inputn
-                  type="text"
-                  placeholder="Digite o motivo da não abertura aqui"
-                  {...formSolicitacaoAbertura.register("SB_AbertoPor")}
-                />
-                <Labeln>Abertura</Labeln>
-                <Inputn
-                  type="text"
-                  placeholder="Digite o motivo da não abertura aqui"
-                  {...formSolicitacaoAbertura.register("SB_OAberto")}
-                />
-                <Labeln>Abertura</Labeln>
-                <Inputn
-                  type="text"
-                  placeholder="Digite o motivo da não abertura aqui"
-                  {...formSolicitacaoAbertura.register("SB_OAberto")}
-                />
-                <Labeln>Utilizou MZ</Labeln>
-                <Inputn
-                  type="text"
-                  placeholder="Digite o motivo da não abertura aqui"
-                  {...formSolicitacaoAbertura.register("SB_UtilizouMZ")}
-                />
-                <Labeln>Motivo</Labeln>
-                <Inputn
-                  type="text"
-                  placeholder="Digite o motivo da não abertura aqui"
-                  {...formSolicitacaoAbertura.register("SB_HSNMotivo")}
-                />
-                <Labeln>Manobra WFM</Labeln>
-                <Inputn
-                  type="text"
-                  placeholder="Digite o motivo da não abertura aqui"
-                  {...formSolicitacaoAbertura.register("SB_ManobraWFM")}
-                />
-                <Labeln>Qtde. Ligações</Labeln>
-                <Inputn
-                  type="number"
-                  placeholder="Digite o motivo da não abertura aqui"
-                  {...formSolicitacaoAbertura.register("SB_QTDEligacoes")}
-                />
-                <Labeln>Executante</Labeln>
-                <Inputn
-                  type="text"
-                  placeholder="Digite o motivo da não abertura aqui"
-                  {...formSolicitacaoAbertura.register("SB_Executante")}
-                />
-                <Labeln>Previsão</Labeln>
-                <Inputn
-                  type="text"
-                  placeholder="Digite o motivo da não abertura aqui"
-                  {...formSolicitacaoAbertura.register("SB_Previsao")}
-                />
-                <Labeln>Observações Abertura</Labeln>
-                <Inputn
-                  type="text"
-                  placeholder="Digite o motivo da não abertura aqui"
-                  {...formSolicitacaoAbertura.register(
-                    "SB_HFObservacaoAbertura"
-                  )}
-                /> */}
-              </InfoBox>
-            )}
-            {hasAberturaValue === 0 && (
-              <FieldTwo>
-                <InfoBox>
-                  <Labeln>Motivo</Labeln>
-                  <Inputn
-                    type="text"
-                    placeholder="Digite o motivo da não abertura aqui"
-                    {...formSolicitacaoAbertura.register("SB_HNMotivo")}
-                  />
-                </InfoBox>
-                <InfoBox>
-                  <Labeln>Observações da Não Abertura</Labeln>
-                  <TextArean
-                    placeholder="Digite as observações aqui"
-                    {...formSolicitacaoAbertura.register("SB_HNObservacoes")}
-                  />
-                </InfoBox>
-              </FieldTwo>
-            )}
-          </SectionBox>
+        {solicitacaoAbertura.SB_ServicoAceito === 1 && (
+
+            <SolicitacaoAberturaForm form={formSolicitacaoAbertura}/>
+          
         )}
+        {solicitacaoAbertura.SB_ServicoAceito === 0 && (
+          <>
+          <h5>O serviço de Solicitação Abertura não foi aceito.</h5>
+          </>
+      )}
 
         <ButtonsBox>
           <Buttons type="button" onClick={onClose}>

@@ -17,17 +17,13 @@ import {
 
 interface AcatamentoAberturaFormProps {
   form: UseFormReturn<AcatamentosAbertura>;
-  solicitacaoBaseId: number;
 }
 
-const AcamentoAberturaForm: React.FC<AcatamentoAberturaFormProps> = ({
-  form,
-  solicitacaoBaseId,
-}) => {
+const AcamentoAberturaForm: React.FC<AcatamentoAberturaFormProps> = ({form}) => {
   const { register } = form;
 
   const acatamentoAbertura = useStore((state) => state.acatamentoAbertura);
-  acatamentoAbertura.SB_SolicitacaoBase_id_SolicitacaoBase = solicitacaoBaseId;
+ 
   useEffect(() => {
     (async () => {
       try {
