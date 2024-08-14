@@ -14,7 +14,7 @@ export interface SolicitacaoAbertura {
   SB_Previsao: string; // TIME no banco de dados
   SB_ManobraWFM: string; // VARCHAR(100)
   SB_Executante: string; // VARCHAR(100)
-  SB_HFObservacaoAbertura: string; // VARCHAR(250)
+  SB_HFSObservacaoAbertura: string; // VARCHAR(250)
   SB_QTDEligacoes: string; // VARCHAR(45)
   SB_HSNMotivo: string;
   SB_OAberto: string; // VARCHAR(45)

@@ -129,7 +129,7 @@ const FechamentoForm: React.FC<FechamentoFormProps> = ({ form }) => {
             </Field>
             <Field>
               <InfoBox>
-                <Labeln>Fechamento</Labeln>
+                <Labeln>ØFechado</Labeln>
                 <Inputn
                   type="text"
                   disabled={disabledInputs}

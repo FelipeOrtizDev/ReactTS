@@ -1,8 +1,6 @@
 import { AcatamentosAbertura } from "../../models/acatamentoAberturaModel";
 import { axiosInstance } from "../conexaoApi";
 
-// Interface para AcatamentosAbertura
-
 // Funções de serviço para AcatamentosAbertura
 export const getAcatamentosAbertura = async (
   solicitacaoBaseId: number
@@ -37,7 +35,7 @@ export const updateAcatamentosAbertura = async (
 ): Promise<AcatamentosAbertura> => {
   try {
     const response = await axiosInstance.put(
-      `/acatamentos-abertura/${acatamentoAbertura.id_AcatamentosAbertura}`,
+      `/acatamentosAbertura/${acatamentoAbertura.id_AcatamentosAbertura}`,
       acatamentoAbertura
     );
     return response.data;
@@ -48,7 +46,7 @@ export const updateAcatamentosAbertura = async (
 
 export const deleteAcatamentosAbertura = async (id: number): Promise<void> => {
   try {
-    await axiosInstance.delete(`/acatamentos-abertura/${id}`);
+    await axiosInstance.delete(`/acatamentosAbertura/${id}`);
   } catch (error) {
     throw new Error("Erro ao deletar acatamento de abertura: " + error);
   }

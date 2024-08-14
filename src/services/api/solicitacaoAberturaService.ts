@@ -9,7 +9,7 @@ export const getSolicitacoesAbertura = async (
 ): Promise<SolicitacaoAbertura> => {
   try {
     const response = await axiosInstance.get<SolicitacaoAbertura>(
-      `/solicitacoesAbertura/${solicitacaoBaseId}`
+      `/solicitacaoAbertura/${solicitacaoBaseId}`
     );
     return response.data;
   } catch (error) {
@@ -23,7 +23,7 @@ export const createSolicitacaoAbertura = async (
 ): Promise<SolicitacaoAbertura> => {
   try {
     const response = await axiosInstance.post<SolicitacaoAbertura>(
-      `/solicitacoeAbertura/${solicitacaoBaseId}`,
+      `/solicitacaoAbertura/${solicitacaoBaseId}`,
       solicitacaoAbertura
     );
     return response.data;
@@ -37,7 +37,7 @@ export const updateSolicitacaoAbertura = async (
 ): Promise<SolicitacaoAbertura> => {
   try {
     const response = await axiosInstance.put(
-      `/solicitacoes-abertura/${solicitacaoAbertura.id_SolicitacaoAbertura}`,
+      `/solicitacaoAbertura/${solicitacaoAbertura.id_SolicitacaoAbertura}`,
       solicitacaoAbertura
     );
     return response.data;
@@ -48,7 +48,7 @@ export const updateSolicitacaoAbertura = async (
 
 export const deleteSolicitacaoAbertura = async (id: number): Promise<void> => {
   try {
-    await axiosInstance.delete(`/solicitacoes-abertura/${id}`);
+    await axiosInstance.delete(`/solicitacaoAbertura/${id}`);
   } catch (error) {
     throw new Error("Erro ao deletar solicitação de abertura: " + error);
   }
