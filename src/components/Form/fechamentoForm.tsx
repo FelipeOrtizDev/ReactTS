@@ -8,19 +8,28 @@ import {
   SectionBox,
   SectionTitle,
 } from "../../pages/Fechamento/styles";
-import { Field, FieldTwo, Formn, ObsArea } from "../../utils/modals/modalUserStyles";
+import {
+  Field,
+  FieldTwo,
+  Formn,
+  ObsArea,
+} from "../../utils/modals/modalUserStyles";
 import { useStore } from "./formsStore";
-import { createFechamento, updateFechamento } from "../../services/api/fechamentoService";
+import {
+  createFechamento,
+  updateFechamento,
+} from "../../services/api/fechamentoService";
 
 interface FechamentoFormProps {
   form: UseFormReturn<Fechamento>;
+  disabled: boolean;
 }
 
 const FechamentoForm: React.FC<FechamentoFormProps> = ({ form }) => {
   const { register, watch } = form;
 
   const fechamento = useStore((state) => state.fechamento);
- 
+
   const allFieldsFilled = () => {
     return (
       fechamento.SB_HouveFechamento !== undefined &&
@@ -37,7 +46,10 @@ const FechamentoForm: React.FC<FechamentoFormProps> = ({ form }) => {
           if (fechamento.id_Fechamentos) {
             await updateFechamento(fechamento);
           } else {
-            await createFechamento(fechamento.SB_SolicitacaoBase_id_SolicitacaoBase, fechamento);
+            await createFechamento(
+              fechamento.SB_SolicitacaoBase_id_SolicitacaoBase,
+              fechamento
+            );
           }
           console.log("Fechamento enviado com sucesso");
         } catch (error) {
@@ -245,15 +257,15 @@ const FechamentoForm: React.FC<FechamentoFormProps> = ({ form }) => {
               <InfoBox>
                 <Labeln>Observações Fechamento</Labeln>
                 <ObsArea
-          {...register("SB_HFSObservacaoFechamento")}
-          onChange={(e) =>
-            useStore.getState().setFechamento({
-              ...fechamento,
-              SB_HFSObservacaoFechamento: e.target.value,
-            })
-          }
-          defaultValue={fechamento.SB_HFSObservacaoFechamento}
-        />
+                  {...register("SB_HFSObservacaoFechamento")}
+                  onChange={(e) =>
+                    useStore.getState().setFechamento({
+                      ...fechamento,
+                      SB_HFSObservacaoFechamento: e.target.value,
+                    })
+                  }
+                  defaultValue={fechamento.SB_HFSObservacaoFechamento}
+                />
               </InfoBox>
             </Field>
           </>

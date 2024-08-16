@@ -1,15 +1,10 @@
 /* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm, UseFormReturn } from "react-hook-form";
 import { SolicitacaoBase } from "../../services/models/solicitacaoBaseModel";
 import { Fechamento } from "../../services/models/fechamentoModel";
-import {
-  Field,
-  ModalContainer,
-  ModalContent,
-  Title,
-} from "./modalUserStyles";
+import { Field, ModalContainer, ModalContent, Title } from "./modalUserStyles";
 import {
   InfoBox,
   Labeln,
@@ -47,10 +42,14 @@ const EditModal: React.FC<ModalSAProps> = ({
   const acatamento = useStore((state) => state.acatamento);
   const acatamentoAbertura = useStore((state) => state.acatamentoAbertura);
   const solicitacaoAbertura = useStore((state) => state.solicitacaoAbertura);
-
+  const disabledInputs = useStore((state) => state.disabledInputs);
   const setSolicitacaoBase = useStore((state) => state.setSolicitacaoBase);
   const setFechamento = useStore((state) => state.setFechamento);
   const setAcatamento = useStore((state) => state.setAcatamento);
+  const initializeDisabledState = useStore(
+    (state) => state.initializeDisabledState
+  );
+  const setDisabledInputs = useStore((state) => state.setDisabledInputs);
   const setAcatamentoAbertura = useStore(
     (state) => state.setAcatamentoAbertura
   );
@@ -87,8 +86,9 @@ const EditModal: React.FC<ModalSAProps> = ({
         ...solicitacaoBase,
         id_SolicitacaoBase: solicitacaoBaseId,
       });
+      initializeDisabledState();
     }
-  }, [isOpen, solicitacaoBaseId, setSolicitacaoBase]);
+  }, [isOpen, solicitacaoBaseId, setSolicitacaoBase, initializeDisabledState]);
 
   // UseEffect para monitorar mudanças em SB_ServicoAceito
   useEffect(() => {
@@ -212,6 +212,7 @@ const EditModal: React.FC<ModalSAProps> = ({
         setAcatamentoAbertura(savedAcatamentoAbertura);
       }
       window.location.reload();
+      setDisabledInputs(solicitacaoBaseId, true);
       // Feche o modal
       onClose();
     } catch (error) {
@@ -242,7 +243,10 @@ const EditModal: React.FC<ModalSAProps> = ({
 
         {fechamento.SB_ServicoAceito === 1 && (
           <>
-            <FechamentoForm form={formFechamento} />
+            <FechamentoForm
+              form={formFechamento}
+              disabled={disabledInputs[solicitacaoBaseId] && false}
+            />
           </>
         )}
         {fechamento.SB_ServicoAceito === 0 && (
@@ -252,58 +256,58 @@ const EditModal: React.FC<ModalSAProps> = ({
         )}
 
         <SectionBox>
-        <Title>Solicitação de Abertura</Title>
-        <Field>
-          <InfoBox>
-            <Labeln>Data Abertura</Labeln>
-            <Inputn
-              type="date"
-              {...formSolicitacaoAbertura.register("SB_DataAbertura", {
-                required: "Data Abertura é obrigatória",
-              })}
-              onChange={(e) =>
-                useStore.getState().setSolicitacaoAbertura({
-                  ...solicitacaoAbertura,
-                  SB_DataAbertura: e.target.value,
-                })
-              }
-            />
-          </InfoBox>
-          <InfoBox>
-            <Labeln>Hora</Labeln>
-            <Inputn
-              type="time"
-              {...formSolicitacaoAbertura.register("SB_HoraAbertura", {
-                required: "Hora é obrigatória",
-              })}
-              onChange={(e) =>
-                useStore.getState().setSolicitacaoAbertura({
-                  ...solicitacaoAbertura,
-                  SB_HoraAbertura: e.target.value,
-                })
-              }
-            />
-          </InfoBox>
-          <InfoBox>
-            <Labeln>Solicitante</Labeln>
-            <Inputn
-              type="text"
-              {...formSolicitacaoAbertura.register("SB_Solicitante", {
-                required: "Solicitante é obrigatório",
-              })}
-              onChange={(e) =>
-                useStore.getState().setSolicitacaoAbertura({
-                  ...solicitacaoAbertura,
-                  SB_Solicitante: e.target.value,
-                })
-              }
-            />
-          </InfoBox>
-        </Field>
+          <Title>Solicitação de Abertura</Title>
+          <Field>
+            <InfoBox>
+              <Labeln>Data Abertura</Labeln>
+              <Inputn
+                type="date"
+                {...formSolicitacaoAbertura.register("SB_DataAbertura", {
+                  required: "Data Abertura é obrigatória",
+                })}
+                onChange={(e) =>
+                  useStore.getState().setSolicitacaoAbertura({
+                    ...solicitacaoAbertura,
+                    SB_DataAbertura: e.target.value,
+                  })
+                }
+              />
+            </InfoBox>
+            <InfoBox>
+              <Labeln>Hora</Labeln>
+              <Inputn
+                type="time"
+                {...formSolicitacaoAbertura.register("SB_HoraAbertura", {
+                  required: "Hora é obrigatória",
+                })}
+                onChange={(e) =>
+                  useStore.getState().setSolicitacaoAbertura({
+                    ...solicitacaoAbertura,
+                    SB_HoraAbertura: e.target.value,
+                  })
+                }
+              />
+            </InfoBox>
+            <InfoBox>
+              <Labeln>Solicitante</Labeln>
+              <Inputn
+                type="text"
+                {...formSolicitacaoAbertura.register("SB_Solicitante", {
+                  required: "Solicitante é obrigatório",
+                })}
+                onChange={(e) =>
+                  useStore.getState().setSolicitacaoAbertura({
+                    ...solicitacaoAbertura,
+                    SB_Solicitante: e.target.value,
+                  })
+                }
+              />
+            </InfoBox>
+          </Field>
         </SectionBox>
 
-        <AcatamentoAberturaForm form={formAcatamentoAbertura}/>
-       
+        <AcatamentoAberturaForm form={formAcatamentoAbertura} />
+
         <SectionBox>
           <SectionTitle>O Serviço de Abertura foi aceito?</SectionTitle>
           <Selectn
@@ -317,21 +321,24 @@ const EditModal: React.FC<ModalSAProps> = ({
           </Selectn>
         </SectionBox>
         {solicitacaoAbertura.SB_ServicoAceito === 1 && (
-
-            <SolicitacaoAberturaForm form={formSolicitacaoAbertura}/>
-          
+          <SolicitacaoAberturaForm form={formSolicitacaoAbertura} />
         )}
         {solicitacaoAbertura.SB_ServicoAceito === 0 && (
           <>
-          <h5>O serviço de Solicitação Abertura não foi aceito.</h5>
+            <h5>O serviço de Solicitação Abertura não foi aceito.</h5>
           </>
-      )}
+        )}
 
         <ButtonsBox>
           <Buttons type="button" onClick={onClose}>
             Fechar
           </Buttons>
-          <Buttons type="button" onClick={handleSave}>
+          <Buttons
+            type="button"
+            onClick={() => {
+              handleSave();
+            }}
+          >
             Salvar Tudo
           </Buttons>
         </ButtonsBox>

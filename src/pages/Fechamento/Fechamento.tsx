@@ -161,7 +161,7 @@ const Fechamentos: React.FC = () => {
         SB_NumeroOS: data.numeroOS,
         SB_TipoServico: data.tipoServico,
         SB_Observacoes: data.observacoes,
-        SB_Microzona: Number(data.microzona),
+        SB_Microzona: data.microzona,
         SB_Solicitante: data.solicitante,
         SB_Endereco_id_Endereco: createdEndereco.id_Endereco,
         SB_Endereco: createdEndereco,
@@ -252,7 +252,7 @@ const Fechamentos: React.FC = () => {
 
               <InfoBox>
                 <Labeln>Número</Labeln>
-                <Inputn type="number" {...register("numero")} />
+                <Inputn type="text" {...register("numero")} />
               </InfoBox>
 
               <InfoBox>
