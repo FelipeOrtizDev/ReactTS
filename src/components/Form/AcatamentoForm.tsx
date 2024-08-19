@@ -30,7 +30,7 @@ const AcatamentoForm: React.FC<AcatamentoFormProps> = ({ form }) => {
           await updateAcatamento(acatamento);
         } else {
           await createAcatamento(
-            acatamento.SB_SolicitacaoBase_id_SolicitacaoBase,
+            Number(acatamento.SB_SolicitacaoBase_id_SolicitacaoBase),
             acatamento
           );
         }

@@ -31,6 +31,7 @@ import { Link } from "react-router-dom";
 import { SolicitacaoBase } from "../../services/models/solicitacaoBaseModel";
 import { Endereco } from "../../services/models/enderecoModel";
 import { getTipoServicos } from "../../services/api/tipoServicoService";
+import { getZonaPressao } from "../../services/api/zonaPressaoServices";
 
 const Fechamentos: React.FC = () => {
   const { register, handleSubmit, reset, watch, setValue } = useForm();
@@ -39,6 +40,9 @@ const Fechamentos: React.FC = () => {
   const [isMZEnabled, setIsMZEnabled] = useState(false);
   const [tipoServicos, setTipoServicos] = useState<
     { id_TipoServico: number; SB_Descricao: string }[]
+  >([]);
+  const [zonaPressao, setZonaPressao] = useState<
+    { id_ZonaPressao: number; SB_Descricao: string }[]
   >([]);
 
   const selectedPolo = watch("polo");
@@ -84,6 +88,15 @@ const Fechamentos: React.FC = () => {
     };
 
     fetchTipoServicos();
+  }, []);
+
+  useEffect(() => {
+    const fetchZonaPressao = async () => {
+      const data = await getZonaPressao();
+      setZonaPressao(data);
+    };
+
+    fetchZonaPressao();
   }, []);
 
   useEffect(() => {
@@ -315,9 +328,14 @@ const Fechamentos: React.FC = () => {
                 <Labeln>Zona de Pressão</Labeln>
                 <Selectn {...register("zonaPressao")}>
                   <Optionn value="">Selecione...</Optionn>
-                  <Optionn value="Alta">Alta</Optionn>
-                  <Optionn value="Media">Media</Optionn>
-                  <Optionn value="Baixa">Baixa</Optionn>
+                  {zonaPressao.map((zona) => (
+                    <Optionn
+                      key={zona.id_ZonaPressao}
+                      value={zona.SB_Descricao}
+                    >
+                      {zona.SB_Descricao}
+                    </Optionn>
+                  ))}
                 </Selectn>
               </InfoBox>
               <InfoBox>

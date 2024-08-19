@@ -86,10 +86,14 @@ const EditModal: React.FC<ModalSAProps> = ({
         ...solicitacaoBase,
         id_SolicitacaoBase: solicitacaoBaseId,
       });
-      initializeDisabledState();
     }
-  }, [isOpen, solicitacaoBaseId, setSolicitacaoBase, initializeDisabledState]);
+  }, [isOpen, solicitacaoBaseId, setSolicitacaoBase]);
 
+  useEffect(() => {
+    if (isOpen) {
+      initializeDisabledState;
+    }
+  }, [isOpen, initializeDisabledState]);
   // UseEffect para monitorar mudanças em SB_ServicoAceito
   useEffect(() => {
     const subscription = formFechamento.watch((value, { name }) => {
@@ -211,14 +215,20 @@ const EditModal: React.FC<ModalSAProps> = ({
       if (savedAcatamentoAbertura) {
         setAcatamentoAbertura(savedAcatamentoAbertura);
       }
-      window.location.reload();
       setDisabledInputs(solicitacaoBaseId, true);
+      console.log(setDisabledInputs);
+      setTimeout(() => {
+        window.location.reload();
+        onClose();
+      }, 100);
+
       // Feche o modal
-      onClose();
     } catch (error) {
       console.error("Erro inesperado ao salvar dados:", error);
-      onClose();
-      window.location.reload();
+      setTimeout(() => {
+        window.location.reload();
+        onClose();
+      }, 100);
     }
   };
 
@@ -235,7 +245,7 @@ const EditModal: React.FC<ModalSAProps> = ({
               valueAsNumber: true,
             })}
           >
-            <Optionn value="null">Selecione...</Optionn>
+            <Optionn value={3}>Selecione...</Optionn>
             <Optionn value={1}>Sim</Optionn>
             <Optionn value={0}>Não</Optionn>
           </Selectn>
@@ -245,7 +255,7 @@ const EditModal: React.FC<ModalSAProps> = ({
           <>
             <FechamentoForm
               form={formFechamento}
-              disabled={disabledInputs[solicitacaoBaseId] && false}
+              disabled={disabledInputs[solicitacaoBaseId]}
             />
           </>
         )}

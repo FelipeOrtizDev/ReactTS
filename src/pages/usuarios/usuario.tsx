@@ -17,7 +17,12 @@ import {
   PaginationControls,
   ButtonsUserAdd,
 } from "./styles";
-import { BsArrowLeftShort, BsArrowRightShort, BsPersonPlusFill, BsPersonXFill } from "react-icons/bs";
+import {
+  BsArrowLeftShort,
+  BsArrowRightShort,
+  BsPersonPlusFill,
+  BsPersonXFill,
+} from "react-icons/bs";
 import UserModal from "../../utils/modals/modalUser";
 import { Link } from "react-router-dom";
 
@@ -99,13 +104,14 @@ const ListaUsuario: React.FC = () => {
         <Container>
           <Block>
             <ButtonsUser as={Link} to={"/"}>
-            <BsArrowLeftShort />
+              <BsArrowLeftShort />
               Voltar
             </ButtonsUser>
             <ButtonsUserAdd onClick={handleAddNewUser}>
-              <BsPersonPlusFill />Novo Usuario
-              </ButtonsUserAdd>
-            {error && <p style={{ color: "red" }}>{error}</p>}
+              <BsPersonPlusFill />
+              Novo Usuario
+            </ButtonsUserAdd>
+
             <Title>Usuários</Title>
             <SearchInput
               type="text"

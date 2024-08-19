@@ -81,11 +81,7 @@ const UserModal: React.FC<UserModalProps> = ({ show, onClose, usuario }) => {
             placeholder="Email"
           />
           {errors.SB_Email && <span>{errors.SB_Email.message}</span>}
-          <Inputn
-            type="password"
-            {...register("SB_Senha", { required: "Senha é obrigatória" })}
-            placeholder="Senha"
-          />
+
           {errors.SB_Senha && <span>{errors.SB_Senha.message}</span>}
           <Inputn
             type="number"

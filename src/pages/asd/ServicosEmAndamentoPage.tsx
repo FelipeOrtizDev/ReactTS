@@ -26,8 +26,8 @@ import { AcatamentosAbertura } from "../../services/models/acatamentoAberturaMod
 const ServicosEmAndamentoPage: React.FC = () => {
   const [solicitacoes, setSolicitacoes] = useState<SolicitacaoBase[]>([]);
   const [isModalOpen, setModalOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [timeLeft, setTimeLeft] = useState<Record<number, number>>({});
+  const [, setIsLoading] = useState(false);
+  const [timeLeft, setTimeLeft] = useState<{ [key: string]: number }>({});
 
   // Nova variável de estado para armazenar a solicitação selecionada
   const [selectedSolicitacao, setSelectedSolicitacao] =
@@ -50,15 +50,12 @@ const ServicosEmAndamentoPage: React.FC = () => {
         const data = await getSolicitacoesBase();
         setSolicitacoes(data);
 
-        const initialTimeLeft = data.reduce((acc, solicitacao) => {
-          const timer = Number(solicitacao.SB_Timer || 0); // Pega o valor de SB_Timer ou 0 se não estiver presente
-          const now = Date.now();
-          const timeDifference = timer - now;
-          acc[solicitacao.id_SolicitacaoBase] =
-            timeDifference > 0 ? timeDifference : 0;
-          return acc;
-        }, {} as Record<number, number>);
-
+        const initialTimeLeft: { [key: string]: number } = {};
+        data.forEach((solicitacao) => {
+          initialTimeLeft[solicitacao.id_SolicitacaoBase] = convertToSeconds(
+            solicitacao.SB_Timer
+          );
+        });
         setTimeLeft(initialTimeLeft);
       } catch (error) {
         console.error("Erro ao buscar solicitações:", error);
@@ -69,18 +66,34 @@ const ServicosEmAndamentoPage: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    const timer = setInterval(() => {
+    const interval = setInterval(() => {
       setTimeLeft((prevTimeLeft) => {
-        const newTimeLeft = { ...prevTimeLeft };
-        Object.keys(newTimeLeft).forEach((key: any) => {
-          newTimeLeft[key] = newTimeLeft[key] > 0 ? newTimeLeft[key] - 1000 : 0;
-        });
+        const newTimeLeft: { [key: string]: number } = {};
+        for (const key in prevTimeLeft) {
+          const newTime = prevTimeLeft[key] - 1;
+          newTimeLeft[key] = newTime > 0 ? newTime : 0;
+        }
         return newTimeLeft;
       });
     }, 1000);
 
-    return () => clearInterval(timer);
+    return () => clearInterval(interval);
   }, []);
+
+  const convertToSeconds = (time: string) => {
+    const [hours, minutes, seconds] = time.split(":").map(Number);
+    return hours * 3600 + minutes * 60 + seconds;
+  };
+
+  const formatTime = (seconds: number) => {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const secs = seconds % 60;
+    return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(
+      2,
+      "0"
+    )}:${String(secs).padStart(2, "0")}`;
+  };
 
   const handleEditClick = async (solicitacao: SolicitacaoBase) => {
     setIsLoading(true);
@@ -127,16 +140,6 @@ const ServicosEmAndamentoPage: React.FC = () => {
     setSelectedSolicitacao(null); // Reseta a solicitação selecionada
   };
 
-  const formatTime = (milliseconds: number) => {
-    const totalSeconds = Math.floor(milliseconds / 1000);
-    const hours = Math.floor(totalSeconds / 3600);
-    const minutes = Math.floor((totalSeconds % 3600) / 60);
-    const seconds = totalSeconds % 60;
-    return `${hours.toString().padStart(2, "0")}:${minutes
-      .toString()
-      .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
-  };
-
   return (
     <>
       <TitleContainer>Fechamentos</TitleContainer>
@@ -155,9 +158,7 @@ const ServicosEmAndamentoPage: React.FC = () => {
           </HeadListTable>
           <BodyTable>
             {solicitacoes.map((solicitacao) => {
-              const timeLeftForSolicitacao =
-                timeLeft[solicitacao.id_SolicitacaoBase];
-              const isTimeUp = timeLeftForSolicitacao === 0;
+              const isTimeUp = timeLeft[solicitacao.id_SolicitacaoBase] === 0;
 
               return (
                 <LineTable
@@ -174,7 +175,7 @@ const ServicosEmAndamentoPage: React.FC = () => {
                   <CellTable>{solicitacao.SB_Status}</CellTable>
                   <CellTable>
                     <span className={isTimeUp ? "red-dot" : "green-dot"} />
-                    {formatTime(timeLeftForSolicitacao)}
+                    {formatTime(timeLeft[solicitacao.id_SolicitacaoBase])}
                   </CellTable>
                 </LineTable>
               );

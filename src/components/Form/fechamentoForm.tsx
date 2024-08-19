@@ -25,7 +25,7 @@ interface FechamentoFormProps {
   disabled: boolean;
 }
 
-const FechamentoForm: React.FC<FechamentoFormProps> = ({ form }) => {
+const FechamentoForm: React.FC<FechamentoFormProps> = ({ form, disabled }) => {
   const { register, watch } = form;
 
   const fechamento = useStore((state) => state.fechamento);
@@ -60,7 +60,7 @@ const FechamentoForm: React.FC<FechamentoFormProps> = ({ form }) => {
   }, [fechamento]);
 
   const hasFValue = watch("SB_HouveFechamento");
-  const [disabledInputs] = useState(false);
+  /* const [disabledInputs] = useState(false); */
 
   return (
     <Formn>
@@ -68,7 +68,7 @@ const FechamentoForm: React.FC<FechamentoFormProps> = ({ form }) => {
         <SectionTitle>Houve fechamento?</SectionTitle>
 
         <Selectn {...register("SB_HouveFechamento", { valueAsNumber: true })}>
-          <Optionn value="null">Selecione...</Optionn>
+          <Optionn value={3}>Selecione...</Optionn>
           <Optionn value={1}>Sim</Optionn>
           <Optionn value={0}>Não</Optionn>
         </Selectn>
@@ -80,7 +80,7 @@ const FechamentoForm: React.FC<FechamentoFormProps> = ({ form }) => {
                 <Labeln>Data</Labeln>
                 <Inputn
                   type="date"
-                  disabled={disabledInputs}
+                  disabled={disabled}
                   {...register("SB_DataFechamento", {
                     required: "Data é obrigatória",
                   })}
@@ -96,7 +96,7 @@ const FechamentoForm: React.FC<FechamentoFormProps> = ({ form }) => {
                 <Labeln>Hora</Labeln>
                 <Inputn
                   type="time"
-                  disabled={disabledInputs}
+                  disabled={disabled}
                   {...register("SB_HoraFechamento", {
                     required: "Hora é obrigatória",
                   })}
@@ -112,7 +112,7 @@ const FechamentoForm: React.FC<FechamentoFormProps> = ({ form }) => {
                 <Labeln>Fechado Por</Labeln>
                 <Inputn
                   type="text"
-                  disabled={disabledInputs}
+                  disabled={disabled}
                   {...register("SB_FechadoPor", {
                     required: "Fechado por é obrigatório",
                   })}
@@ -128,7 +128,7 @@ const FechamentoForm: React.FC<FechamentoFormProps> = ({ form }) => {
                 <Labeln>Rede</Labeln>
                 <Inputn
                   type="text"
-                  disabled={disabledInputs}
+                  disabled={disabled}
                   {...register("SB_Rede", { required: "Rede é obrigatória" })}
                   onChange={(e) =>
                     useStore.getState().setFechamento({
@@ -144,7 +144,7 @@ const FechamentoForm: React.FC<FechamentoFormProps> = ({ form }) => {
                 <Labeln>ØFechado</Labeln>
                 <Inputn
                   type="text"
-                  disabled={disabledInputs}
+                  disabled={disabled}
                   {...register("SB_OFechado", {
                     required: "Fechamento é obrigatório",
                   })}
@@ -160,7 +160,7 @@ const FechamentoForm: React.FC<FechamentoFormProps> = ({ form }) => {
                 <Labeln>Utilizou MZ</Labeln>
                 <Inputn
                   type="text"
-                  disabled={disabledInputs}
+                  disabled={disabled}
                   {...register("SB_UltilizouMZ", {
                     required: "Utilizou MZ é obrigatório",
                   })}
@@ -176,7 +176,7 @@ const FechamentoForm: React.FC<FechamentoFormProps> = ({ form }) => {
                 <Labeln>Motivo</Labeln>
                 <Inputn
                   type="text"
-                  disabled={disabledInputs}
+                  disabled={disabled}
                   {...register("SB_HFSMotivo", {
                     required: "Motivo é obrigatório",
                   })}
@@ -192,7 +192,7 @@ const FechamentoForm: React.FC<FechamentoFormProps> = ({ form }) => {
                 <Labeln>Manobra WFM</Labeln>
                 <Inputn
                   type="text"
-                  disabled={!disabledInputs}
+                  disabled={!disabled}
                   {...register("SB_ManobraWFM", {
                     required: "Manobra WFM é obrigatória",
                   })}
@@ -210,7 +210,7 @@ const FechamentoForm: React.FC<FechamentoFormProps> = ({ form }) => {
                 <Labeln>Qtde. Ligações</Labeln>
                 <Inputn
                   type="number"
-                  disabled={!disabledInputs}
+                  disabled={!disabled}
                   {...register("SB_QTDELigacoes", {
                     required: "Qtde. Ligações é obrigatória",
                   })}
@@ -226,7 +226,7 @@ const FechamentoForm: React.FC<FechamentoFormProps> = ({ form }) => {
                 <Labeln>Executante</Labeln>
                 <Inputn
                   type="text"
-                  disabled={disabledInputs}
+                  disabled={disabled}
                   {...register("SB_Executante", {
                     required: "Executante é obrigatório",
                   })}
@@ -242,7 +242,7 @@ const FechamentoForm: React.FC<FechamentoFormProps> = ({ form }) => {
                 <Labeln>Previsão</Labeln>
                 <Inputn
                   type="time"
-                  disabled={disabledInputs}
+                  disabled={disabled}
                   {...register("SB_Previsao", {
                     required: "Previsão é obrigatória",
                   })}
@@ -264,6 +264,7 @@ const FechamentoForm: React.FC<FechamentoFormProps> = ({ form }) => {
                       SB_HFSObservacaoFechamento: e.target.value,
                     })
                   }
+                  disabled={disabled}
                   defaultValue={fechamento.SB_HFSObservacaoFechamento}
                 />
               </InfoBox>
